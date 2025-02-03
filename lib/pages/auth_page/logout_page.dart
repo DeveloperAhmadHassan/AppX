@@ -1,0 +1,131 @@
+import 'package:flutter/material.dart';
+import 'package:heroapp/pages/settings_page/help_and_support_page.dart';
+
+class LogoutPage extends StatelessWidget {
+  const LogoutPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Logout", style: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 18
+      )),
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.white,
+      ),
+      backgroundColor: Colors.black,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 30,),
+            Center(
+              child: Container(
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.blueGrey
+                ),
+              ),
+            ),
+            SizedBox(height: 120,),
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width - 50,
+                padding: EdgeInsets.symmetric(horizontal: 30.0),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.blueGrey
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(height: 20,),
+                    Text("Logout", style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22
+                    )),
+                    SizedBox(height: 50,),
+                    Text("Are you sure you want to logout?", style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22
+                    ), textAlign: TextAlign.center,),
+                    SizedBox(height: 50,),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap:(){
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 3.5,
+                              height: 45,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 3
+                                  ),
+                                color: Colors.white
+                              ),
+                              child: Center(
+                                child: Text("Cancel", style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.black
+                                ))
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          InkWell(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 3.5,
+                              height: 45,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.black
+                              ),
+                              child: Center(
+                                  child: Text("Logout", style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: Colors.red
+                                  ))
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 30,),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 150,),
+            InkWell(
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HelpAndSupportPage())),
+              child: Center(
+                child: Text("Need Help? Visit our help center", style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold
+                )),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
