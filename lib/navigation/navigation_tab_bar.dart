@@ -62,6 +62,7 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                           fontWeight: FontWeight.bold,
                           fontSize: 16
                         ),
+                        indicatorPadding: EdgeInsets.only(bottom: 10.0),
                         tabs: const [
                           Tab(text: 'Carousal'),
                           Tab(text: 'Reels'),

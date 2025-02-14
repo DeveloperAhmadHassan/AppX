@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:heroapp/utils/components/like_btn.dart';
 import 'package:video_player/video_player.dart';
 
-class ReelItem extends StatefulWidget {
-  const ReelItem({super.key, this.videoUrl = "assets/reels/a.mp4"});
+class DiscoverClickedItem extends StatefulWidget {
+  const DiscoverClickedItem({super.key, this.videoUrl = "assets/reels/a.mp4"});
   final String videoUrl;
 
   @override
-  _ReelItemState createState() => _ReelItemState();
+  _DiscoverClickedItemState createState() => _DiscoverClickedItemState();
 }
 
-class _ReelItemState extends State<ReelItem> {
+class _DiscoverClickedItemState extends State<DiscoverClickedItem> {
   late VideoPlayerController _controller;
   bool _isVideoInitialized = false;
 
@@ -38,7 +38,7 @@ class _ReelItemState extends State<ReelItem> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 120,),
+          SizedBox(height: 50,),
           Center(
             child: Container(
               height: MediaQuery.of(context).size.height - 240,
@@ -49,9 +49,9 @@ class _ReelItemState extends State<ReelItem> {
               ),
               child: _isVideoInitialized
                   ? ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: VideoPlayer(_controller),
-                  ) : Center(child: CircularProgressIndicator()),
+                borderRadius: BorderRadius.circular(30),
+                child: VideoPlayer(_controller),
+              ) : Center(child: CircularProgressIndicator()),
             ),
           ),
           Padding(

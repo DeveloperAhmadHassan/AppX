@@ -15,6 +15,7 @@ import 'package:heroapp/utils/constants.dart';
 import 'package:heroapp/utils/extensions/color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/settings.dart';
 import '../../models/user.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -25,12 +26,15 @@ class SettingsPage extends StatefulWidget {
 }
 class _SettingsPageState extends State<SettingsPage> {
   User? user;
+  Settings? settings;
   bool _isLoading = false;
+  bool _isSettingsLoading = false;
 
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _loadSettingsData();
   }
 
   Future<void> getUserFromLocal() async {
@@ -54,6 +58,63 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Future<void> _loadUserData() async {
     await getUserFromLocal();
+  }
+
+  Future<void> getSettingsFromLocal() async {
+    setState(() {
+      _isSettingsLoading = true;
+    });
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? settingsJson = prefs.getString('settings');
+
+    if (settingsJson != null && settingsJson != "null") {
+      Map<String, dynamic> settingsMap = jsonDecode(settingsJson);
+      setState(() {
+        settings = Settings.fromJson(settingsMap);
+        _isSettingsLoading = false;
+      });
+    } else {
+      setState(() {
+        settings = Settings(
+          followingShows: true,
+          postAndStories: true,
+          pauseAll: false,
+          emailNotifications: true,
+          isDarkMode: false,
+        );
+        _isSettingsLoading = false;
+      });
+    }
+  }
+
+  Future<void> saveSettingsToLocal() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String settingsJson = jsonEncode(settings?.toJson());
+    await prefs.setString('settings', settingsJson);
+  }
+
+  Future<void> _loadSettingsData() async {
+    print("Here");
+    await getSettingsFromLocal();
+  }
+
+  void onSwitchChanged(String settingName, bool value) {
+    setState(() {
+      if (settingName == "Following Shows") {
+        settings?.followingShows = value;
+      } else if (settingName == "Post and Stories") {
+        settings?.postAndStories = value;
+      } else if (settingName == "Pause All") {
+        settings?.pauseAll = value;
+      } else if (settingName == "Email Notifications") {
+        settings?.emailNotifications = value;
+      } else if (settingName == "Dark Mode") {
+        settings?.isDarkMode = value;
+      }
+    });
+
+    saveSettingsToLocal();
   }
 
   @override
@@ -162,25 +223,35 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             SizedBox(height: 35,),
-            SettingsItem(icon: FontAwesomeIcons.circleHalfStroke, title: "Dark Mode", isSwitch: true),
-            SettingsItem(icon: FontAwesomeIcons.bell, title: "Notifications", onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsPage()));
-            }),
-            SettingsItem(icon: Icons.help_outline_rounded, title: "Help and Support", onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HelpAndSupportPage()));
-            }),
-            SettingsItem(icon: FontAwesomeIcons.fileLines, title: "Terms of Use", onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => TermsOfUsePage()));
-            }),
-            SettingsItem(icon: FontAwesomeIcons.circleCheck, title: "Privacy Policy", onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyPage()));
-            }),
-            SettingsItem(icon: Icons.info_outline_rounded, title: "About", onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AboutPage()));
-            }),
-            SettingsItem(icon: Icons.logout_rounded, title: "Logout", onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LogoutPage()));
-            }),
+            _isSettingsLoading ? CircularProgressIndicator() : Column(
+              children: [
+                SettingsItem(
+                  icon: FontAwesomeIcons.circleHalfStroke,
+                  title: "Dark Mode",
+                  isSwitch: true,
+                  isSwitched: settings?.isDarkMode ?? false,
+                  onToggle: (value) => onSwitchChanged("Dark Mode", value),
+                ),
+                SettingsItem(icon: FontAwesomeIcons.bell, title: "Notifications", onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsPage()));
+                }),
+                SettingsItem(icon: Icons.help_outline_rounded, title: "Help and Support", onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HelpAndSupportPage()));
+                }),
+                SettingsItem(icon: FontAwesomeIcons.fileLines, title: "Terms of Use", onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => TermsOfUsePage()));
+                }),
+                SettingsItem(icon: FontAwesomeIcons.circleCheck, title: "Privacy Policy", onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyPage()));
+                }),
+                SettingsItem(icon: Icons.info_outline_rounded, title: "About", onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AboutPage()));
+                }),
+                SettingsItem(icon: Icons.logout_rounded, title: "Logout", onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LogoutPage()));
+                }),
+              ],
+            )
           ],
         ),
       ),

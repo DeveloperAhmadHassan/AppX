@@ -9,9 +9,10 @@ class Reel {
   final String? views;
   final String? likes;
   final String? thumbnailUrl;
+  bool isLiked = false;
 
   Reel(this.videoPath, {this.title, this.views, this.likes, this.id, this.thumbnailUrl}) {
-    controller = VideoPlayerController.asset(videoPath);
+    controller = VideoPlayerController.networkUrl(Uri.parse(videoPath));
   }
 
   Future<void> initialize() async {

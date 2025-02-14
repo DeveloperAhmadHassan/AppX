@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
         scrollDirection: Axis.vertical,
         itemCount: urls.length,
         itemBuilder: (context, index){
-          return Reel(videoUrl: urls[index]);
+          return ReelItem(videoUrl: urls[index]);
         }
       ),
     );

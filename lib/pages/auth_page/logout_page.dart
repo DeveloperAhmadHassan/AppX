@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:heroapp/pages/settings_page/help_and_support_page.dart';
 
+import '../../utils/constants.dart';
+import '../../utils/extensions/color.dart';
+
 class LogoutPage extends StatelessWidget {
   const LogoutPage({super.key});
 
@@ -27,7 +30,7 @@ class LogoutPage extends StatelessWidget {
                 width: 100,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.blueGrey
+                  color: HexColor.fromHex(AppConstants.primaryColor)
                 ),
               ),
             ),
@@ -38,7 +41,7 @@ class LogoutPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 30.0),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.blueGrey
+                    color: HexColor.fromHex(AppConstants.primaryColor)
                 ),
                 child: Column(
                   children: [

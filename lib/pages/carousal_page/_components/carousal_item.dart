@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:heroapp/utils/components/like_btn.dart';
+import 'package:like_button/like_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import '../../../models/reel.dart';
 import '../../../utils/constants.dart';
 
 
-class CarousaItem extends StatefulWidget {
+class CarousalItem extends StatefulWidget {
   final int xIndex;
   final int yIndex;
   final Reel reel;
-  final Function(LongPressStartDetails details, String text) onLongPressStart;
+    final Function(LongPressStartDetails details, Reel reel) onLongPressStart;
 
-  const CarousaItem({
+  const CarousalItem({
     super.key,
     required this.xIndex,
     required this.yIndex,
@@ -20,10 +22,10 @@ class CarousaItem extends StatefulWidget {
   });
 
   @override
-  _CarousaItemState createState() => _CarousaItemState();
+  _CarousalItemState createState() => _CarousalItemState();
 }
 
-class _CarousaItemState extends State<CarousaItem> {
+class _CarousalItemState extends State<CarousalItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,7 +35,6 @@ class _CarousaItemState extends State<CarousaItem> {
         onVisibilityChanged: (visibilityInfo) {
           var visiblePercentage = visibilityInfo.visibleFraction * 100;
           print('Widget ${visibilityInfo.key} is $visiblePercentage% visible');
-
 
           if (visiblePercentage >= 50 && !widget.reel.isVideoInitialized) {
             print("Initializing");
@@ -52,25 +53,9 @@ class _CarousaItemState extends State<CarousaItem> {
 
             widget.reel.controller.pause();
           }
-          // if(visiblePercentage == 100){
-          //   Text("", strutStyle: StrutStyle(
-          //
-          //   ),);
-          // }
-
-          // if (visiblePercentage <= 20 && widget.reel.isVideoInitialized) {
-          //   print("Disposing");
-          //
-          //   widget.reel.dispose();
-          // }
-          // if(visiblePercentage >= 100){
-          //   await widget.reel.controller.play();
-          // }
-
-          // print('Widget ${visibilityInfo.key} is $visiblePercentage% visible');
         },
         child: GestureDetector(
-          onLongPressStart: (details) => widget.onLongPressStart(details, "${widget.xIndex}, ${widget.yIndex}"),
+          onLongPressStart: (details) => widget.onLongPressStart(details, widget.reel),
           onTap: () => widget.reel.initialize().then((_) => widget.reel.controller.play()),
           child: Container(
             height: AppConstants.HEIGHT,
@@ -89,7 +74,7 @@ class _CarousaItemState extends State<CarousaItem> {
                   borderRadius: BorderRadius.circular(30),
                   child: SizedBox(
                     height: AppConstants.HEIGHT,
-                    child: Image.asset(
+                    child: Image.network(
                       widget.reel.thumbnailUrl ?? 'assets/thumbnails/d.jpg',
                       fit: BoxFit.fill,
                     ),
@@ -107,34 +92,59 @@ class _CarousaItemState extends State<CarousaItem> {
                       )),
                       SizedBox(width: 40,),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              IconButton(
-                                icon: Icon(Icons.remove_red_eye_outlined, size: 25, color: Colors.white),
-                                onPressed: () => {
-                                  print("${widget.xIndex}")
-                                },
+                              SizedBox(
+                                height: 20,
+                                width: 40,
+                                child: IconButton(
+                                  icon: Icon(Icons.remove_red_eye_outlined, size: 25, color: Colors.white),
+                                  onPressed: () => {},
+                                ),
                               ),
-                              Text("74K", style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold
-                              ),)
+                              SizedBox(height: 10,),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 3.0),
+                                child: Text("74K", style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold
+                                ),),
+                              )
                             ],
                           ),
                           Column(
-                            // spacing: -15.0,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              IconButton(
-                                icon: Icon(Icons.favorite_border_outlined, size: 25, color: Colors.white),
-                                onPressed: () => {
-                                  print("${widget.xIndex}")
+                              LikeButton(
+                                size: 25,
+                                isLiked: widget.reel.isLiked,
+                                onTap: (isCurrentlyLiked) async {
+                                  setState(() {
+                                    widget.reel.isLiked = !isCurrentlyLiked;
+                                  });
+                                  return widget.reel.isLiked;
+                                },
+                                likeBuilder: (isLiked) {
+                                  return Icon(
+                                    isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+                                    color: isLiked ? Colors.red : Colors.white,
+                                    size: 25,
+                                  );
                                 },
                               ),
-                              Text("20K", style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold
-                              ),)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 0.0),
+                                child: Text("20K", style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold
+                                ),textAlign: TextAlign.center,),
+                              )
                             ],
                           )
                         ],
@@ -146,7 +156,6 @@ class _CarousaItemState extends State<CarousaItem> {
             ),
           ),
         ),
-
       ),
     );
   }
