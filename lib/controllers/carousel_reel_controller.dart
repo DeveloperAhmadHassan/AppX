@@ -24,11 +24,37 @@ class CarouselReelController {
           );
         }).toList();
 
-        // for (var reel in reels) {
-        //   await reel.initialize();
-        // }
-
         return reels;
+      } else {
+        throw Exception('Failed to load reel data');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<bool> likeVideo(String id) async {
+    try {
+      final response = await _dio.put('http://192.168.0.119:3000/api/reels/$id');
+
+      if (response.statusCode == 200) {
+        print("liked");
+        return true;
+      } else {
+        throw Exception('Failed to load reel data');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<bool> unlikeVideo(String id) async {
+    try {
+      final response = await _dio.put('http://192.168.0.119:3000/api/reels/$id?increment=-1');
+
+      if (response.statusCode == 200) {
+        print("unliked");
+        return true;
       } else {
         throw Exception('Failed to load reel data');
       }

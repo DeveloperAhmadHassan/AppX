@@ -198,7 +198,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                     child: Center(
                       child: Container(
-                        width: 120,
+                        width: 130,
                         padding: EdgeInsets.only(left: 13.0, right: 0.0, top: 5.0, bottom: 5.0),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
@@ -209,7 +209,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             Text('Add Details', style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold
+                                fontWeight: FontWeight.w700
                             )),
                             SizedBox(width: 2,),
                             const Icon(Icons.navigate_next, color: Colors.white, size: 24, weight: 700,)

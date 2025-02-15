@@ -10,8 +10,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MenuDashboardPage(),
+    return MaterialApp(
+      theme: ThemeData(fontFamily: 'Poppins', ),
+      home: const MenuDashboardPage(),
       // debugShowCheckedModeBanner: false,
     );
   }

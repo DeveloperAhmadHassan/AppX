@@ -21,7 +21,7 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 25.0),
+              padding: const EdgeInsets.only(left: 10.0),
               child: IconButton(
                 onPressed: widget.onSideMenuClick,
                 // onPressed:(){},
@@ -30,10 +30,10 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                   : Icon(Icons.arrow_back, size: 30, color: Colors.white,)
               ),
             ),
-            SizedBox(width: 20,),
+            Spacer(),
             Center(
               child: Container(
-                width: MediaQuery.of(context).size.width - 110,
+                width: MediaQuery.of(context).size.width - 200,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(15),
@@ -54,13 +54,16 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                         dividerColor: Colors.transparent,
                         indicatorColor: Colors.white,
                         unselectedLabelColor: Colors.white,
+                        tabAlignment: TabAlignment.center,
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        labelPadding: EdgeInsets.only(right: 15),
                         unselectedLabelStyle: TextStyle(
-                          fontSize: 16
+                          fontSize: 14
                         ),
                         labelColor: Colors.white,
                         labelStyle: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 16
+                          fontSize: 14
                         ),
                         indicatorPadding: EdgeInsets.only(bottom: 10.0),
                         tabs: const [
@@ -74,6 +77,7 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                 ),
               ),
             ),
+            Spacer(),
           ],
         ),
       ),
