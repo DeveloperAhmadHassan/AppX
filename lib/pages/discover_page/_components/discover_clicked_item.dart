@@ -1,8 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:heroapp/utils/components/like_btn.dart';
 import 'package:heroapp/utils/extensions/string.dart';
+import 'package:like_button/like_button.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../controllers/discover_reel_controller.dart';
 import '../../../models/reel.dart';
 
 class DiscoverClickedItem extends StatefulWidget {
@@ -16,6 +19,7 @@ class DiscoverClickedItem extends StatefulWidget {
 class _DiscoverClickedItemState extends State<DiscoverClickedItem> {
   late VideoPlayerController _controller;
   bool _isVideoInitialized = false;
+  late DiscoverReelController _discoverReelController;
 
   @override
   void initState() {
@@ -28,6 +32,7 @@ class _DiscoverClickedItemState extends State<DiscoverClickedItem> {
         _controller.setLooping(true);
         _controller.play();
       });
+    _discoverReelController = DiscoverReelController(Dio());
   }
 
   @override
@@ -99,10 +104,30 @@ class _DiscoverClickedItemState extends State<DiscoverClickedItem> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        LikeBtn(),
-                        // SizedBox(height: 10,),
+                        LikeButton(
+                          size: 25,
+                          isLiked: widget.reel.isLiked,
+                          onTap: (isCurrentlyLiked) async {
+                            if(isCurrentlyLiked) {
+                              _discoverReelController.unlikeVideo(widget.reel.id ?? "1");
+                            } else {
+                              _discoverReelController.likeVideo(widget.reel.id ?? "1");
+                            }
+                            setState(() {
+                              widget.reel.isLiked = !isCurrentlyLiked;
+                            });
+                            return widget.reel.isLiked;
+                          },
+                          likeBuilder: (isLiked) {
+                            return Icon(
+                              isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+                              color: isLiked ? Colors.red : Colors.white,
+                              size: 25,
+                            );
+                          },
+                        ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 3.0),
+                          padding: const EdgeInsets.only(top: 0.0),
                           child: Text(widget.reel.likes!.formattedNumber, style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold

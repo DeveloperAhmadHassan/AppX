@@ -13,7 +13,7 @@ class CarousalItem extends StatefulWidget {
   final int xIndex;
   final int yIndex;
   final Reel reel;
-    final Function(LongPressStartDetails details, Reel reel) onLongPressStart;
+  final Function(LongPressStartDetails details, Reel reel) onLongPressStart;
 
     CarousalItem({
     super.key,
@@ -43,8 +43,8 @@ class _CarousalItemState extends State<CarousalItem> {
     _carouselReelController.dispose();
     super.dispose();
   }
-  @override
 
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 50.0, bottom: 25.0, left: 25.0, right: 25.0),

@@ -3,13 +3,14 @@ import 'package:heroapp/models/reel.dart';
 
 class CarouselReelController {
   final Dio _dio;
+  final String _baseUrl = 'http://192.168.0.119:3000/api/reels';
   List<Reel> reels = [];
 
   CarouselReelController(this._dio);
 
   Future<List<Reel>> fetchReelsData() async {
     try {
-      final response = await _dio.get('http://192.168.0.119:3000/api/reels/carousel');
+      final response = await _dio.get('$_baseUrl/carousel');
 
       if (response.statusCode == 200) {
         List<dynamic> jsonData = response.data;
@@ -35,7 +36,7 @@ class CarouselReelController {
 
   Future<bool> likeVideo(String id) async {
     try {
-      final response = await _dio.put('http://192.168.0.119:3000/api/reels/$id');
+      final response = await _dio.put('$_baseUrl/$id');
 
       if (response.statusCode == 200) {
         print("liked");
@@ -50,7 +51,7 @@ class CarouselReelController {
 
   Future<bool> unlikeVideo(String id) async {
     try {
-      final response = await _dio.put('http://192.168.0.119:3000/api/reels/$id?increment=-1');
+      final response = await _dio.put('$_baseUrl/$id?increment=-1');
 
       if (response.statusCode == 200) {
         print("unliked");

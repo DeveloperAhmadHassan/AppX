@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../controllers/discover_reel_controller.dart';
 import '../../models/reel.dart';
@@ -11,12 +12,12 @@ class DiscoverPage extends StatefulWidget {
 }
 
 class _DiscoverPageState extends State<DiscoverPage> {
-  final DiscoverReelController _discoverReelController = DiscoverReelController();
+  final DiscoverReelController _discoverReelController = DiscoverReelController(Dio());
   List<Reel> _reels = [];
   Map<String, dynamic> _pagination = {};
   bool _isLoading = true;
   int _currentPage = 1;
-  bool _hasMoreData = true; // Flag to indicate if there is more data to load
+  bool _hasMoreData = true;
   ScrollController _scrollController = ScrollController();
 
   @override
@@ -33,11 +34,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
     super.dispose();
   }
 
-  // This function will be called when the user scrolls to the bottom of the list
   void _scrollListener() {
     if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && !_isLoading && _hasMoreData) {
-      // Load the next page if we're at the bottom of the list and there is more data
-      _currentPage = _pagination['nextPage']; // Set the next page from the pagination object
+      _currentPage = _pagination['nextPage'];
       _fetchReels();
     }
   }

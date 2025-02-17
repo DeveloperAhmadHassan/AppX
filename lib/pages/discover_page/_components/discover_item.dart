@@ -11,6 +11,7 @@ class DiscoverItem extends StatefulWidget {
 }
 
 class _DiscoverItemState extends State<DiscoverItem> {
+
   @override
   Widget build(BuildContext context) {
     return InkWell(

@@ -3,12 +3,14 @@ import '../models/reel.dart';
 
 class DiscoverReelController {
   final Dio _dio = Dio();
-  final String _baseUrl = 'http://192.168.0.119:3000/api/reels/discover';
+  final String _baseUrl = 'http://192.168.0.119:3000/api/reels';
+
+  DiscoverReelController(Dio dio);
 
   Future<Map<String, dynamic>> fetchReels(int page) async {
     try {
       final response = await _dio.get(
-        _baseUrl,
+        '$_baseUrl/discover',
         queryParameters: {'page': page},
       );
 
@@ -24,6 +26,36 @@ class DiscoverReelController {
       }
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<bool> likeVideo(String id) async {
+    try {
+      final response = await _dio.put('$_baseUrl/$id');
+
+      if (response.statusCode == 200) {
+        print("liked");
+        return true;
+      } else {
+        throw Exception('Failed to load reel data');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<bool> unlikeVideo(String id) async {
+    try {
+      final response = await _dio.put('$_baseUrl/$id?increment=-1');
+
+      if (response.statusCode == 200) {
+        print("unliked");
+        return true;
+      } else {
+        throw Exception('Failed to load reel data');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
     }
   }
 }

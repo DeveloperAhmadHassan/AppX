@@ -1,5 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:heroapp/pages/home_page/_components/reel.dart';
+import 'package:heroapp/pages/home_page/_components/home_reel_item.dart';
 import '../../controllers/home_reel_controller.dart';
 import '../../models/reel.dart';
 
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   int currentPage = 1;
   int nextPage = 1;
   // int totalPages = 1;
-  final HomeReelController apiController = HomeReelController();
+  final HomeReelController apiController = HomeReelController(Dio());
 
   @override
   void initState() {
@@ -76,7 +77,7 @@ class _HomePageState extends State<HomePage> {
               return Container();
             }
           } else {
-            return ReelItem(reel: reels[index]);
+            return HomeReelItem(reel: reels[index]);
           }
         },
       ),

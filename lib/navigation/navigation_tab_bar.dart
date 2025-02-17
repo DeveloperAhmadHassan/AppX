@@ -69,7 +69,7 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                         ),
                         indicatorPadding: EdgeInsets.only(bottom: 10.0),
                         tabs: const [
-                          Tab(text: 'Carousal'),
+                          Tab(text: 'Carousel'),
                           Tab(text: 'Reels'),
                           Tab(text: 'Discover'),
                         ],
