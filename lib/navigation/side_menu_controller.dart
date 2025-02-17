@@ -96,7 +96,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
       child: ScaleTransition(
         scale: _menuScaleAnimation,
         child: Padding(
-          padding: const EdgeInsets.only(left: 25.0, top: 100.0),
+          padding: const EdgeInsets.only(left: 25.0, top: 60.0),
           child: Align(
             alignment: Alignment.topLeft,
             child: Column(

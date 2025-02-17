@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:heroapp/models/reel.dart';
 import 'package:heroapp/pages/discover_page/_components/discover_clicked_item.dart';
 
 class DiscoverItemPage extends StatefulWidget {
-  const DiscoverItemPage({super.key});
+  final Reel reel;
+  DiscoverItemPage({super.key, required this.reel});
 
   @override
   State<DiscoverItemPage> createState() => _DiscoverItemPageState();
@@ -19,7 +21,7 @@ class _DiscoverItemPageState extends State<DiscoverItemPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            DiscoverClickedItem()
+            DiscoverClickedItem(reel: widget.reel,)
           ],
         ),
       ),

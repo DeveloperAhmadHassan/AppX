@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:heroapp/utils/components/like_btn.dart';
 import 'package:heroapp/utils/extensions/string.dart';
 import 'package:like_button/like_button.dart';
 import 'package:video_player/video_player.dart';
@@ -137,6 +136,7 @@ class _CarousalItemState extends State<CarousalItem> {
                           )
                         ],
                       ),
+                      SizedBox(width: 5),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,

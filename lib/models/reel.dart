@@ -19,7 +19,7 @@ class Reel {
     return Reel(
       json['reel_url'],
       title: json['reel_title'],
-      views: json['views'].toString() ?? "",
+      views: json['views'].toString(),
       likes: json['likes'].toString(),
       id: json['id'].toString(),
       thumbnailUrl: json['reel_thumbnail_url'],

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:heroapp/utils/components/like_btn.dart';
+import 'package:heroapp/utils/extensions/string.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../models/reel.dart';
+
 class DiscoverClickedItem extends StatefulWidget {
-  const DiscoverClickedItem({super.key, this.videoUrl = "assets/reels/a.mp4"});
-  final String videoUrl;
+  DiscoverClickedItem({super.key, required this.reel});
+  final Reel reel;
 
   @override
   _DiscoverClickedItemState createState() => _DiscoverClickedItemState();
@@ -17,7 +20,7 @@ class _DiscoverClickedItemState extends State<DiscoverClickedItem> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset(widget.videoUrl)
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.videoPath))
       ..initialize().then((_) {
         setState(() {
           _isVideoInitialized = true;
@@ -59,11 +62,12 @@ class _DiscoverClickedItemState extends State<DiscoverClickedItem> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text("Satisfying Pop💥", style: TextStyle(
+                Text(widget.reel.title ?? "Satisfying Pop💥", style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 22
-                )),
+                    fontSize: 18
+                  )
+                ),
                 Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -84,7 +88,7 @@ class _DiscoverClickedItemState extends State<DiscoverClickedItem> {
                         SizedBox(height: 12,),
                         Padding(
                           padding: const EdgeInsets.only(top: 3.0),
-                          child: Text("74K", style: TextStyle(
+                          child: Text(widget.reel.views!.formattedNumber, style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold
                           ),),
@@ -99,7 +103,7 @@ class _DiscoverClickedItemState extends State<DiscoverClickedItem> {
                         // SizedBox(height: 10,),
                         Padding(
                           padding: const EdgeInsets.only(top: 3.0),
-                          child: Text("20K", style: TextStyle(
+                          child: Text(widget.reel.likes!.formattedNumber, style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold
                           ),textAlign: TextAlign.center,),

@@ -17,7 +17,7 @@ class CarouselReelController {
           return Reel(
             data['reel_url'],
             title: data['reel_title'],
-            views: data['views'].toString() ?? "",
+            views: data['views'].toString(),
             likes: data['likes'].toString(),
             id: data['id'].toString(),
             thumbnailUrl: data['reel_thumbnail_url'],

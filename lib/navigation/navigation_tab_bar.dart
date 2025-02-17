@@ -33,7 +33,7 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
             Spacer(),
             Center(
               child: Container(
-                width: MediaQuery.of(context).size.width - 200,
+                width: MediaQuery.of(context).size.width - 180,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(15),
@@ -58,12 +58,14 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         labelPadding: EdgeInsets.only(right: 15),
                         unselectedLabelStyle: TextStyle(
-                          fontSize: 14
+                          fontSize: 14,
+                          fontFamily: 'Poppins'
                         ),
                         labelColor: Colors.white,
                         labelStyle: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 14
+                          fontSize: 14,
+                          fontFamily: 'Poppins'
                         ),
                         indicatorPadding: EdgeInsets.only(bottom: 10.0),
                         tabs: const [
