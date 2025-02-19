@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heroapp/pages/auth_page/login_page.dart';
 import 'package:heroapp/pages/menu_page/watch_history_page.dart';
+import 'package:heroapp/pages/profile_page/add_details_page.dart';
 import 'package:heroapp/pages/settings_page/settings_page.dart';
 import 'package:heroapp/pages/side_page/liked_videos_page.dart';
 import 'package:heroapp/utils/components/gradient_divider.dart';
@@ -106,58 +107,63 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
               children: <Widget>[
                 _isLoading ? CircularProgressIndicator() : Column(
                   children: [
-                    Container(
-                      width: 120.0,
-                      height: 120.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 4.0,
+                    InkWell(
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetailsPage())),
+                      child: Container(
+                        width: 100.0,
+                        height: 100.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                            width: 4.0,
+                          ),
                         ),
-                      ),
-                      child: ClipOval(
-                        child: (user != null && user!.imagePath!.contains('assets/')) || user?.imagePath == null || user == null
-                            ? Image.asset (
-                          'assets/profile/p_a.jpg',
-                          width: 100.0,
-                          height: 100.0,
-                          fit: BoxFit.cover,
-                        ) : Image.file (
-                          File(user!.imagePath ?? ""),
-                          width: 100.0,
-                          height: 100.0,
-                          fit: BoxFit.cover,
+                        child: ClipOval(
+                          child: (user != null && user!.imagePath!.contains('assets/')) || user?.imagePath == null || user == null
+                              ? Image.asset (
+                            'assets/profile/p_a.jpg',
+                            width: 100.0,
+                            height: 100.0,
+                            fit: BoxFit.cover,
+                          ) : Image.file (
+                            File(user!.imagePath ?? ""),
+                            width: 100.0,
+                            height: 100.0,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
                     SizedBox(height: 10,),
                     Text("Hello, ${user?.name ?? "User"}!",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold
+                          // color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold
                         )),
                   ],
                 ),
                 OutlinedButton.icon(
                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage())),
-                  icon: const Icon(Icons.add, color: Colors.white, size: 24, weight: 700,),
+                  icon: const Icon(Icons.add, size: 24, weight: 700,),
                   label: const Text('Login', style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22
+                    // color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold
                   ),),
                   iconAlignment: IconAlignment.start,
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(
-                      color: Colors.white,
-                      width: 3.0,
+                      color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                      width: 2.0,
                     ),
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0.0),
                   ),
                 ),
                 SizedBox(height: 20),
                 GradientDivider(),
-                SizedBox(height: 20),
+                SizedBox(height: 30),
                 menuItem(Icons.favorite_border_outlined, "Liked Videos", onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const LikedVideosPage()));
                 }),
@@ -246,22 +252,22 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
       },
       child: Row(
         children: [
-          Icon(icon, size: 25, color: Colors.white,),
+          Icon(icon, size: 25),
           SizedBox(width: 20,),
           SizedBox(
-            width: 180,
+            width: 160,
             child: Text(title, style: TextStyle(
-              fontSize: 22,
+              fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: Colors.white
+              // color: Colors.white
             )),
           ),
           Container(
             height: 30,
             width: 30,
             decoration: BoxDecoration(
-                color: HexColor.fromHex(AppConstants.primaryColor),
-                borderRadius: BorderRadius.circular(100)
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.blueGrey[300] : HexColor.fromHex(AppConstants.primaryColor),
+              borderRadius: BorderRadius.circular(100)
             ),
             child: Icon(Icons.navigate_next),
           ),

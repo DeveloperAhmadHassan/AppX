@@ -3,7 +3,7 @@ import '../models/reel.dart';
 
 class HomeReelController {
   final Dio _dio = Dio();
-  final String _baseUrl = 'http://192.168.0.119:3000/api/reels';
+  final String _baseUrl = 'https://appx-api.vercel.app/api/reels';
 
   HomeReelController(Dio dio);
 

@@ -76,7 +76,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
                 height: MediaQuery.of(context).size.height - 200,
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  // color: Colors.black,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: _isVideoInitialized
@@ -97,11 +97,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
                 children: [
                   Text(
                     widget.reel.title ?? "",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 18
-                    )),
+                    style: Theme.of(context).textTheme.titleLarge),
                   Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -116,7 +112,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
                             width: 40,
                             child: IconButton(
                               icon: Icon(Icons.remove_red_eye_outlined,
-                                size: 25, color: Colors.white),
+                                size: 25),
                               onPressed: () => {},
                             ),
                           ),
@@ -126,12 +122,13 @@ class _HomeReelItemState extends State<HomeReelItem> {
                             child: Text(
                               widget.reel.views!.formattedNumber,
                               style: TextStyle(
-                                color: Colors.white,
+                                // color: Colors.white,
                                 fontWeight: FontWeight.bold
                               )),
                           )
                         ],
                       ),
+                      SizedBox(width: 5),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -153,7 +150,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
                             likeBuilder: (isLiked) {
                               return Icon(
                                 isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                                color: isLiked ? Colors.red : Colors.white,
+                                color: isLiked ? Colors.red : Theme.of(context).iconTheme.color,
                                 size: 25,
                               );
                             },
@@ -161,7 +158,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
                           Padding(
                             padding: const EdgeInsets.only(top: 0.0),
                             child: Text(widget.reel.likes!.formattedNumber, style: TextStyle(
-                              color: Colors.white,
+                              // color: Colors.white,
                               fontWeight: FontWeight.bold
                             ),textAlign: TextAlign.center,),
                           )

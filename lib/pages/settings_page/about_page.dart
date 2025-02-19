@@ -42,8 +42,8 @@ class _AboutPageState extends State<AboutPage> {
           ? SingleChildScrollView(
         padding: EdgeInsets.only(left: 25.0, right: 25.0, bottom: 10.0),
         child: MarkdownBody(data: markdownContent, styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-          p: TextStyle(color: Colors.white, fontSize: 16),
-          h1: TextStyle(color: Colors.white),
+          p: TextStyle(color: Colors.white, fontSize: 14),
+          h1: TextStyle(color: Colors.white, fontSize: 16),
           h2: TextStyle(color: Colors.white),
           h3: TextStyle(color: Colors.white),
           h1Padding: EdgeInsets.zero,

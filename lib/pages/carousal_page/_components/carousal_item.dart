@@ -15,15 +15,13 @@ class CarousalItem extends StatefulWidget {
   final Reel reel;
   final Function(LongPressStartDetails details, Reel reel) onLongPressStart;
 
-    CarousalItem({
+  const CarousalItem({
     super.key,
     required this.xIndex,
     required this.yIndex,
     required this.onLongPressStart,
     required this.reel
   });
-
-
 
   @override
   _CarousalItemState createState() => _CarousalItemState();
@@ -59,7 +57,7 @@ class _CarousalItemState extends State<CarousalItem> {
           }
 
           if (visiblePercentage >= 90 && widget.reel.isVideoInitialized) {
-           widget.reel.controller.play();
+            widget.reel.controller.play();
           }
 
           if (visiblePercentage <= 50 && widget.reel.isVideoInitialized) {
@@ -79,9 +77,9 @@ class _CarousalItemState extends State<CarousalItem> {
             child: Stack(
               children: [
                 widget.reel.isVideoInitialized
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: VideoPlayer(widget.reel.controller),
+                    ? ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: VideoPlayer(widget.reel.controller),
                 ) : ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: SizedBox(
@@ -93,19 +91,24 @@ class _CarousalItemState extends State<CarousalItem> {
                   ),
                 ),
                 Positioned(
-                  bottom: 20,
-                  left: 15,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text("${widget.reel.title} ${widget.reel.id}", style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16
-                      )),
-                      // SizedBox(width: 20,),
-                    ],
-                  )
+                    bottom: 20,
+                    left: 15,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          width: 180,
+                          child: Text(
+                            "${widget.reel.title} ${widget.reel.id}",
+                            style: Theme.of(context).textTheme.titleMedium,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            softWrap: false,
+                          ),
+                        ),
+                        // SizedBox(width: 20,),
+                      ],
+                    )
                 ),
                 Positioned(
                   bottom: 20,
@@ -122,7 +125,7 @@ class _CarousalItemState extends State<CarousalItem> {
                             height: 20,
                             width: 40,
                             child: IconButton(
-                              icon: Icon(Icons.remove_red_eye_outlined, size: 25, color: Colors.white),
+                              icon: Icon(Icons.remove_red_eye_outlined, size: 25),
                               onPressed: () => {},
                             ),
                           ),
@@ -130,7 +133,7 @@ class _CarousalItemState extends State<CarousalItem> {
                           Padding(
                             padding: const EdgeInsets.only(top: 3.0),
                             child: Text(widget.reel.views!.formattedNumber, style: TextStyle(
-                                color: Colors.white,
+                              // color: Colors.white,
                                 fontWeight: FontWeight.bold
                             ),),
                           )
@@ -158,7 +161,7 @@ class _CarousalItemState extends State<CarousalItem> {
                             likeBuilder: (isLiked) {
                               return Icon(
                                 isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                                color: isLiked ? Colors.red : Colors.white,
+                                color: isLiked ? Colors.red : Theme.of(context).iconTheme.color,
                                 size: 25,
                               );
                             },
@@ -166,7 +169,7 @@ class _CarousalItemState extends State<CarousalItem> {
                           Padding(
                             padding: const EdgeInsets.only(top: 0.0),
                             child: Text(widget.reel.likes!.formattedNumber, style: TextStyle(
-                                color: Colors.white,
+                              // color: Colors.white,
                                 fontWeight: FontWeight.bold
                             ),textAlign: TextAlign.center,),
                           )

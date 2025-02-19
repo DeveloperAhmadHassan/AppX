@@ -54,8 +54,8 @@ class LogoutPage extends StatelessWidget {
                     SizedBox(height: 50,),
                     Text("Are you sure you want to logout?", style: TextStyle(
                         color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22
+                        // fontWeight: FontWeight.bold,
+                        fontSize: 16
                     ), textAlign: TextAlign.center,),
                     SizedBox(height: 50,),
                     Center(
@@ -80,8 +80,8 @@ class LogoutPage extends StatelessWidget {
                               ),
                               child: Center(
                                 child: Text("Cancel", style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
                                   color: Colors.black
                                 ))
                               ),
@@ -102,7 +102,7 @@ class LogoutPage extends StatelessWidget {
                               child: Center(
                                   child: Text("Logout", style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     color: Colors.red
                                   ))
                               ),

@@ -69,7 +69,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.black,
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
@@ -81,7 +81,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
               child: Text(
                 "Trending",
                 style: TextStyle(
-                  color: Colors.white,
+                  // color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -101,7 +101,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
             if (!_hasMoreData && _reels.isNotEmpty)
               const Padding(
                 padding: EdgeInsets.only(top: 16.0),
-                child: Center(child: Text('No more reels to load', style: TextStyle(color: Colors.white))),
+                child: Center(child: Text('No more reels to load', style: TextStyle(
+                    // color: Colors.white
+                ))),
               ),
           ],
         ),

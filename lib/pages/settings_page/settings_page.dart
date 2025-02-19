@@ -126,7 +126,7 @@ class _SettingsPageState extends State<SettingsPage> {
             fontSize: 18,
             fontWeight: FontWeight.bold
         ),),
-        backgroundColor: HexColor.fromHex(AppConstants.primaryColor),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
         leading: IconButton(
           icon: Icon(Icons.arrow_back,),
           onPressed: () {
@@ -139,7 +139,7 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              color: HexColor.fromHex(AppConstants.primaryColor),
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -151,7 +151,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Colors.black,
+                        color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                         width: 4.0,
                       ),
                     ),
@@ -169,14 +169,13 @@ class _SettingsPageState extends State<SettingsPage> {
                           fit: BoxFit.cover,
                       ),
                     ),
-                  )
-                      : CircularProgressIndicator(),
+                  ) : CircularProgressIndicator(),
                   SizedBox(height: 10,),
                   Text(user?.name ?? "Your Name", style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18
                   )),
-                  Text(user?.bio ?? "Your Designation", style: TextStyle(
+                  Text(user?.bio ?? "Bio", style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14
                   )),
@@ -198,21 +197,30 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                     child: Center(
                       child: Container(
-                        width: 130,
+                        width: 140,
                         padding: EdgeInsets.only(left: 13.0, right: 0.0, top: 5.0, bottom: 5.0),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            color: Colors.black
+                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
                         ),
                         child: Row(
                           children: [
-                            Text('Add Details', style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700
-                            )),
-                            SizedBox(width: 2,),
-                            const Icon(Icons.navigate_next, color: Colors.white, size: 24, weight: 700,)
+                            Padding(
+                              padding: EdgeInsets.only(left: 4.0),
+                              child: Text('Add Details', style: TextStyle(
+                                  color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700
+                              )),
+                            ),
+                            Spacer(),
+                            Icon(
+                              Icons.navigate_next,
+                              size: 24,
+                              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+                              weight: 700,
+                            ),
+                            SizedBox(width: 5,)
                           ],
                         ),
                       ),

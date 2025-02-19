@@ -87,7 +87,7 @@ class LoginPage extends StatelessWidget {
           Center(child: Text("Continue With $title",style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
-              fontSize: 18
+              fontSize: 16
           ) ,textAlign: TextAlign.center,))
         ],
       ),

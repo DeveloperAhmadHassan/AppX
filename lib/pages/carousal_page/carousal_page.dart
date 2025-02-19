@@ -132,11 +132,11 @@ class _CarousalPageState extends State<CarousalPage> {
   Widget _buildPage() {
     currentReelIndex = 0;
     return Scaffold(
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.black,
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : hasError
-          ? Center(child: Text('Error fetching reels data', style: TextStyle(color: Colors.white)))
+          ? Center(child: Text('Error fetching reels data', style: Theme.of(context).textTheme.titleLarge))
           : TwoDimensionalGridView(
         diagonalDragBehavior: DiagonalDragBehavior.free,
         horizontalDetails: ScrollableDetails.horizontal(controller: _horizontalController),
@@ -160,11 +160,11 @@ class _CarousalPageState extends State<CarousalPage> {
 
   Widget _buildDialog() {
     return Container(
-      height: MediaQuery.of(context).size.height - 100,
+      height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width - 10,
-      color: Colors.black.withOpacity(0.5),
-      padding: EdgeInsets.only(bottom: 50.0, top: 50, right: 10, left: 10),
-      child: LongPressItem(videoUrl: _selectedReel.videoPath),
+      color: Colors.black.withValues(alpha: 0.5),
+      padding: EdgeInsets.only(bottom: 20.0, top: 20, right: 10, left: 10),
+      child: LongPressItem(reel:  _selectedReel),
     );
   }
 }

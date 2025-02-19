@@ -16,15 +16,15 @@ class GradientDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: thickness,
-      margin: EdgeInsets.only(left: indent, right: endIndent),
+      margin: EdgeInsets.only(left: 0, right: endIndent),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            Colors.white.withValues(alpha: 1),
-            Colors.white.withValues(alpha: 1.3),
-            Colors.white.withValues(alpha: 0),
+            Theme.of(context).brightness == Brightness.dark ? Colors.white.withValues(alpha: 1) : Colors.black.withValues(alpha: 1),
+            Theme.of(context).brightness == Brightness.dark ? Colors.white.withValues(alpha: 1.3) : Colors.black.withValues(alpha: 1.3),
+            Theme.of(context).brightness == Brightness.dark ? Colors.white.withValues(alpha: 0) : Colors.black.withValues(alpha: 0),
           ],
         ),
       ),

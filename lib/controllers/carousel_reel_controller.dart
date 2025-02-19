@@ -3,7 +3,7 @@ import 'package:heroapp/models/reel.dart';
 
 class CarouselReelController {
   final Dio _dio;
-  final String _baseUrl = 'http://192.168.0.119:3000/api/reels';
+  final String _baseUrl = 'https://appx-api.vercel.app/api/reels';
   List<Reel> reels = [];
 
   CarouselReelController(this._dio);

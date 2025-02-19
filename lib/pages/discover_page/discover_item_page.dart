@@ -16,8 +16,10 @@ class _DiscoverItemPageState extends State<DiscoverItemPage> {
     return Scaffold(
       appBar: AppBar(title: Text("Trending", style: TextStyle(
         fontSize: 18
-      )),foregroundColor: Colors.white, backgroundColor: Colors.black,),
-      backgroundColor: Colors.black,
+      )),
+        // foregroundColor: Colors.white, backgroundColor: Colors.black,
+      ),
+      // backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           children: [

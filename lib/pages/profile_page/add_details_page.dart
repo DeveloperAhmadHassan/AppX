@@ -90,7 +90,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                       ),),
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 210,
-                        child: Text(user?.bio ?? "Your Designation", style: TextStyle(
+                        child: Text(user?.bio ?? "Bio", style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
@@ -104,7 +104,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(left: 55.0, top: 35.0, right: 55.0),
+              padding: EdgeInsets.only(left: 55.0, top: 25.0, right: 55.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,10 +152,11 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                           color: HexColor.fromHex(AppConstants.primaryColor)
                       ),
                       child: Center(
-                          child: Text("Submit", style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20
-                          ),)
+                        child: Text("Submit", style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black
+                        ),)
                       ),
                     ),
                   ),
@@ -188,11 +189,11 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                                 )
                             ),
                             child: Center(
-                                child: Text("Cancel", style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: Colors.white
-                                ))
+                              child: Text("Cancel", style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.white
+                              ))
                             ),
                           ),
                         ),
@@ -211,7 +212,8 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                             child: Center(
                               child: Text("Login", style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20
+                                fontSize: 16,
+                                color: Colors.black
                               ))
                             ),
                           ),
