@@ -96,7 +96,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    widget.reel.title ?? "",
+                    "${widget.reel.title} ${widget.reel.id}",
                     style: Theme.of(context).textTheme.titleLarge),
                   Spacer(),
                   Row(

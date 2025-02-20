@@ -11,6 +11,7 @@ import 'package:heroapp/pages/side_page/liked_videos_page.dart';
 import 'package:heroapp/utils/components/gradient_divider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/reel.dart';
 import '../models/user.dart';
 import '../utils/constants.dart';
 import '../utils/extensions/color.dart';
@@ -80,13 +81,17 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
     screenHeight = size.height;
     screenWidth = size.width;
 
-    return Scaffold(
-      backgroundColor: Colors.blueGrey,
-      body: Stack(
-        children: <Widget>[
-          menu(context),
-          dashboard(context),
-        ],
+    return DefaultTabController(
+      length: 3,
+      initialIndex: 2,
+      child: Scaffold(
+        backgroundColor: Colors.blueGrey,
+        body: Stack(
+          children: <Widget>[
+            menu(context),
+            dashboard(context),
+          ],
+        ),
       ),
     );
   }
@@ -161,7 +166,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0.0),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 30),
                 GradientDivider(),
                 SizedBox(height: 30),
                 menuItem(Icons.favorite_border_outlined, "Liked Videos", onPressed: (){

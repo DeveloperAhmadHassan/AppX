@@ -176,8 +176,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       fontSize: 18
                   )),
                   Text(user?.bio ?? "Bio", style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black54
                   )),
                   SizedBox(height: 10,),
                   InkWell(
@@ -200,17 +201,17 @@ class _SettingsPageState extends State<SettingsPage> {
                         width: 140,
                         padding: EdgeInsets.only(left: 13.0, right: 0.0, top: 5.0, bottom: 5.0),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
+                          borderRadius: BorderRadius.circular(100),
+                          color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
                         ),
                         child: Row(
                           children: [
                             Padding(
                               padding: EdgeInsets.only(left: 4.0),
                               child: Text('Add Details', style: TextStyle(
-                                  color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700
+                                color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700
                               )),
                             ),
                             Spacer(),
@@ -240,21 +241,27 @@ class _SettingsPageState extends State<SettingsPage> {
                   isSwitched: settings?.isDarkMode ?? false,
                   onToggle: (value) => onSwitchChanged("Dark Mode", value),
                 ),
+                SizedBox(height: 10,),
                 SettingsItem(icon: FontAwesomeIcons.bell, title: "Notifications", onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsPage()));
                 }),
+                SizedBox(height: 10,),
                 SettingsItem(icon: Icons.help_outline_rounded, title: "Help and Support", onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => HelpAndSupportPage()));
                 }),
+                SizedBox(height: 10,),
                 SettingsItem(icon: FontAwesomeIcons.fileLines, title: "Terms of Use", onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => TermsOfUsePage()));
                 }),
+                SizedBox(height: 10,),
                 SettingsItem(icon: FontAwesomeIcons.circleCheck, title: "Privacy Policy", onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyPage()));
                 }),
+                SizedBox(height: 10,),
                 SettingsItem(icon: Icons.info_outline_rounded, title: "About", onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => AboutPage()));
                 }),
+                SizedBox(height: 10,),
                 SettingsItem(icon: Icons.logout_rounded, title: "Logout", onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => LogoutPage()));
                 }),

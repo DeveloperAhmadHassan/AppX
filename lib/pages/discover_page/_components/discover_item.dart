@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:heroapp/models/reel.dart';
-import 'package:heroapp/pages/discover_page/discover_item_page.dart';
+import 'package:heroapp/pages/home_page/home_page.dart';
 
-class DiscoverItem extends StatefulWidget {
+class DiscoverItem extends StatelessWidget {
   final Reel reel;
-  const DiscoverItem({super.key, required this.reel});
+  final VoidCallback onTap;
 
-  @override
-  State<DiscoverItem> createState() => _DiscoverItemState();
-}
-
-class _DiscoverItemState extends State<DiscoverItem> {
+  const DiscoverItem({super.key, required this.reel, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => DiscoverItemPage(reel: widget.reel)),
-      ),
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -28,7 +21,7 @@ class _DiscoverItemState extends State<DiscoverItem> {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
-                widget.reel.thumbnailUrl ?? "",
+                reel.thumbnailUrl ?? "",
                 fit: BoxFit.cover,
               ),
             ),
@@ -38,7 +31,7 @@ class _DiscoverItemState extends State<DiscoverItem> {
               right: 15,
               child: Container(
                 child: Text(
-                  widget.reel.title ?? "Satisfying Pop",
+                  "${reel.title} ${reel.id}",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

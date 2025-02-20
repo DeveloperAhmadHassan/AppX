@@ -66,7 +66,9 @@ class _CarousalItemState extends State<CarousalItem> {
         },
         child: GestureDetector(
           onLongPressStart: (details) => widget.onLongPressStart(details, widget.reel),
+          // TODO: Get the onTap From parent to navigate to reels
           onTap: () => widget.reel.initialize().then((_) => widget.reel.controller.play()),
+          onDoubleTap: () => widget.reel.initialize().then((_) => widget.reel.controller.play()),
           child: Container(
             height: AppConstants.HEIGHT,
             width: AppConstants.WIDTH,

@@ -99,7 +99,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           : SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 30),
+            SizedBox(height: 10),
             SettingsItem(
               title: "Following Shows",
               isSwitch: true,

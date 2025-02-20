@@ -5,7 +5,9 @@ import '../../models/reel.dart';
 import '_components/discover_item.dart';
 
 class DiscoverPage extends StatefulWidget {
-  const DiscoverPage({super.key});
+  final TabController tabController;
+  final Function(Reel) onReelSelected;
+  const DiscoverPage({super.key, required this.tabController, required this.onReelSelected});
 
   @override
   State<DiscoverPage> createState() => _DiscoverPageState();
@@ -18,7 +20,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   bool _isLoading = true;
   int _currentPage = 1;
   bool _hasMoreData = true;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -69,7 +71,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.black,
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
@@ -81,7 +82,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
               child: Text(
                 "Trending",
                 style: TextStyle(
-                  // color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -101,9 +101,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
             if (!_hasMoreData && _reels.isNotEmpty)
               const Padding(
                 padding: EdgeInsets.only(top: 16.0),
-                child: Center(child: Text('No more reels to load', style: TextStyle(
-                    // color: Colors.white
-                ))),
+                child: Center(child: Text('No more reels to load')),
               ),
           ],
         ),
@@ -122,14 +120,19 @@ class _DiscoverPageState extends State<DiscoverPage> {
           mainAxisSpacing: 18,
           crossAxisSpacing: 0,
           crossAxisCount: 2,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height / 1.45),
+          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.45),
         ),
         itemBuilder: (context, index) {
           final reel = _reels[index];
           return Center(
             child: DiscoverItem(
               reel: reel,
+              onTap: () async {
+                await widget.onReelSelected(reel);
+                Future.delayed(const Duration(milliseconds: 200), () {
+                  widget.tabController.animateTo(1);
+                });
+              },
             ),
           );
         },

@@ -33,28 +33,28 @@ class MyApp extends StatelessWidget {
           ),
         ),
         iconTheme: IconThemeData(
-          color: Colors.black
+            color: Colors.black
         ),
         appBarTheme: AppBarTheme(
-          color: Colors.white,
-          foregroundColor: Colors.black
+            color: Colors.white,
+            foregroundColor: Colors.black
         ),
         textTheme: TextTheme(
-          titleLarge: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 18
-          ),
-          titleMedium: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 16
-          )
+            titleLarge: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 18
+            ),
+            titleMedium: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 16
+            )
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
-            iconColor: Colors.black,
-            foregroundColor: Colors.black
+              iconColor: Colors.black,
+              foregroundColor: Colors.black
           ),
         ),
         fontFamily: 'Poppins',
@@ -84,25 +84,25 @@ class MyApp extends StatelessWidget {
         ),
         appBarTheme: AppBarTheme(
             color: Colors.black,
-           foregroundColor: Colors.white
+            foregroundColor: Colors.white
         ),
         textTheme: TextTheme(
-          titleLarge: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 18
-          ),
-          titleMedium: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 12
-          )
+            titleLarge: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18
+            ),
+            titleMedium: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 12
+            )
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
-            side: BorderSide(color: Colors.white, width: 3.0,),
-            iconColor: Colors.white,
-            foregroundColor: Colors.white
+              side: BorderSide(color: Colors.white, width: 3.0,),
+              iconColor: Colors.white,
+              foregroundColor: Colors.white
           ),
         ),
         fontFamily: 'Poppins',

@@ -86,13 +86,15 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                       SizedBox(height: 35,),
                       Text(user?.name ?? "Username", style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18
+                        fontSize: 18,
+                        color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.black
                       ),),
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 210,
                         child: Text(user?.bio ?? "Bio", style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
+                          color: Theme.of(context).brightness == Brightness.dark ? Colors.black.withValues(alpha: 0.6) : Colors.black.withValues(alpha: 0.6)
                         ),
                           textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,),
