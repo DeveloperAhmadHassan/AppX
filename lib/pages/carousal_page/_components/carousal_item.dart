@@ -14,13 +14,15 @@ class CarousalItem extends StatefulWidget {
   final int yIndex;
   final Reel reel;
   final Function(LongPressStartDetails details, Reel reel) onLongPressStart;
+  final VoidCallback onTap;
 
   const CarousalItem({
     super.key,
     required this.xIndex,
     required this.yIndex,
     required this.onLongPressStart,
-    required this.reel
+    required this.reel,
+    required this.onTap
   });
 
   @override
@@ -65,9 +67,9 @@ class _CarousalItemState extends State<CarousalItem> {
           }
         },
         child: GestureDetector(
-          onLongPressStart: (details) => widget.onLongPressStart(details, widget.reel),
-          // TODO: Get the onTap From parent to navigate to reels
-          onTap: () => widget.reel.initialize().then((_) => widget.reel.controller.play()),
+          // onLongPressStart: (details) => widget.onLongPressStart(details, widget.reel),
+          onTap: widget.onTap,
+          // onTap: () => widget.reel.initialize().then((_) => widget.reel.controller.play()),
           onDoubleTap: () => widget.reel.initialize().then((_) => widget.reel.controller.play()),
           child: Container(
             height: AppConstants.HEIGHT,

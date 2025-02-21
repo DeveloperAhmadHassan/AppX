@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   final Set<String> viewedReels = {};
   Timer? _viewTimer;
   String? _currentReelId;
+  bool _error = false;
 
   @override
   void initState() {
@@ -29,8 +30,23 @@ class _HomePageState extends State<HomePage> {
     reels = [];
     if(widget.reel != null) {
       reels.insert(0, widget.reel!);
+    } else if (widget.reel == null){
+      print("Reel is null");
     }
     fetchReels(currentPage);
+  }
+
+  @override
+  void didUpdateWidget(covariant HomePage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.reel != oldWidget.reel) {
+      setState(() {
+        if(widget.reel != null) {
+          reels.insert(0, widget.reel!);
+        }
+      });
+    }
   }
 
   Future<void> fetchReels(int page) async {
@@ -54,6 +70,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         isLoading = false;
       });
+      _error = true;
       print('Error fetching reels: $e');
     }
   }
@@ -93,7 +110,15 @@ class _HomePageState extends State<HomePage> {
           if (index == reels.length) {
             if (isLoading) {
               return Center(child: CircularProgressIndicator());
-            } else {
+            } else if (_error) {
+              return Center(
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 16.0),
+                  child: Center(child: Text('Some Error Occurred')),
+                )
+              );
+            }
+            else {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 fetchReels(nextPage);
               });

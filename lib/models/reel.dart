@@ -11,7 +11,7 @@ class Reel {
   final String? thumbnailUrl;
   bool isLiked = false;
 
-  Reel(this.videoPath, {this.title, this.views, this.likes, this.id, this.thumbnailUrl}) {
+  Reel(this.videoPath, {this.title, this.views, this.likes, this.id, this.thumbnailUrl, this.isLiked = false}) {
     controller = VideoPlayerController.networkUrl(Uri.parse(videoPath));
   }
 

@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 class NavigationTabBar extends StatefulWidget {
   final Function() onSideMenuClick;
   final bool isCollapsed;
-  const NavigationTabBar({super.key, required this.onSideMenuClick, this.isCollapsed = true});
+  final TabController tabController;
+  final Function() onTabTapped;
+  const NavigationTabBar({super.key, required this.onSideMenuClick, this.isCollapsed = true, required this.tabController, required this.onTabTapped});
 
   @override
   State<NavigationTabBar> createState() => _NavigationTabBarState();
@@ -51,8 +53,13 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                           ),
                         ),
                         TabBar(
+                          controller: widget.tabController,
                           tabAlignment: TabAlignment.center,
                           padding: EdgeInsets.only(left: 15),
+                          onTap: (index){
+                            widget.onTabTapped();
+                            print("User manually changed to: $index");
+                          },
                           // labelPadding: EdgeInsets.only(right: 15),
                           unselectedLabelStyle: TextStyle(
                             fontSize: 14,

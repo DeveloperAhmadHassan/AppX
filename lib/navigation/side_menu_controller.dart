@@ -81,10 +81,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
     screenHeight = size.height;
     screenWidth = size.width;
 
-    return DefaultTabController(
-      length: 3,
-      initialIndex: 2,
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.blueGrey,
         body: Stack(
           children: <Widget>[
@@ -92,8 +89,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
             dashboard(context),
           ],
         ),
-      ),
-    );
+      );
   }
 
   Widget menu(context) {

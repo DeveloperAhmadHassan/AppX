@@ -31,10 +31,9 @@ class DiscoverReelController {
 
   Future<bool> likeVideo(String id) async {
     try {
-      final response = await _dio.put('$_baseUrl/$id');
+      final response = await _dio.put('$_baseUrl/likes/$id');
 
       if (response.statusCode == 200) {
-        print("liked");
         return true;
       } else {
         throw Exception('Failed to load reel data');
@@ -46,10 +45,9 @@ class DiscoverReelController {
 
   Future<bool> unlikeVideo(String id) async {
     try {
-      final response = await _dio.put('$_baseUrl/$id?increment=-1');
+      final response = await _dio.put('$_baseUrl/likes/$id?increment=-1');
 
       if (response.statusCode == 200) {
-        print("unliked");
         return true;
       } else {
         throw Exception('Failed to load reel data');

@@ -15,12 +15,24 @@ class NavigationTabController extends StatefulWidget {
   State<NavigationTabController> createState() => _NavigationTabControllerState();
 }
 
-class _NavigationTabControllerState extends State<NavigationTabController> {
+class _NavigationTabControllerState extends State<NavigationTabController> with TickerProviderStateMixin {
   Reel? _selectedReel;
+  late TabController _tabController;
 
-  // Update the selected reel when a new reel is selected
+  @override
+  void initState() {
+    super.initState();
+
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   void _handleReelSelected(Reel reel) {
-    print(reel.id);
     setState(() {
       _selectedReel = reel;
     });
@@ -32,17 +44,29 @@ class _NavigationTabControllerState extends State<NavigationTabController> {
       body: Stack(
         children: [
           TabBarView(
+            controller: _tabController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              CarousalPage(),
+              CarousalPage(
+                tabController: _tabController,
+                onReelSelected: _handleReelSelected,
+              ),
               HomePage(reel: _selectedReel),
               DiscoverPage(
-                tabController: DefaultTabController.of(context),
+                tabController: _tabController,
                 onReelSelected: _handleReelSelected,
               ),
             ],
           ),
-          NavigationTabBar(onSideMenuClick: widget.onSideMenuClick, isCollapsed: widget.isCollapsed),
+          NavigationTabBar(
+            onSideMenuClick: widget.onSideMenuClick,
+            isCollapsed: widget.isCollapsed,
+            tabController: _tabController,
+            onTabTapped: (){
+              setState(() {
+                _selectedReel = null;
+              });
+            }),
         ],
       ),
     );

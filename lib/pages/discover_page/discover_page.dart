@@ -20,6 +20,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   bool _isLoading = true;
   int _currentPage = 1;
   bool _hasMoreData = true;
+  bool _error = false;
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -64,6 +65,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
       setState(() {
         _isLoading = false;
       });
+      _error = true;
       print('Error fetching reels: $e');
     }
   }
@@ -75,6 +77,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
         controller: _scrollController,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 110),
             const Padding(
@@ -89,10 +92,17 @@ class _DiscoverPageState extends State<DiscoverPage> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 0.0),
-              child: _isLoading && _reels.isEmpty
-                  ? const Center(child: CircularProgressIndicator())
-                  : itemGrid(),
+              child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : itemGrid(),
             ),
+            if (_error)
+              Center(
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 16.0),
+                  child: Center(child: Text('Some Error Occurred')),
+                ),
+              ),
             if (_isLoading && _reels.isNotEmpty)
               const Padding(
                 padding: EdgeInsets.only(top: 16.0),

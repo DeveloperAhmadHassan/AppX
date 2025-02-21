@@ -10,7 +10,9 @@ import 'package:heroapp/utils/constants.dart';
 
 
 class CarousalPage extends StatefulWidget {
-  const CarousalPage({super.key});
+  final TabController tabController;
+  final Function(Reel) onReelSelected;
+  const CarousalPage({super.key, required this.tabController, required this.onReelSelected});
 
   @override
   _CarousalPageState createState() => _CarousalPageState();
@@ -24,8 +26,6 @@ class _CarousalPageState extends State<CarousalPage> {
   bool isLoading = true;
   bool hasError = false;
   late CarouselReelController _carouselReelController;
-
-  var currentReelIndex = 0;
 
   Timer? _showDialogTimer;
   bool _dialogVisible = false;
@@ -50,7 +50,6 @@ class _CarousalPageState extends State<CarousalPage> {
   @override
   void initState() {
     super.initState();
-    currentReelIndex = 0;
 
     _carouselReelController = CarouselReelController(Dio());
 
@@ -130,13 +129,12 @@ class _CarousalPageState extends State<CarousalPage> {
   }
 
   Widget _buildPage() {
-    currentReelIndex = 0;
     return Scaffold(
       // backgroundColor: Colors.black,
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : hasError
-          ? Center(child: Text('Error fetching reels data', style: Theme.of(context).textTheme.titleLarge))
+          ? Center(child: const Padding(padding: EdgeInsets.only(top: 16.0), child: Center(child: Text('Some Error Occurred'))))
           : TwoDimensionalGridView(
         diagonalDragBehavior: DiagonalDragBehavior.free,
         horizontalDetails: ScrollableDetails.horizontal(controller: _horizontalController),
@@ -145,12 +143,18 @@ class _CarousalPageState extends State<CarousalPage> {
           maxXIndex: AppConstants.maxXIndex,
           maxYIndex: AppConstants.maxYIndex,
           builder: (BuildContext context, ChildVicinity vicinity) {
-            currentReelIndex++;
+            var reel = reels[vicinity.xIndex][vicinity.yIndex];
             return CarousalItem(
               xIndex: vicinity.xIndex,
               yIndex: vicinity.yIndex,
               onLongPressStart: _onLongPressStart,
-              reel: reels[vicinity.xIndex][vicinity.yIndex],
+              onTap: () async {
+                await widget.onReelSelected(reel);
+                Future.delayed(const Duration(milliseconds: 200), () {
+                  widget.tabController.animateTo(1);
+                });
+              },
+              reel: reel,
             );
           },
         ),

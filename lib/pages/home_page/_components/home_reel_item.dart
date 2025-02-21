@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heroapp/controllers/home_reel_controller.dart';
 import 'package:heroapp/models/reel.dart';
 import 'package:heroapp/utils/extensions/string.dart';
@@ -27,9 +29,11 @@ class _HomeReelItemState extends State<HomeReelItem> {
     _homeReelController = HomeReelController(Dio());
     _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.videoPath))
       ..initialize().then((_) {
-        setState(() {
-          _isVideoInitialized = true;
-        });
+        if(mounted){
+          setState(() {
+            _isVideoInitialized = true;
+          });
+        }
         _controller.setLooping(true);
         _controller.play();
         _isVideoPlaying = true;
@@ -45,14 +49,18 @@ class _HomeReelItemState extends State<HomeReelItem> {
   void _onVisibilityChanged(VisibilityInfo info) {
     if (info.visibleFraction <= 0.5 && _isVideoPlaying) {
       _controller.pause();
-      setState(() {
-        _isVideoPlaying = false;
-      });
+      if(mounted){
+        setState(() {
+          _isVideoPlaying = false;
+        });
+      }
     } else if (info.visibleFraction > 0.5 && !_isVideoPlaying) {
       _controller.play();
-      setState(() {
-        _isVideoPlaying = true;
-      });
+      if(mounted){
+        setState(() {
+          _isVideoPlaying = true;
+        });
+      }
     }
   }
 
@@ -62,9 +70,11 @@ class _HomeReelItemState extends State<HomeReelItem> {
       onTap: () {
         _controller.initialize().then((_) {
           _controller.play();
-          setState(() {
-            _isVideoPlaying = true;
-          });
+          if(mounted){
+            setState(() {
+              _isVideoPlaying = true;
+            });
+          }
         });
       },
       child: SingleChildScrollView(
@@ -163,6 +173,26 @@ class _HomeReelItemState extends State<HomeReelItem> {
                             ),textAlign: TextAlign.center,),
                           )
                         ],
+                      ),
+                      SizedBox(width: 10,),
+                      InkWell(
+                        onTap: () {
+                          print("Shared");
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/share.svg',
+                              semanticsLabel: 'Share Logo',
+                              height: 30,
+                              width: 30,
+                              colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                            ),
+                            SizedBox(height: 16,)
+                          ],
+                        ),
                       )
                     ],
                   ),
