@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heroapp/pages/auth_page/login_page.dart';
 import 'package:heroapp/pages/menu_page/watch_history_page.dart';
 import 'package:heroapp/pages/profile_page/add_details_page.dart';
 import 'package:heroapp/pages/settings_page/settings_page.dart';
-import 'package:heroapp/pages/side_page/liked_videos_page.dart';
+import 'package:heroapp/pages/side_page/liked_videos_page/liked_videos_page.dart';
 import 'package:heroapp/utils/components/gradient_divider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,7 +25,7 @@ class MenuDashboardPage extends StatefulWidget {
   _MenuDashboardPageState createState() => _MenuDashboardPageState();
 }
 
-class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTickerProviderStateMixin {
+class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProviderStateMixin {
   bool isCollapsed = true;
   late double screenWidth, screenHeight;
   final Duration duration = const Duration(milliseconds: 300);
@@ -34,6 +35,8 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
   late Animation<Offset> _slideAnimation;
   User? user;
   bool _isLoading = false;
+  late TabController _tabController;
+  Reel? _selectedReel;
 
   @override
   void initState() {
@@ -42,12 +45,20 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
     _scaleAnimation = Tween<double>(begin: 1, end: 1).animate(_controller);
     _menuScaleAnimation = Tween<double>(begin: 0.5, end: 1).animate(_controller);
     _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).animate(_controller);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
     _loadUserData();
+  }
+
+  void _handleReelSelected(Reel? reel) {
+    setState(() {
+      _selectedReel = reel;
+    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -165,22 +176,43 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
                 SizedBox(height: 30),
                 GradientDivider(),
                 SizedBox(height: 30),
-                menuItem(Icons.favorite_border_outlined, "Liked Videos", onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const LikedVideosPage()));
+                menuItem(icon: FontAwesomeIcons.heart, title: "Liked Videos", onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LikedVideosPage(
+                    tabController: _tabController,
+                    onReelSelected: _handleReelSelected,
+                    onSideMenuClick: () {
+                      setState(() {
+                        if (isCollapsed) {
+                          _controller.forward();
+                        } else {
+                          _controller.reverse();
+                        }
+
+                        isCollapsed = !isCollapsed;
+                      });
+                    },
+                  )));
                 }),
                 SizedBox(height: 20),
-                menuItem(FontAwesomeIcons.list, "Categories", onPressed: (){
+                menuItem(icon: FontAwesomeIcons.list, title: "Categories", onPressed: (){
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
                 }),
                 SizedBox(height: 20),
-                menuItem(Icons.history, "Watch History", onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const WatchHistoryPage()));
+                menuItem(icon: FontAwesomeIcons.clockRotateLeft, title: "Watch History", onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => WatchHistoryPage()));
                 }),
                 SizedBox(height: 30),
                 GradientDivider(),
                 SizedBox(height: 30),
-                menuItem(Icons.settings, "Settings", onPressed: () async {
-                  var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
+                menuItem(title: "Settings", svgIcon: SvgPicture.asset(
+                    'assets/icons/settings.svg',
+                    semanticsLabel: 'Settings Logo',
+                    height: 30,
+                    width: 30,
+                    colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  ),
+                  onPressed: () async {
+                  var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
 
                   if (!mounted) return;
 
@@ -227,6 +259,9 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
           child: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(isCollapsed ? 0 : 40)),
             child: NavigationTabController(
+              tabController: _tabController,
+              handleReelSelected: _handleReelSelected,
+              selectedReel: _selectedReel,
               onSideMenuClick: () {
                 setState(() {
                   if (isCollapsed) {
@@ -246,14 +281,16 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
     );
   }
 
-  Widget menuItem(IconData icon, String title, {GestureTapCallback? onPressed}){
+  Widget menuItem({IconData? icon, required String title, GestureTapCallback? onPressed, SvgPicture? svgIcon}){
     return InkWell(
       onTap: (){
         onPressed?.call();
       },
       child: Row(
         children: [
-          Icon(icon, size: 25),
+          icon != null
+            ? Icon(icon, size: 20)
+            : svgIcon ?? Container(),
           SizedBox(width: 20,),
           SizedBox(
             width: 160,

@@ -24,7 +24,7 @@ class _LongPressItemState extends State<LongPressItem> {
   void initState() {
     super.initState();
     _carouselReelController = CarouselReelController(Dio());
-    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.videoPath))
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.reelUrl))
       ..initialize().then((_) {
         setState(() {
           _isVideoInitialized = true;
@@ -108,9 +108,9 @@ class _LongPressItemState extends State<LongPressItem> {
                         isLiked: widget.reel.isLiked,
                         onTap: (isCurrentlyLiked) async {
                           if(isCurrentlyLiked) {
-                            _carouselReelController.unlikeVideo(widget.reel.id ?? "1");
+                            _carouselReelController.unlikeVideo(widget.reel);
                           } else {
-                            _carouselReelController.likeVideo(widget.reel.id ?? "1");
+                            _carouselReelController.likeVideo(widget.reel);
                           }
                           setState(() {
                             widget.reel.isLiked = !isCurrentlyLiked;

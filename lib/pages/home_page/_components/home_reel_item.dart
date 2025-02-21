@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heroapp/controllers/home_reel_controller.dart';
 import 'package:heroapp/models/reel.dart';
 import 'package:heroapp/utils/extensions/string.dart';
 import 'package:like_button/like_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import '../../../repository/reel_repository.dart';
 
 class HomeReelItem extends StatefulWidget {
   const HomeReelItem({super.key, required this.reel});
@@ -22,12 +23,13 @@ class _HomeReelItemState extends State<HomeReelItem> {
   bool _isVideoInitialized = false;
   bool _isVideoPlaying = false;
   late HomeReelController _homeReelController;
+  final reelRepository = ReelRepository();
 
   @override
   void initState() {
     super.initState();
     _homeReelController = HomeReelController(Dio());
-    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.videoPath))
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.reelUrl))
       ..initialize().then((_) {
         if(mounted){
           setState(() {
@@ -66,19 +68,8 @@ class _HomeReelItemState extends State<HomeReelItem> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        _controller.initialize().then((_) {
-          _controller.play();
-          if(mounted){
-            setState(() {
-              _isVideoPlaying = true;
-            });
-          }
-        });
-      },
-      child: SingleChildScrollView(
-        child: Column(
+    return SingleChildScrollView(
+      child: Column(
           children: [
             SizedBox(height: 90),
             Center(
@@ -90,14 +81,26 @@ class _HomeReelItemState extends State<HomeReelItem> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: _isVideoInitialized
-                    ? ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: VisibilityDetector(
-                    key: Key('reel-${widget.reel.id}'),
-                    onVisibilityChanged: _onVisibilityChanged,
-                    child: VideoPlayer(_controller),
-                  ),
-                ) : Center(child: CircularProgressIndicator()),
+                    ? InkWell(
+                        onTap: () {
+                          _controller.initialize().then((_) {
+                            _controller.play();
+                            if(mounted){
+                              setState(() {
+                                _isVideoPlaying = true;
+                              });
+                            }
+                          });
+                        },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: VisibilityDetector(
+                          key: Key('reel-${widget.reel.id}'),
+                          onVisibilityChanged: _onVisibilityChanged,
+                          child: VideoPlayer(_controller),
+                        ),
+                      ),
+                    ) : Center(child: CircularProgressIndicator()),
               ),
             ),
             Padding(
@@ -105,9 +108,16 @@ class _HomeReelItemState extends State<HomeReelItem> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    "${widget.reel.title} ${widget.reel.id}",
-                    style: Theme.of(context).textTheme.titleLarge),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width/1.8,
+                  child: Text(
+                      "${widget.reel.title} ${widget.reel.id}",
+                      style: Theme.of(context).textTheme.titleLarge,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                  ),
                   Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -148,9 +158,9 @@ class _HomeReelItemState extends State<HomeReelItem> {
                             isLiked: widget.reel.isLiked,
                             onTap: (isCurrentlyLiked) async {
                               if(isCurrentlyLiked) {
-                                _homeReelController.unlikeVideo(widget.reel.id ?? "1");
+                                _homeReelController.unlikeVideo(widget.reel);
                               } else {
-                                _homeReelController.likeVideo(widget.reel.id ?? "1");
+                                _homeReelController.likeVideo(widget.reel);
                               }
                               setState(() {
                                 widget.reel.isLiked = !isCurrentlyLiked;
@@ -201,7 +211,6 @@ class _HomeReelItemState extends State<HomeReelItem> {
             ),
           ],
         ),
-      ),
     );
   }
 }

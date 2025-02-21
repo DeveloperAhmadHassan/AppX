@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:heroapp/models/reel.dart';
-import 'package:heroapp/pages/home_page/home_page.dart';
 
 class DiscoverItem extends StatelessWidget {
   final Reel reel;

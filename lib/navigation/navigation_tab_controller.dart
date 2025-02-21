@@ -7,35 +7,28 @@ import './navigation_tab_bar.dart';
 
 class NavigationTabController extends StatefulWidget {
   final Function() onSideMenuClick;
+  final Function(Reel?) handleReelSelected;
   final bool isCollapsed;
+  final TabController tabController;
+  late final Reel? selectedReel;
 
-  NavigationTabController({super.key, required this.onSideMenuClick, this.isCollapsed = true});
+
+  NavigationTabController({super.key, required this.onSideMenuClick, this.isCollapsed = true, required this.tabController, this.selectedReel, required this.handleReelSelected});
 
   @override
   State<NavigationTabController> createState() => _NavigationTabControllerState();
 }
 
 class _NavigationTabControllerState extends State<NavigationTabController> with TickerProviderStateMixin {
-  Reel? _selectedReel;
-  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-
-    _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
-  }
-
-  void _handleReelSelected(Reel reel) {
-    setState(() {
-      _selectedReel = reel;
-    });
   }
 
   @override
@@ -44,27 +37,27 @@ class _NavigationTabControllerState extends State<NavigationTabController> with 
       body: Stack(
         children: [
           TabBarView(
-            controller: _tabController,
+            controller:  widget.tabController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
               CarousalPage(
-                tabController: _tabController,
-                onReelSelected: _handleReelSelected,
+                tabController: widget.tabController,
+                onReelSelected: widget.handleReelSelected,
               ),
-              HomePage(reel: _selectedReel),
+              HomePage(reel: widget.selectedReel),
               DiscoverPage(
-                tabController: _tabController,
-                onReelSelected: _handleReelSelected,
+                tabController: widget.tabController,
+                onReelSelected: widget.handleReelSelected,
               ),
             ],
           ),
           NavigationTabBar(
             onSideMenuClick: widget.onSideMenuClick,
             isCollapsed: widget.isCollapsed,
-            tabController: _tabController,
-            onTabTapped: (){
+            tabController: widget.tabController,
+            onTabTapped: () {
               setState(() {
-                _selectedReel = null;
+                widget.handleReelSelected(null);
               });
             }),
         ],

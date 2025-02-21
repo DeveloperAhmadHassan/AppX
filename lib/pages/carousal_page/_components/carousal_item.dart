@@ -153,9 +153,9 @@ class _CarousalItemState extends State<CarousalItem> {
                             isLiked: widget.reel.isLiked,
                             onTap: (isCurrentlyLiked) async {
                               if(isCurrentlyLiked) {
-                                _carouselReelController.unlikeVideo(widget.reel.id ?? "1");
+                                _carouselReelController.unlikeVideo(widget.reel);
                               } else {
-                                _carouselReelController.likeVideo(widget.reel.id ?? "1");
+                                _carouselReelController.likeVideo(widget.reel);
                               }
                               setState(() {
                                 widget.reel.isLiked = !isCurrentlyLiked;

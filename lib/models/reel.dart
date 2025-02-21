@@ -1,7 +1,9 @@
 import 'package:video_player/video_player.dart';
 
+import '../database/database_helper.dart';
+
 class Reel {
-  final String videoPath;
+  final String reelUrl;
   late VideoPlayerController controller;
   bool isVideoInitialized = false;
   final String? title;
@@ -10,9 +12,25 @@ class Reel {
   final String? likes;
   final String? thumbnailUrl;
   bool isLiked = false;
+  DateTime? dateWatched;
 
-  Reel(this.videoPath, {this.title, this.views, this.likes, this.id, this.thumbnailUrl, this.isLiked = false}) {
-    controller = VideoPlayerController.networkUrl(Uri.parse(videoPath));
+  Reel(
+      this.reelUrl, {
+        this.title,
+        this.views,
+        this.likes,
+        this.id,
+        this.thumbnailUrl,
+        this.isLiked = false,
+        this.dateWatched,
+      }) {
+    controller = VideoPlayerController.networkUrl(Uri.parse(reelUrl));
+  }
+
+  Future<void> initializeIsLiked() async {
+    if (id != null) {
+      isLiked = await DatabaseHelper.instance.isReelLiked(int.parse(id!));
+    }
   }
 
   factory Reel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +41,34 @@ class Reel {
       likes: json['likes'].toString(),
       id: json['id'].toString(),
       thumbnailUrl: json['reel_thumbnail_url'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      'reel_url': reelUrl,
+      'title': title,
+      'views': views,
+      'likes': likes,
+      'db_id': id,
+      'thumbnail_url': thumbnailUrl,
+    };
+
+    if (isLiked != null) map['is_liked'] = isLiked ? 1 : 0;
+    if (dateWatched != null) map['date_watched'] = dateWatched?.toIso8601String();
+    return map;
+  }
+
+  factory Reel.fromMap(Map<String, dynamic> map) {
+    return Reel(
+      map['reel_url'],
+      title: map['title'].toString(),
+      views: map['views'].toString(),
+      likes: map['likes'].toString(),
+      id: map['db_id'].toString(),
+      thumbnailUrl: map['thumbnail_url'],
+      isLiked: map['is_liked'] == 1,
+      dateWatched: map['date_watched'] != null ? DateTime.parse(map['date_watched']) : null,
     );
   }
 
@@ -37,5 +83,4 @@ class Reel {
   void dispose() {
     controller.dispose();
   }
-
 }

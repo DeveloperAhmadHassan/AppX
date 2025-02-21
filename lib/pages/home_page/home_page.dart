@@ -6,7 +6,7 @@ import '../../controllers/home_reel_controller.dart';
 import '../../models/reel.dart';
 
 class HomePage extends StatefulWidget {
-  Reel? reel;
+  final Reel? reel;
   HomePage({super.key, this.reel});
 
   @override
@@ -42,9 +42,11 @@ class _HomePageState extends State<HomePage> {
 
     if (widget.reel != oldWidget.reel) {
       setState(() {
+        reels.clear();
         if(widget.reel != null) {
           reels.insert(0, widget.reel!);
         }
+        fetchReels(currentPage);
       });
     }
   }
@@ -69,8 +71,8 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       setState(() {
         isLoading = false;
+        _error = true;
       });
-      _error = true;
       print('Error fetching reels: $e');
     }
   }
@@ -78,10 +80,10 @@ class _HomePageState extends State<HomePage> {
   void _startViewTimer(String reelId) {
     _viewTimer?.cancel();
 
-    _viewTimer = Timer(Duration(seconds: 3), () {
+    _viewTimer = Timer(Duration(seconds: 3), () async {
       if (_currentReelId == reelId) {
-        print('Views incremented');
         viewedReels.add(reelId);
+        await apiController.incrementViews(reelId);
       }
     });
   }
@@ -103,7 +105,7 @@ class _HomePageState extends State<HomePage> {
           if (index < reels.length) {
             final reel = reels[index];
             _currentReelId = reel.id;
-            _startViewTimer(reel.id ?? "47");
+            _startViewTimer(reel.id ?? "49");
           }
         },
         itemBuilder: (context, index) {

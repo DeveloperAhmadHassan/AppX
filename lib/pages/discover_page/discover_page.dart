@@ -1,5 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import '../../controllers/discover_reel_controller.dart';
 import '../../models/reel.dart';
 import '_components/discover_item.dart';
@@ -7,7 +7,12 @@ import '_components/discover_item.dart';
 class DiscoverPage extends StatefulWidget {
   final TabController tabController;
   final Function(Reel) onReelSelected;
-  const DiscoverPage({super.key, required this.tabController, required this.onReelSelected});
+
+  const DiscoverPage({
+    super.key,
+    required this.tabController,
+    required this.onReelSelected,
+  });
 
   @override
   State<DiscoverPage> createState() => _DiscoverPageState();
@@ -26,7 +31,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
   @override
   void initState() {
     super.initState();
-    _fetchReels();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchReels();
+    });
     _scrollController.addListener(_scrollListener);
   }
 
@@ -45,6 +52,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }
 
   Future<void> _fetchReels() async {
+    // Save the current scroll position before fetching new data
+    double currentScrollPosition = _scrollController.position.pixels;
+
     setState(() {
       _isLoading = true;
     });
@@ -61,6 +71,11 @@ class _DiscoverPageState extends State<DiscoverPage> {
         _pagination = result['pagination'];
         _hasMoreData = _pagination['nextPage'] <= _pagination['totalPages'];
       });
+
+      // Restore the scroll position after the data is loaded
+      if (currentScrollPosition > 0) {
+        _scrollController.jumpTo(currentScrollPosition);
+      }
     } catch (e) {
       setState(() {
         _isLoading = false;
@@ -92,9 +107,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 0.0),
-              child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : itemGrid(),
+              child: itemGrid(),
             ),
             if (_error)
               Center(
@@ -103,21 +116,22 @@ class _DiscoverPageState extends State<DiscoverPage> {
                   child: Center(child: Text('Some Error Occurred')),
                 ),
               ),
-            if (_isLoading && _reels.isNotEmpty)
-              const Padding(
-                padding: EdgeInsets.only(top: 16.0),
-                child: Center(child: CircularProgressIndicator()),
-              ),
             if (!_hasMoreData && _reels.isNotEmpty)
               const Padding(
                 padding: EdgeInsets.only(top: 16.0),
                 child: Center(child: Text('No more reels to load')),
+              ),
+            if (_isLoading && _reels.isNotEmpty)
+              const Padding(
+                padding: EdgeInsets.only(top: 16.0),
+                child: Center(child: CircularProgressIndicator()),
               ),
           ],
         ),
       ),
     );
   }
+
 
   Widget itemGrid() {
     return SizedBox(

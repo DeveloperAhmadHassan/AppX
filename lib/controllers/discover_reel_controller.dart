@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../database/database_helper.dart';
 import '../models/reel.dart';
 
 class DiscoverReelController {
@@ -16,7 +17,11 @@ class DiscoverReelController {
 
       if (response.statusCode == 200) {
         List<dynamic> data = response.data['data'];
-        List<Reel> reels = data.map((e) => Reel.fromJson(e)).toList();
+        List<Reel> reels = await Future.wait(data.map((e) async {
+          Reel reel = Reel.fromJson(e);
+          await reel.initializeIsLiked();
+          return reel;
+        }).toList());
 
         Map<String, dynamic> pagination = response.data['pagination'];
 
@@ -29,28 +34,34 @@ class DiscoverReelController {
     }
   }
 
-  Future<bool> likeVideo(String id) async {
+  Future<bool> likeVideo(Reel reel) async {
     try {
-      final response = await _dio.put('$_baseUrl/likes/$id');
+      final response = await _dio.put('$_baseUrl/likes/${reel.id}');
 
       if (response.statusCode == 200) {
+        reel.isLiked = true;
+        await DatabaseHelper.instance.insertLikedVideo(reel);
+        print("liked");
         return true;
       } else {
-        throw Exception('Failed to load reel data');
+        throw Exception('Failed to like reel');
       }
     } catch (e) {
       throw Exception('Error: $e');
     }
   }
 
-  Future<bool> unlikeVideo(String id) async {
+  Future<bool> unlikeVideo(Reel reel) async {
     try {
-      final response = await _dio.put('$_baseUrl/likes/$id?increment=-1');
+      final response = await _dio.put('$_baseUrl/likes/${reel.id}?increment=-1');
 
       if (response.statusCode == 200) {
+        reel.isLiked = false;
+        await DatabaseHelper.instance.deleteLikedVideo(int.parse(reel.id ?? "1"));
+        print("unliked");
         return true;
       } else {
-        throw Exception('Failed to load reel data');
+        throw Exception('Failed to unlike reel');
       }
     } catch (e) {
       throw Exception('Error: $e');

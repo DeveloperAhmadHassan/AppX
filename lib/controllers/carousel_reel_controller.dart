@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:heroapp/models/reel.dart';
 
+import '../database/database_helper.dart';
+
 class CarouselReelController {
   final Dio _dio;
   final String _baseUrl = 'https://appx-api.vercel.app/api/reels';
@@ -14,16 +16,11 @@ class CarouselReelController {
 
       if (response.statusCode == 200) {
         List<dynamic> jsonData = response.data;
-        reels = jsonData.map((data) {
-          return Reel(
-            data['reel_url'],
-            title: data['reel_title'],
-            views: data['views'].toString(),
-            likes: data['likes'].toString(),
-            id: data['id'].toString(),
-            thumbnailUrl: data['reel_thumbnail_url'],
-          );
-        }).toList();
+        List<Reel> reels = await Future.wait(jsonData.map((e) async {
+          Reel reel = Reel.fromJson(e);
+          await reel.initializeIsLiked();
+          return reel;
+        }).toList());
 
         return reels;
       } else {
@@ -34,28 +31,34 @@ class CarouselReelController {
     }
   }
 
-  Future<bool> likeVideo(String id) async {
+  Future<bool> likeVideo(Reel reel) async {
     try {
-      final response = await _dio.put('$_baseUrl/likes/$id');
+      final response = await _dio.put('$_baseUrl/likes/${reel.id}');
 
       if (response.statusCode == 200) {
+        reel.isLiked = true;
+        await DatabaseHelper.instance.insertLikedVideo(reel);
+        print("liked");
         return true;
       } else {
-        throw Exception('Failed to load reel data');
+        throw Exception('Failed to like reel');
       }
     } catch (e) {
       throw Exception('Error: $e');
     }
   }
 
-  Future<bool> unlikeVideo(String id) async {
+  Future<bool> unlikeVideo(Reel reel) async {
     try {
-      final response = await _dio.put('$_baseUrl/likes/$id?increment=-1');
+      final response = await _dio.put('$_baseUrl/likes/${reel.id}?increment=-1');
 
       if (response.statusCode == 200) {
+        reel.isLiked = false;
+        await DatabaseHelper.instance.deleteLikedVideo(int.parse(reel.id ?? "1"));
+        print("unliked");
         return true;
       } else {
-        throw Exception('Failed to load reel data');
+        throw Exception('Failed to unlike reel');
       }
     } catch (e) {
       throw Exception('Error: $e');

@@ -56,8 +56,8 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                           controller: widget.tabController,
                           tabAlignment: TabAlignment.center,
                           padding: EdgeInsets.only(left: 15),
-                          onTap: (index){
-                            widget.onTabTapped();
+                          onTap: (index) async {
+                            await widget.onTabTapped();
                             print("User manually changed to: $index");
                           },
                           // labelPadding: EdgeInsets.only(right: 15),

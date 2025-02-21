@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroapp/navigation/side_menu_controller.dart';
-import 'package:heroapp/pages/dummy_page/video_segment_page.dart';
+import 'package:heroapp/repository/reel_repository.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final reelRepository = ReelRepository();
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,

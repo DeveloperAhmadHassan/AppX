@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:heroapp/utils/components/like_btn.dart';
 import 'package:heroapp/utils/extensions/string.dart';
 import 'package:like_button/like_button.dart';
 import 'package:video_player/video_player.dart';
@@ -24,7 +23,7 @@ class _DiscoverClickedItemState extends State<DiscoverClickedItem> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.videoPath))
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.reelUrl))
       ..initialize().then((_) {
         setState(() {
           _isVideoInitialized = true;
@@ -104,9 +103,9 @@ class _DiscoverClickedItemState extends State<DiscoverClickedItem> {
                           isLiked: widget.reel.isLiked,
                           onTap: (isCurrentlyLiked) async {
                             if(isCurrentlyLiked) {
-                              _discoverReelController.unlikeVideo(widget.reel.id ?? "1");
+                              _discoverReelController.unlikeVideo(widget.reel);
                             } else {
-                              _discoverReelController.likeVideo(widget.reel.id ?? "1");
+                              _discoverReelController.likeVideo(widget.reel);
                             }
                             setState(() {
                               widget.reel.isLiked = !isCurrentlyLiked;
