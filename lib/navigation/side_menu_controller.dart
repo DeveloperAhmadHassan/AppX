@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heroapp/pages/auth_page/login_page.dart';
-import 'package:heroapp/pages/menu_page/watch_history_page.dart';
+import 'package:heroapp/pages/side_page/watch_history_page/watch_history_page.dart';
 import 'package:heroapp/pages/profile_page/add_details_page.dart';
 import 'package:heroapp/pages/settings_page/settings_page.dart';
 import 'package:heroapp/pages/side_page/liked_videos_page/liked_videos_page.dart';

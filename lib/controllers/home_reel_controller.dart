@@ -68,12 +68,14 @@ class HomeReelController {
     }
   }
 
-  Future<bool> incrementViews(String reelId) async {
+  Future<bool> incrementViews(Reel reel) async {
     try {
-      final response = await _dio.put('$_baseUrl/views/$reelId');
+      final response = await _dio.put('$_baseUrl/views/${reel.id}');
 
       if (response.statusCode == 200) {
         print('Views incremented');
+        // reel.dateWatched = true;
+        await DatabaseHelper.instance.insertWatchHistory(reel);
         return true;
       } else {
         throw Exception('Failed to increase views of reel');

@@ -77,13 +77,14 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _startViewTimer(String reelId) {
+  void _startViewTimer(Reel reel) {
     _viewTimer?.cancel();
 
     _viewTimer = Timer(Duration(seconds: 3), () async {
-      if (_currentReelId == reelId) {
-        viewedReels.add(reelId);
-        await apiController.incrementViews(reelId);
+      if (_currentReelId == reel.id) {
+        viewedReels.add(reel.id ?? "49");
+        reel.dateWatched ??= DateTime.now();
+        await apiController.incrementViews(reel);
       }
     });
   }
@@ -105,7 +106,7 @@ class _HomePageState extends State<HomePage> {
           if (index < reels.length) {
             final reel = reels[index];
             _currentReelId = reel.id;
-            _startViewTimer(reel.id ?? "49");
+            _startViewTimer(reel);
           }
         },
         itemBuilder: (context, index) {
