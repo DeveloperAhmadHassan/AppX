@@ -41,38 +41,46 @@ class _HomePageState extends State<HomePage> {
     super.didUpdateWidget(oldWidget);
 
     if (widget.reel != oldWidget.reel) {
-      setState(() {
-        reels.clear();
-        if(widget.reel != null) {
-          reels.insert(0, widget.reel!);
-        }
-        fetchReels(currentPage);
-      });
+      if(mounted) {
+        setState(() {
+          reels.clear();
+          if(widget.reel != null) {
+            reels.insert(0, widget.reel!);
+          }
+          fetchReels(currentPage);
+        });
+      }
     }
   }
 
   Future<void> fetchReels(int page) async {
     if (isLoading) return;
-    setState(() {
-      isLoading = true;
-    });
+    if(mounted) {
+      setState(() {
+        isLoading = true;
+      });
+    }
 
     try {
       var result = await apiController.fetchReels(page);
       List<Reel> fetchedReels = result['reels'];
       Map<String, dynamic> pagination = result['pagination'];
 
-      setState(() {
-        reels.addAll(fetchedReels);
-        currentPage = pagination['page'];
-        nextPage = pagination['nextPage'];
-        isLoading = false;
-      });
+      if(mounted) {
+        setState(() {
+          reels.addAll(fetchedReels);
+          currentPage = pagination['page'];
+          nextPage = pagination['nextPage'];
+          isLoading = false;
+        });
+      }
     } catch (e) {
-      setState(() {
-        isLoading = false;
-        _error = true;
-      });
+      if(mounted) {
+        setState(() {
+          isLoading = false;
+          _error = true;
+        });
+      }
       print('Error fetching reels: $e');
     }
   }

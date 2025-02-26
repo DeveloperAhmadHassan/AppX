@@ -49,7 +49,7 @@ class _SettingsItemState extends State<SettingsItem> {
             widget.icon != null
                 ? Icon(
               widget.icon,
-              color: Colors.white,
+              // color: Colors.white,
             )
                 : Container(),
             SizedBox(
@@ -57,7 +57,7 @@ class _SettingsItemState extends State<SettingsItem> {
             ),
             Text(
               widget.title,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
             ),
             Spacer(),
             widget.isSwitch ? FlutterSwitch(
@@ -75,14 +75,14 @@ class _SettingsItemState extends State<SettingsItem> {
               },
               activeColor: Colors.transparent,
               inactiveColor: Colors.transparent,
-              activeSwitchBorder: Border.all(color: Colors.white, width: 2),
-              toggleColor: HexColor.fromHex(AppConstants.primaryColor),
+              activeSwitchBorder: Border.all(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, width: 2),
+              toggleColor: HexColor.fromHex("#ADF7E3"),
               activeToggleColor: Colors.blue,
-              inactiveToggleColor: HexColor.fromHex(AppConstants.primaryColor),
-              inactiveSwitchBorder: Border.all(color: Colors.white, width: 2),
+              inactiveToggleColor: HexColor.fromHex("#ADF7E3"),
+              inactiveSwitchBorder: Border.all(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, width: 2),
             ) : Icon(
               Icons.navigate_next,
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
               size: 28,
             ),
           ],

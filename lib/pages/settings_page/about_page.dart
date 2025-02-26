@@ -30,26 +30,24 @@ class _AboutPageState extends State<AboutPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("About", style: TextStyle(
-            color: Colors.white,
+
             fontWeight: FontWeight.bold,
             fontSize: 18
         )),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
+
       ),
-      backgroundColor: Colors.black,
       body: markdownContent.isNotEmpty
           ? SingleChildScrollView(
         padding: EdgeInsets.only(left: 25.0, right: 25.0, bottom: 10.0),
         child: MarkdownBody(data: markdownContent, styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-          p: TextStyle(color: Colors.white, fontSize: 14),
-          h1: TextStyle(color: Colors.white, fontSize: 16),
-          h2: TextStyle(color: Colors.white),
-          h3: TextStyle(color: Colors.white),
+          p: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, fontSize: 14),
+          h1: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, fontSize: 16),
+          h2: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black),
+          h3: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black),
           h1Padding: EdgeInsets.zero,
           pPadding: EdgeInsets.zero,
           h2Padding: EdgeInsets.zero,
-          listBullet: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          listBullet: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
           textAlign: WrapAlignment.spaceAround,
         )),
       ) : Center(child: CircularProgressIndicator()),

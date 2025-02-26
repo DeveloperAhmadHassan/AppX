@@ -6,13 +6,28 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isDarkMode = true;
+
+  void onSwitchChanged(String title, bool value) {
+    setState(() {
+      isDarkMode = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final reelRepository = ReelRepository();
+
     return MaterialApp(
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.white,
@@ -49,11 +64,20 @@ class MyApp extends StatelessWidget {
           titleMedium: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontSize: 16
+            fontSize: 13
           ),
           labelSmall: TextStyle(
             color: Colors.blueGrey,
             fontSize: 15
+          ),
+          bodyMedium: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            // letterSpacing: 2.0,
+          ),
+          labelMedium: TextStyle(
+              color: Colors.white
           )
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
@@ -61,6 +85,41 @@ class MyApp extends StatelessWidget {
             iconColor: Colors.black,
             foregroundColor: Colors.black
           ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          prefixIconColor: Colors.black,
+          suffixIconColor: Colors.black.withValues(alpha: 0.5),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+          ),
+          hintStyle: TextStyle(
+            color: Colors.black.withValues(alpha: 0.6),
+          ),
+          labelStyle: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        dropdownMenuTheme: DropdownMenuThemeData(
+          inputDecorationTheme: InputDecorationTheme(
+            border: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.black),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.black),
+            ),
+            hintStyle: TextStyle(
+              color: Colors.black.withValues(alpha: 0.6),
+            ),
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            prefixIconColor: Colors.black,
+            suffixIconColor: Colors.black.withValues(alpha: 0.5),
+
+          )
         ),
         fontFamily: 'Poppins',
       ),
@@ -100,11 +159,20 @@ class MyApp extends StatelessWidget {
           titleMedium: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 16
+            fontSize: 13
           ),
           labelSmall: TextStyle(
             color: Colors.blueGrey,
             fontSize: 15
+          ),
+          bodyMedium: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            // letterSpacing: 2.0,
+          ),
+          labelMedium: TextStyle(
+            color: Colors.white
           )
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
@@ -114,9 +182,46 @@ class MyApp extends StatelessWidget {
             foregroundColor: Colors.white
           ),
         ),
+        inputDecorationTheme: InputDecorationTheme(
+            prefixIconColor: Colors.white,
+            suffixIconColor: Colors.white.withValues(alpha: 0.5),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          hintStyle: TextStyle(
+            color: Colors.white.withValues(alpha: 0.6),
+          ),
+          labelStyle: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        dropdownMenuTheme: DropdownMenuThemeData(
+            inputDecorationTheme: InputDecorationTheme(
+              border: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+              hintStyle: TextStyle(
+                color: Colors.white.withValues(alpha: 0.6),
+              ),
+              labelStyle: TextStyle(
+                color: Colors.white,
+              ),
+              prefixIconColor: Colors.white,
+              suffixIconColor: Colors.white.withValues(alpha: 0.5),
+            )
+        ),
         fontFamily: 'Poppins',
       ),
-      home: MenuDashboardPage(),
+      home: MenuDashboardPage(
+        isDarkMode: isDarkMode,
+        onSwitchChanged: onSwitchChanged,
+      ),
       debugShowCheckedModeBanner: false,
     );
   }

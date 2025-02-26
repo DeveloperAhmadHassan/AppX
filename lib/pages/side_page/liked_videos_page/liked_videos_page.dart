@@ -32,13 +32,9 @@ class _LikedVideosPageState extends State<LikedVideosPage> {
           "Liked Videos",
           style: TextStyle(
               fontSize: 18,
-              color: Colors.white,
               fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
       ),
-      backgroundColor: Colors.black,
       body: FutureBuilder<List<Reel>>(
         future: likedVideos,
         builder: (context, snapshot) {

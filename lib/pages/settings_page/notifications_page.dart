@@ -85,15 +85,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
         title: Text(
           "Notifications",
           style: TextStyle(
-            color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 18,
           ),
         ),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
       ),
-      backgroundColor: Colors.black,
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(

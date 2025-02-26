@@ -10,14 +10,10 @@ class HelpAndSupportPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Help and Support", style: TextStyle(
-            color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 18
         )),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
       ),
-      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           children: [

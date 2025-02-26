@@ -12,14 +12,10 @@ class LogoutPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Logout", style: TextStyle(
-        color: Colors.white,
         fontWeight: FontWeight.bold,
         fontSize: 18
       )),
-      backgroundColor: Colors.black,
-      foregroundColor: Colors.white,
       ),
-      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -121,7 +117,6 @@ class LogoutPage extends StatelessWidget {
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HelpAndSupportPage())),
               child: Center(
                 child: Text("Need Help? Visit our help center", style: TextStyle(
-                  color: Colors.white,
                   fontWeight: FontWeight.bold
                 )),
               ),

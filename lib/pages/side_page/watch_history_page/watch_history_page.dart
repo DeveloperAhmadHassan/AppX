@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroapp/pages/side_page/watch_history_page/watch_history_item_page.dart';
 import 'package:heroapp/utils/extensions/string.dart';
-// import 'package:path/path.dart';
 
 import '../../../database/database_helper.dart';
 import '../../../models/reel.dart';
@@ -15,22 +14,18 @@ class WatchHistoryPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Watch History", style: TextStyle(
             fontSize: 18,
-            color: Colors.white,
             fontWeight: FontWeight.bold
         )),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
       ),
-      backgroundColor: Colors.black,
       body: FutureBuilder<List<Reel>>(
-        future: DatabaseHelper.instance.getWatchHistory(), // Fetch watch history from the database
+        future: DatabaseHelper.instance.getWatchHistory(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator()); // Loading indicator while data is being fetched
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}', style: TextStyle(color: Colors.white)));
+            return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No watch history available', style: TextStyle(color: Colors.white)));
+            return Center(child: Text('No watch history available'));
           } else {
             List<Reel> reels = snapshot.data!;
             return ListView.builder(

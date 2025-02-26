@@ -8,7 +8,6 @@ import '../../../controllers/carousel_reel_controller.dart';
 import '../../../models/reel.dart';
 import '../../../utils/constants.dart';
 
-
 class CarousalItem extends StatefulWidget {
   final int xIndex;
   final int yIndex;
@@ -36,11 +35,26 @@ class _CarousalItemState extends State<CarousalItem> {
   void initState() {
     super.initState();
     _carouselReelController = CarouselReelController(Dio());
+
+    if (widget.xIndex == 1 && widget.yIndex == 1 && !widget.reel.isVideoInitialized) {
+      widget.reel.controller.initialize().then((_) {
+        if (mounted) {
+          setState(() {
+            widget.reel.isVideoInitialized = true;
+            widget.reel.controller.play();
+            print("Video is playing");
+          });
+        }
+      }).catchError((error) {
+        print("Error initializing video: $error");
+      });
+    }
   }
 
   @override
   void dispose() {
     _carouselReelController.dispose();
+    print("dispose called ${widget.xIndex}${widget.yIndex}");
     super.dispose();
   }
 
@@ -55,27 +69,59 @@ class _CarousalItemState extends State<CarousalItem> {
           print('Widget ${visibilityInfo.key} is $visiblePercentage% visible');
 
           if (visiblePercentage >= 50 && !widget.reel.isVideoInitialized) {
-            widget.reel.initialize();
+            widget.reel.initialize().then((_) {
+              if (mounted) {
+                setState(() {
+                  widget.reel.isVideoInitialized = true;
+                });
+              }
+            }).catchError((error) {
+              print("Error initializing video: $error");
+            });
           }
 
-          if (visiblePercentage >= 90 && widget.reel.isVideoInitialized) {
+          if (visiblePercentage >= 90) {
+            if(widget.reel.isVideoInitialized){
+              widget.reel.initialize().then((_) {
+                if (mounted) {
+                  setState(() {
+                    widget.reel.isVideoInitialized = true;
+                  });
+                }
+              }).catchError((error) {
+                print("Error initializing video: $error");
+              });
+              print("Video Initilaized");
+            } else {
+              widget.reel.initialize().then((_) {
+                if (mounted) {
+                  setState(() {
+                    widget.reel.isVideoInitialized = true;
+                  });
+                }
+              }).catchError((error) {
+                print("Error initializing video: $error");
+              });
+              print("Video Not Initialized");
+            }
             widget.reel.controller.play();
+            print("Video is playing");
           }
 
           if (visiblePercentage <= 50 && widget.reel.isVideoInitialized) {
             widget.reel.controller.pause();
+            print("Pausing Video");
           }
         },
         child: GestureDetector(
-          // onLongPressStart: (details) => widget.onLongPressStart(details, widget.reel),
           onTap: widget.onTap,
-          // onTap: () => widget.reel.initialize().then((_) => widget.reel.controller.play()),
-          onDoubleTap: () => widget.reel.initialize().then((_) => widget.reel.controller.play()),
+          onDoubleTap: () => widget.reel.initialize().then((_) {
+            widget.reel.controller.play();
+          }),
           child: Container(
             height: AppConstants.HEIGHT,
             width: AppConstants.WIDTH,
             decoration: BoxDecoration(
-              color: Colors.blueGrey,
               borderRadius: BorderRadius.circular(30),
             ),
             child: Stack(
@@ -83,8 +129,9 @@ class _CarousalItemState extends State<CarousalItem> {
                 widget.reel.isVideoInitialized
                     ? ClipRRect(
                   borderRadius: BorderRadius.circular(30),
-                  child: VideoPlayer(widget.reel.controller),
-                ) : ClipRRect(
+                  child: VideoPlayer(widget.reel.controller, key: Key("reel-${widget.reel.id}-coordinates-${widget.xIndex}${widget.yIndex}-key"),),
+                )
+                    : ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: SizedBox(
                     height: AppConstants.HEIGHT,
@@ -95,24 +142,23 @@ class _CarousalItemState extends State<CarousalItem> {
                   ),
                 ),
                 Positioned(
-                    bottom: 20,
-                    left: 15,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                          width: 180,
-                          child: Text(
-                            "${widget.reel.title} ${widget.reel.id}",
-                            style: Theme.of(context).textTheme.titleMedium,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            softWrap: false,
-                          ),
+                  bottom: 20,
+                  left: 15,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        width: 180,
+                        child: Text(
+                          "${widget.reel.title} ${widget.reel.id}",
+                          style: Theme.of(context).textTheme.titleMedium,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: false,
                         ),
-                        // SizedBox(width: 20,),
-                      ],
-                    )
+                      ),
+                    ],
+                  ),
                 ),
                 Positioned(
                   bottom: 20,
@@ -129,18 +175,17 @@ class _CarousalItemState extends State<CarousalItem> {
                             height: 20,
                             width: 40,
                             child: IconButton(
-                              icon: Icon(Icons.remove_red_eye_outlined, size: 25),
+                              icon: Icon(Icons.remove_red_eye_outlined, size: 20),
                               onPressed: () => {},
                             ),
                           ),
-                          SizedBox(height: 10,),
                           Padding(
-                            padding: const EdgeInsets.only(top: 3.0),
-                            child: Text(widget.reel.views!.formattedNumber, style: TextStyle(
-                              // color: Colors.white,
-                                fontWeight: FontWeight.bold
-                            ),),
-                          )
+                            padding: const EdgeInsets.only(top: 9.0),
+                            child: Text(
+                              widget.reel.views!.formattedNumber,
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(width: 5),
@@ -152,7 +197,7 @@ class _CarousalItemState extends State<CarousalItem> {
                             size: 25,
                             isLiked: widget.reel.isLiked,
                             onTap: (isCurrentlyLiked) async {
-                              if(isCurrentlyLiked) {
+                              if (isCurrentlyLiked) {
                                 _carouselReelController.unlikeVideo(widget.reel);
                               } else {
                                 _carouselReelController.likeVideo(widget.reel);
@@ -166,22 +211,23 @@ class _CarousalItemState extends State<CarousalItem> {
                               return Icon(
                                 isLiked ? Icons.favorite : Icons.favorite_border_outlined,
                                 color: isLiked ? Colors.red : Theme.of(context).iconTheme.color,
-                                size: 25,
+                                size: 20,
                               );
                             },
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 0.0),
-                            child: Text(widget.reel.likes!.formattedNumber, style: TextStyle(
-                              // color: Colors.white,
-                                fontWeight: FontWeight.bold
-                            ),textAlign: TextAlign.center,),
-                          )
+                            child: Text(
+                              widget.reel.likes!.formattedNumber,
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

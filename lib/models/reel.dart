@@ -11,8 +11,8 @@ class Reel {
   final String? views;
   final String? likes;
   final String? thumbnailUrl;
-  bool? isLiked = false;  // Only for liked_videos table.
-  DateTime? dateWatched;   // Only for watch_history table.
+  bool? isLiked = false;
+  DateTime? dateWatched;
 
   Reel(
       this.reelUrl, {
@@ -21,8 +21,8 @@ class Reel {
         this.likes,
         this.id,
         this.thumbnailUrl,
-        this.isLiked = false, // For liked_videos
-        this.dateWatched,     // For watch_history
+        this.isLiked = false,
+        this.dateWatched,
       }) {
     controller = VideoPlayerController.networkUrl(Uri.parse(reelUrl));
   }
@@ -44,7 +44,6 @@ class Reel {
     );
   }
 
-  // `toMap()` for liked_videos table and watch_history table
   Map<String, dynamic> toMap({bool forLikedVideos = false}) {
     var map = <String, dynamic>{
       'reel_url': reelUrl,
@@ -56,11 +55,11 @@ class Reel {
     };
 
     if (forLikedVideos && isLiked != null) {
-      map['is_liked'] = isLiked! ? 1 : 0; // Only for liked_videos table
+      map['is_liked'] = isLiked! ? 1 : 0;
     }
 
     if (!forLikedVideos && dateWatched != null) {
-      map['date_watched'] = dateWatched?.toIso8601String(); // Only for watch_history table
+      map['date_watched'] = dateWatched?.toIso8601String();
     }
 
     return map;
@@ -74,12 +73,14 @@ class Reel {
       likes: map['likes'].toString(),
       id: map['db_id'].toString(),
       thumbnailUrl: map['thumbnail_url'],
-      isLiked: map['is_liked'] == 1, // Only for liked_videos
-      dateWatched: map['date_watched'] != null ? DateTime.parse(map['date_watched']) : null, // Only for watch_history
+      isLiked: map['is_liked'] == 1,
+      dateWatched: map['date_watched'] != null ? DateTime.parse(map['date_watched']) : null,
     );
   }
 
   Future<void> initialize() async {
+    if (isVideoInitialized) return;
+
     await controller.initialize();
     controller.setLooping(true);
     isVideoInitialized = true;
@@ -89,5 +90,6 @@ class Reel {
 
   void dispose() {
     controller.dispose();
+    isVideoInitialized = false;
   }
 }

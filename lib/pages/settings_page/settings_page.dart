@@ -19,7 +19,9 @@ import '../../models/settings.dart';
 import '../../models/user.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  final bool isDarkMode;
+  final Function(String, bool) onSwitchChanged;
+  const SettingsPage({super.key, required this.isDarkMode, required this.onSwitchChanged});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -120,13 +122,13 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text("Settings", style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold
+          fontSize: 18,
+          fontWeight: FontWeight.bold
         ),),
-        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex("#ADF7E3"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back,),
           onPressed: () {
@@ -139,7 +141,7 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex("#ADF7E3"),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -198,7 +200,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                     child: Center(
                       child: Container(
-                        width: 140,
+                        width: 155,
                         padding: EdgeInsets.only(left: 13.0, right: 0.0, top: 5.0, bottom: 5.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
@@ -239,7 +241,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: "Dark Mode",
                   isSwitch: true,
                   isSwitched: settings?.isDarkMode ?? false,
-                  onToggle: (value) => onSwitchChanged("Dark Mode", value),
+                  onToggle: (value) {
+                    onSwitchChanged("Dark Mode", value);
+                    widget.onSwitchChanged("Dark Mode", value);
+                  }
                 ),
                 SizedBox(height: 10,),
                 SettingsItem(icon: FontAwesomeIcons.bell, title: "Notifications", onTap: (){

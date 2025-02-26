@@ -43,21 +43,21 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: HexColor.fromHex(AppConstants.primaryColor),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
         title: Text("User Profile", style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold
         ),),
-        foregroundColor: Colors.black,
+        // foregroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              color: HexColor.fromHex(AppConstants.primaryColor),
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
               padding: EdgeInsets.only(left: 25.0, bottom: 45.0),
               child: Row(
                 children: [
@@ -87,14 +87,14 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                       Text(user?.name ?? "Username", style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                        color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.black
+                        color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
                       ),),
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 210,
                         child: Text(user?.bio ?? "Bio", style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
-                          color: Theme.of(context).brightness == Brightness.dark ? Colors.black.withValues(alpha: 0.6) : Colors.black.withValues(alpha: 0.6)
+                          color: Theme.of(context).brightness == Brightness.dark ? Colors.white.withValues(alpha: 0.6) : Colors.black.withValues(alpha: 0.6)
                         ),
                           textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,),
@@ -166,7 +166,6 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                   Center(
                     child: Text("or", style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
                         fontSize: 20
                     )),
                   ),
@@ -186,7 +185,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
-                                    color: Colors.white,
+                                    color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                                     width: 2
                                 )
                             ),
@@ -194,7 +193,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                               child: Text("Cancel", style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Colors.white
+                                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
                               ))
                             ),
                           ),

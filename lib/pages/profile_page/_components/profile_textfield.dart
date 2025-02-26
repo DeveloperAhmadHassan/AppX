@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../utils/constants.dart';
+import '../../../utils/extensions/color.dart';
+
 class ProfileTextField extends StatefulWidget {
   final String label;
   final String? hint;
@@ -35,42 +38,31 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
     if (widget.isDropdown) {
       return DropdownButtonFormField<String>(
         value: widget.textEditingController.text.isEmpty
-          ? null
-          : widget.textEditingController.text,
+            ? null
+            : widget.textEditingController.text,
         onChanged: (newValue) {
           setState(() {
             widget.textEditingController.text = newValue ?? '';
           });
         },
         decoration: InputDecoration(
-          border: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
           hintText: widget.hint,
-          hintStyle: TextStyle(
-            color: Colors.white..withValues(alpha: 0.6),
-          ),
           labelText: widget.label,
-          labelStyle: TextStyle(
-            color: Colors.white,
-          ),
-          prefixIcon: Icon(widget.prefixIcon, color: Colors.white),
-          suffixIcon: Icon(FontAwesomeIcons.penToSquare, color: Colors.white.withValues(alpha: 0.5), size: 18,)
+          prefixIcon: Icon(widget.prefixIcon),
+          suffixIcon: Icon(FontAwesomeIcons.penToSquare, size: 18),
         ),
         items: widget.options.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
               value,
-              style: TextStyle(color: Colors.white),
+              selectionColor: Colors.black,
+              style: TextStyle(color: Colors.black),
             ),
           );
         }).toList(),
-        dropdownColor: Colors.blueGrey,
-        style: TextStyle(color: Colors.white),
+        dropdownColor: HexColor.fromHex(AppConstants.primaryColor),
+        style: TextTheme().labelMedium,
         icon: Container(),
       );
     }
@@ -81,32 +73,15 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
       readOnly: widget.isCalendar,
       controller: widget.textEditingController,
       decoration: InputDecoration(
-        border: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
-        ),
         hintText: widget.hint,
-        hintStyle: TextStyle(
-          color: Colors.white.withValues(alpha: 0.6),
-        ),
         labelText: widget.label,
-        labelStyle: TextStyle(
-          color: Colors.white,
-        ),
-        prefixIcon: Icon(widget.prefixIcon, color: Colors.white),
-        suffixIcon: Icon(FontAwesomeIcons.penToSquare, color: Colors.white.withValues(alpha: 0.5), size: 18,),
+        prefixIcon: Icon(widget.prefixIcon,),
+        suffixIcon: Icon(FontAwesomeIcons.penToSquare, size: 18,),
       ),
       keyboardType: widget.isCalendar ? TextInputType.datetime : TextInputType.text,
       textInputAction: TextInputAction.done,
-      cursorColor: Colors.white,
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 16,
-        fontWeight: FontWeight.w400,
-        letterSpacing: 2.0,
-      ),
+      cursorColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+      style: TextTheme().bodyMedium,
       maxLines: widget.isMultiLine ? 5 : 1,
       minLines: 1,
       maxLength: widget.isMultiLine ? 50 : null,

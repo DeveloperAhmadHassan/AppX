@@ -10,14 +10,10 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Login", style: TextStyle(
-            color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 18
         )),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
       ),
-      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -34,7 +30,6 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 130,),
             Text("Login to AppX", style: TextStyle(
-                color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 22
             )),
@@ -62,7 +57,6 @@ class LoginPage extends StatelessWidget {
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HelpAndSupportPage())),
               child: Center(
                 child: Text("Need Help? Visit our help center", style: TextStyle(
-                  color: Colors.white,
                   fontWeight: FontWeight.bold
                 )),
               ),
@@ -83,7 +77,7 @@ class LoginPage extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, color: Colors.black, size: 20,),
-          SizedBox(width: 40,),
+          SizedBox(width: 30,),
           Center(child: Text("Continue With $title",style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,

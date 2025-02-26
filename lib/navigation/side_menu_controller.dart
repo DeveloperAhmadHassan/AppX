@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heroapp/pages/auth_page/login_page.dart';
+import 'package:heroapp/pages/side_page/categories_page/categories_page.dart';
 import 'package:heroapp/pages/side_page/watch_history_page/watch_history_page.dart';
 import 'package:heroapp/pages/profile_page/add_details_page.dart';
 import 'package:heroapp/pages/settings_page/settings_page.dart';
@@ -19,7 +20,11 @@ import '../utils/extensions/color.dart';
 import 'navigation_tab_controller.dart';
 
 class MenuDashboardPage extends StatefulWidget {
-  const MenuDashboardPage({super.key});
+  final bool isDarkMode;
+  final Function(String, bool) onSwitchChanged;
+
+  const MenuDashboardPage({super.key, required this.isDarkMode, required this.onSwitchChanged});
+
 
   @override
   _MenuDashboardPageState createState() => _MenuDashboardPageState();
@@ -45,7 +50,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
     _scaleAnimation = Tween<double>(begin: 1, end: 1).animate(_controller);
     _menuScaleAnimation = Tween<double>(begin: 0.5, end: 1).animate(_controller);
     _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).animate(_controller);
-    _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 2);
     _loadUserData();
   }
 
@@ -93,7 +98,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
     screenWidth = size.width;
 
     return Scaffold(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex("#ADF7E3"),
         body: Stack(
           children: <Widget>[
             menu(context),
@@ -149,18 +154,16 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                     ),
                     SizedBox(height: 10,),
                     Text("Hello, ${user?.name ?? "User"}!",
-                        style: TextStyle(
-                          // color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold
-                        )),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold
+                      )),
                   ],
                 ),
                 OutlinedButton.icon(
                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage())),
                   icon: const Icon(Icons.add, size: 24, weight: 700,),
                   label: const Text('Login', style: TextStyle(
-                    // color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold
                   ),),
@@ -195,7 +198,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                 }),
                 SizedBox(height: 20),
                 menuItem(icon: FontAwesomeIcons.list, title: "Categories", onPressed: (){
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CategoriesPage()));
                 }),
                 SizedBox(height: 20),
                 menuItem(icon: FontAwesomeIcons.clockRotateLeft, title: "Watch History", onPressed: (){
@@ -207,12 +210,15 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                 menuItem(title: "Settings", svgIcon: SvgPicture.asset(
                     'assets/icons/settings.svg',
                     semanticsLabel: 'Settings Logo',
-                    height: 30,
-                    width: 30,
-                    colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    height: 24,
+                    width: 24,
+                    colorFilter: ColorFilter.mode(Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, BlendMode.srcIn),
                   ),
                   onPressed: () async {
-                  var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+                  var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage(
+                    isDarkMode: widget.isDarkMode,
+                    onSwitchChanged: widget.onSwitchChanged,
+                  )));
 
                   if (!mounted) return;
 
@@ -291,7 +297,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
           icon != null
             ? Icon(icon, size: 20)
             : svgIcon ?? Container(),
-          SizedBox(width: 20,),
+          SizedBox(width: icon != null ? 20 : 15,),
           SizedBox(
             width: 160,
             child: Text(title, style: TextStyle(

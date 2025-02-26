@@ -22,6 +22,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
   late VideoPlayerController _controller;
   bool _isVideoInitialized = false;
   bool _isVideoPlaying = false;
+  bool _isControllerDisposed = false;
   late HomeReelController _homeReelController;
   final reelRepository = ReelRepository();
 
@@ -45,23 +46,30 @@ class _HomeReelItemState extends State<HomeReelItem> {
   @override
   void dispose() {
     _controller.dispose();
+    if(mounted) {
+      _isControllerDisposed = true;
+    }
     super.dispose();
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
     if (info.visibleFraction <= 0.5 && _isVideoPlaying) {
-      _controller.pause();
-      if(mounted){
-        setState(() {
-          _isVideoPlaying = false;
-        });
+      if (!_isControllerDisposed && _controller.value.isInitialized) {
+        _controller.pause();
+        if (mounted) {
+          setState(() {
+            _isVideoPlaying = false;
+          });
+        }
       }
     } else if (info.visibleFraction > 0.5 && !_isVideoPlaying) {
-      _controller.play();
-      if(mounted){
-        setState(() {
-          _isVideoPlaying = true;
-        });
+      if (!_isControllerDisposed && _controller.value.isInitialized) {
+        _controller.play();
+        if (mounted) {
+          setState(() {
+            _isVideoPlaying = true;
+          });
+        }
       }
     }
   }
@@ -198,7 +206,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
                               semanticsLabel: 'Share Logo',
                               height: 30,
                               width: 30,
-                              colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                              colorFilter: ColorFilter.mode(Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, BlendMode.srcIn),
                             ),
                             SizedBox(height: 16,)
                           ],

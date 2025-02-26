@@ -6,5 +6,5 @@ class AppConstants {
   static const maxXIndex = 2;
   static const maxYIndex = 2;
 
-  static const String primaryColor = "#C8F5E9";
+  static const String primaryColor = "#ADF7E3";
 }

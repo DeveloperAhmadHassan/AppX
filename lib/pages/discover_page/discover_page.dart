@@ -52,7 +52,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }
 
   Future<void> _fetchReels() async {
-    // Save the current scroll position before fetching new data
     double currentScrollPosition = _scrollController.position.pixels;
 
     setState(() {
@@ -121,7 +120,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                 padding: EdgeInsets.only(top: 16.0),
                 child: Center(child: Text('No more reels to load')),
               ),
-            if (_isLoading && _reels.isNotEmpty)
+            if (_isLoading)
               const Padding(
                 padding: EdgeInsets.only(top: 16.0),
                 child: Center(child: CircularProgressIndicator()),
@@ -131,7 +130,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
       ),
     );
   }
-
 
   Widget itemGrid() {
     return SizedBox(
