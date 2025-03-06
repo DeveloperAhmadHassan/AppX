@@ -13,18 +13,25 @@ class Reel {
   final String? thumbnailUrl;
   bool? isLiked = false;
   DateTime? dateWatched;
+  int? x;
+  int? y;
+  final List<String>? timestamps;
 
   Reel(
-      this.reelUrl, {
-        this.title,
-        this.views,
-        this.likes,
-        this.id,
-        this.thumbnailUrl,
-        this.isLiked = false,
-        this.dateWatched,
-      }) {
-    controller = VideoPlayerController.networkUrl(Uri.parse(reelUrl));
+    this.reelUrl,
+    {
+      this.title,
+      this.views,
+      this.likes,
+      this.id,
+      this.thumbnailUrl,
+      this.isLiked = false,
+      this.dateWatched,
+      this.x,
+      this.y,
+      this.timestamps,
+    }) {
+    controller = VideoPlayerController.networkUrl(Uri.parse(reelUrl), videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
   }
 
   Future<void> initializeIsLiked() async {
@@ -41,6 +48,7 @@ class Reel {
       likes: json['likes'].toString(),
       id: json['id'].toString(),
       thumbnailUrl: json['reel_thumbnail_url'],
+      timestamps: List<String>.from(json['timestamps'])
     );
   }
 

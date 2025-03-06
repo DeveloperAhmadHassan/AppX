@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:heroapp/controllers/category_controller.dart';
-import 'package:heroapp/models/category.dart';
 import 'package:heroapp/models/reel.dart';
 import 'package:heroapp/pages/side_page/categories_page/category_reel_page.dart';
 
@@ -172,7 +171,7 @@ class CategoryReelItem extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.black.withValues(alpha: 0.0),
+                  color: Colors.black.withValues(alpha: 0.3),
                 ),
               ),
             ),

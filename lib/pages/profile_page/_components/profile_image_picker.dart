@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import '../../../utils/assets.dart';
+
 class ProfileImagePicker extends StatefulWidget {
   final File? image;
   final String defaultImagePath;
   final ValueChanged<File?> onImagePicked;
 
-  ProfileImagePicker({
+  const ProfileImagePicker({
     super.key,
     required this.image,
     required this.onImagePicked,
@@ -39,7 +41,7 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(
-            color: Colors.black,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
             width: 3.0,
           ),
         ),
@@ -47,7 +49,7 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
           child: widget.image == null
               ? widget.defaultImagePath.toString().contains("assets/")
               ? Image.asset(
-            "assets/profile/p_a.jpg",
+            Assets.profilePA,
             width: 100.0,
             height: 100.0,
             fit: BoxFit.cover,

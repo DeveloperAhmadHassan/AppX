@@ -88,7 +88,6 @@ class _CarousalPageState extends State<CarousalPage> {
     }
   }
 
-
   void _onLongPressStart(LongPressStartDetails details, Reel reel) {
     _selectedReel = reel;
     _showDialogTimer = Timer(Duration(seconds: 1), _showDialog);
@@ -132,10 +131,10 @@ class _CarousalPageState extends State<CarousalPage> {
     return Scaffold(
       // backgroundColor: Colors.black,
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : hasError
-          ? Center(child: const Padding(padding: EdgeInsets.only(top: 16.0), child: Center(child: Text('Some Error Occurred'))))
-          : TwoDimensionalGridView(
+        ? Center(child: CircularProgressIndicator())
+        : hasError
+        ? Center(child: const Padding(padding: EdgeInsets.only(top: 16.0), child: Center(child: Text('Some Error Occurred'))))
+        : TwoDimensionalGridView(
         diagonalDragBehavior: DiagonalDragBehavior.free,
         horizontalDetails: ScrollableDetails.horizontal(controller: _horizontalController),
         verticalDetails: ScrollableDetails.vertical(controller: _verticalController),
@@ -144,6 +143,8 @@ class _CarousalPageState extends State<CarousalPage> {
           maxYIndex: AppConstants.maxYIndex,
           builder: (BuildContext context, ChildVicinity vicinity) {
             var reel = reels[vicinity.xIndex][vicinity.yIndex];
+            reel.x = vicinity.xIndex;
+            reel.y = vicinity.yIndex;
             return CarousalItem(
               xIndex: vicinity.xIndex,
               yIndex: vicinity.yIndex,

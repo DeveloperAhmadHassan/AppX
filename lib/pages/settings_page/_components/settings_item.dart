@@ -6,7 +6,6 @@ import 'package:heroapp/models/settings.dart';
 import 'package:heroapp/utils/extensions/color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../utils/constants.dart';
 
 class SettingsItem extends StatefulWidget {
   final IconData? icon;

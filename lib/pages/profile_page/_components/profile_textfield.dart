@@ -1,5 +1,3 @@
-// ignore_for_file: dead_code
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -66,8 +64,6 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
         icon: Container(),
       );
     }
-    // throw Error();
-    // throw Exception("hasSize is undefined");
     return TextField(
       cursorOpacityAnimates: true,
       readOnly: widget.isCalendar,

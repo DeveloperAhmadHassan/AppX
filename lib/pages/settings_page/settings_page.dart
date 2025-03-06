@@ -11,12 +11,12 @@ import 'package:heroapp/pages/auth_page/logout_page.dart';
 import 'package:heroapp/pages/settings_page/notifications_page.dart';
 import 'package:heroapp/pages/settings_page/privacy_policy_page.dart';
 import 'package:heroapp/pages/settings_page/terms_of_use_page.dart';
-import 'package:heroapp/utils/constants.dart';
 import 'package:heroapp/utils/extensions/color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/settings.dart';
 import '../../models/user.dart';
+import '../../utils/assets.dart';
 
 class SettingsPage extends StatefulWidget {
   final bool isDarkMode;
@@ -83,7 +83,7 @@ class _SettingsPageState extends State<SettingsPage> {
           postAndStories: true,
           pauseAll: false,
           emailNotifications: true,
-          isDarkMode: false,
+          isDarkMode: true,
         );
         _isSettingsLoading = false;
       });
@@ -160,7 +160,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: ClipOval(
                       child: (user != null && user!.imagePath!.contains('assets/')) || user?.imagePath == null
                         ? Image.asset (
-                          'assets/profile/p_a.jpg',
+                          Assets.profilePA,
                           width: 100.0,
                           height: 100.0,
                           fit: BoxFit.cover,
@@ -240,7 +240,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   icon: FontAwesomeIcons.circleHalfStroke,
                   title: "Dark Mode",
                   isSwitch: true,
-                  isSwitched: settings?.isDarkMode ?? false,
+                  isSwitched: settings?.isDarkMode ?? widget.isDarkMode,
                   onToggle: (value) {
                     onSwitchChanged("Dark Mode", value);
                     widget.onSwitchChanged("Dark Mode", value);
