@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+import '../../utils/assets.dart';
+
 class TermsOfUsePage extends StatefulWidget {
   const TermsOfUsePage({super.key});
 
@@ -19,7 +21,7 @@ class _TermsOfUsePageState extends State<TermsOfUsePage> {
   }
 
   Future<void> _loadMarkdown() async {
-    String content = await rootBundle.loadString('assets/files/terms_and_conditions.md');
+    String content = await rootBundle.loadString(Assets.filesTermsAndConditions);
     setState(() {
       markdownContent = content;
     });

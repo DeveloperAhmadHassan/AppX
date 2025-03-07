@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heroapp/pages/auth_page/login_page.dart';
+import 'package:heroapp/pages/carousal_page/_components/globals.dart';
 import 'package:heroapp/pages/side_page/categories_page/categories_page.dart';
 import 'package:heroapp/pages/side_page/watch_history_page/watch_history_page.dart';
 import 'package:heroapp/pages/profile_page/add_details_page.dart';
@@ -15,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/reel.dart';
 import '../models/user.dart';
+import '../utils/assets.dart';
 import '../utils/constants.dart';
 import '../utils/extensions/color.dart';
 import 'navigation_tab_controller.dart';
@@ -87,7 +89,6 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
   }
 
   Future<void> _loadUserData() async {
-    print("Here");
     await getUserFromLocal();
   }
 
@@ -98,7 +99,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
     screenWidth = size.width;
 
     return Scaffold(
-        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex("#ADF7E3"),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
         body: Stack(
           children: <Widget>[
             menu(context),
@@ -108,7 +109,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
       );
   }
 
-  Widget menu(context) {
+  Widget menu(BuildContext context) {
     return SlideTransition(
       position: _slideAnimation,
       child: ScaleTransition(
@@ -208,7 +209,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                 GradientDivider(),
                 SizedBox(height: 30),
                 menuItem(title: "Settings", svgIcon: SvgPicture.asset(
-                    'assets/icons/settings.svg',
+                  Assets.iconsSettings,
                     semanticsLabel: 'Settings Logo',
                     height: 24,
                     width: 24,
@@ -236,7 +237,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
     );
   }
 
-  Widget dashboard(context) {
+  Widget dashboard(BuildContext context) {
     return AnimatedPositioned(
       duration: duration,
       top: isCollapsed ? 0 : 0.5 * screenWidth,
@@ -272,6 +273,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                 setState(() {
                   if (isCollapsed) {
                     _controller.forward();
+                    videoPlayerController.pause();
                   } else {
                     _controller.reverse();
                   }
