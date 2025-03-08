@@ -3,7 +3,13 @@ import 'package:heroapp/navigation/side_menu_controller.dart';
 import 'package:heroapp/repository/reel_repository.dart';
 
 void main() {
-  runApp(const MyApp());
+  // runApp(
+  //   DevicePreview(
+  //     enabled: !kReleaseMode,
+  //     builder: (context) => MyApp(),
+  //   ),
+  // );
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -27,10 +33,17 @@ class _MyAppState extends State<MyApp> {
     final reelRepository = ReelRepository();
 
     return MaterialApp(
+      // useInheritedMediaQuery: true,
+      // locale: DevicePreview.locale(context),
+      // builder: DevicePreview.appBuilder,
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
+        useMaterial3: true,
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.white,
+        sliderTheme: SliderThemeData(
+
+        ),
         tabBarTheme: TabBarTheme(
           dividerColor: Colors.transparent,
           indicatorColor: Colors.black,
@@ -124,6 +137,7 @@ class _MyAppState extends State<MyApp> {
         fontFamily: 'Poppins',
       ),
       darkTheme: ThemeData(
+        useMaterial3: true,
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.black,
         tabBarTheme: TabBarTheme(

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+import '../../utils/assets.dart';
+
 class PrivacyPolicyPage extends StatefulWidget {
   const PrivacyPolicyPage({super.key});
 
   @override
-  _PrivacyPolicyPageState createState() => _PrivacyPolicyPageState();
+  State<PrivacyPolicyPage> createState() => _PrivacyPolicyPageState();
 }
 
 class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
@@ -19,7 +21,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
   }
 
   Future<void> _loadMarkdown() async {
-    String content = await rootBundle.loadString('assets/files/privacy_policy.md');
+    String content = await rootBundle.loadString(Assets.filesPrivacyPolicy);
     setState(() {
       markdownContent = content;
     });

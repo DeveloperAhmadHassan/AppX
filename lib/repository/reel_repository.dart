@@ -9,7 +9,6 @@ class ReelRepository {
   }
 
   Future<int> addWatchHistory(Reel reel) async {
-    // reel.isLiked = null;
     return await dbHelper.insertWatchHistory(reel);
   }
 

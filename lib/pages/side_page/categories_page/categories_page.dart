@@ -4,9 +4,6 @@ import 'package:heroapp/controllers/category_controller.dart';
 import 'package:heroapp/models/category.dart';
 import 'package:heroapp/pages/side_page/categories_page/reels_by_category_page.dart';
 
-import '../../../controllers/discover_reel_controller.dart';
-import '../../../models/reel.dart';
-
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
 
@@ -91,10 +88,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
         slivers: [
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.only(left: 20.0, bottom: 0.0),
+              padding: const EdgeInsets.only(left: 30.0, bottom: 0.0),
               child: Text(
-                "Categories For You",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                "Categories",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -143,7 +140,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
   }
 }
 
-
 class CategoryItem extends StatelessWidget {
   final double height;
   final double width;
@@ -175,7 +171,7 @@ class CategoryItem extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.black.withValues(alpha: 0.0),
+                      color: Colors.black.withValues(alpha: 0.3),
                     ),
                   ),
                 ),

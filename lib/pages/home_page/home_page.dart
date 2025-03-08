@@ -1,16 +1,18 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:heroapp/pages/home_page/_components/home_reel_item.dart';
+import 'package:heroapp/utils/assets.dart';
 import '../../controllers/home_reel_controller.dart';
 import '../../models/reel.dart';
 
 class HomePage extends StatefulWidget {
   final Reel? reel;
-  HomePage({super.key, this.reel});
+  const HomePage({super.key, this.reel});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -24,16 +26,31 @@ class _HomePageState extends State<HomePage> {
   String? _currentReelId;
   bool _error = false;
 
+  bool _showBackdrop = false;
+
+  late PageController _pageController;
+
   @override
   void initState() {
     super.initState();
     reels = [];
-    if(widget.reel != null) {
+    if (widget.reel != null) {
       reels.insert(0, widget.reel!);
-    } else if (widget.reel == null){
-      print("Reel is null");
+    } else if (widget.reel == null) {
+      if (kDebugMode) {
+        print("Reel is null");
+      }
     }
     fetchReels(currentPage);
+
+    _pageController = PageController(initialPage: 0);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (reels.isNotEmpty) {
+        _currentReelId = reels[0].id;
+        _startViewTimer(reels[0]);
+      }
+    });
   }
 
   @override
@@ -41,10 +58,10 @@ class _HomePageState extends State<HomePage> {
     super.didUpdateWidget(oldWidget);
 
     if (widget.reel != oldWidget.reel) {
-      if(mounted) {
+      if (mounted) {
         setState(() {
           reels.clear();
-          if(widget.reel != null) {
+          if (widget.reel != null) {
             reels.insert(0, widget.reel!);
           }
           fetchReels(currentPage);
@@ -55,7 +72,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> fetchReels(int page) async {
     if (isLoading) return;
-    if(mounted) {
+    if (mounted) {
       setState(() {
         isLoading = true;
       });
@@ -66,7 +83,7 @@ class _HomePageState extends State<HomePage> {
       List<Reel> fetchedReels = result['reels'];
       Map<String, dynamic> pagination = result['pagination'];
 
-      if(mounted) {
+      if (mounted) {
         setState(() {
           reels.addAll(fetchedReels);
           currentPage = pagination['page'];
@@ -75,7 +92,7 @@ class _HomePageState extends State<HomePage> {
         });
       }
     } catch (e) {
-      if(mounted) {
+      if (mounted) {
         setState(() {
           isLoading = false;
           _error = true;
@@ -100,45 +117,50 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _viewTimer?.cancel();
+    _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView.builder(
-        itemCount: reels.length + 1,
-        controller: PageController(initialPage: 0),
-        scrollDirection: Axis.vertical,
-        onPageChanged: (index) {
-          if (index < reels.length) {
-            final reel = reels[index];
-            _currentReelId = reel.id;
-            _startViewTimer(reel);
-          }
-        },
-        itemBuilder: (context, index) {
-          if (index == reels.length) {
-            if (isLoading) {
-              return Center(child: CircularProgressIndicator());
-            } else if (_error) {
-              return Center(
-                child: const Padding(
-                  padding: EdgeInsets.only(top: 16.0),
-                  child: Center(child: Text('Some Error Occurred')),
-                )
-              );
-            }
-            else {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                fetchReels(nextPage);
-              });
-              return Container();
-            }
-          } else {
-            return HomeReelItem(reel: reels[index]);
-          }
-        },
+      body: Stack(
+        children: [
+          PageView.builder(
+            itemCount: reels.length + 1,
+            controller: _pageController,
+            scrollDirection: Axis.vertical,
+            physics: _showBackdrop ? NeverScrollableScrollPhysics() : AlwaysScrollableScrollPhysics(),
+            onPageChanged: (index) {
+              if (index < reels.length) {
+                final reel = reels[index];
+                _currentReelId = reel.id;
+                _startViewTimer(reel);
+              }
+            },
+            itemBuilder: (context, index) {
+              if (index == reels.length) {
+                if (isLoading) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (_error) {
+                  return Center(
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: 16.0),
+                      child: Center(child: Text('Some Error Occurred')),
+                    ),
+                  );
+                } else {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    fetchReels(nextPage);
+                  });
+                  return Container();
+                }
+              } else {
+                return HomeReelItem(reel: reels[index]);
+              }
+            },
+          ),
+        ],
       ),
     );
   }

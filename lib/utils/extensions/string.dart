@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 extension NumberFormatting on String {
   String get formattedNumber {
     double number = double.tryParse(this) ?? 0;
@@ -18,28 +16,38 @@ extension NumberFormatting on String {
 
 extension DateFormatExtension on String {
   String toFormattedDate() {
-    DateTime watchedDate = DateTime.parse(this); // Convert string to DateTime
+    DateTime watchedDate = DateTime.parse(this);
     DateTime currentDate = DateTime.now();
 
-    // Remove time part for comparison (just compare the date)
     watchedDate = DateTime(watchedDate.year, watchedDate.month, watchedDate.day);
     currentDate = DateTime(currentDate.year, currentDate.month, currentDate.day);
 
-    // If the date is today
     if (watchedDate.isAtSameMomentAs(currentDate)) {
       return "Today";
     }
 
-    // If the date is yesterday
     if (watchedDate.isBefore(currentDate) && watchedDate.isAfter(currentDate.subtract(Duration(days: 1)))) {
       return "Yesterday";
     }
 
-    // Calculate the difference in days
     int daysDifference = currentDate.difference(watchedDate).inDays;
 
-    // If the difference is more than 1 day, show the number of days ago
-    return "$daysDifference days ago";
+    return daysDifference > 1 ? "$daysDifference days ago" : "$daysDifference day ago";
   }
 }
 
+extension TimeConversion on String {
+  Duration toDuration() {
+    final parts = split(':');
+    final minutes = int.parse(parts[0]);
+    final seconds = int.parse(parts[1]);
+    return Duration(minutes: minutes, seconds: seconds);
+  }
+
+  int toSeconds() {
+    final parts = split(':');
+    final minutes = int.parse(parts[0]);
+    final seconds = int.parse(parts[1]);
+    return (minutes * 60) + seconds;
+  }
+}

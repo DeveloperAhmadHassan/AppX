@@ -1,21 +1,25 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:heroapp/controllers/home_reel_controller.dart';
 import 'package:heroapp/models/reel.dart';
+import 'package:heroapp/pages/discover_page/discover_page.dart';
+import 'package:heroapp/pages/home_page/_components/reel_meta_data.dart';
+import 'package:heroapp/utils/assets.dart';
 import 'package:heroapp/utils/extensions/string.dart';
-import 'package:like_button/like_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../repository/reel_repository.dart';
+import 'chunk_indicators.dart';
 
 class HomeReelItem extends StatefulWidget {
   const HomeReelItem({super.key, required this.reel});
   final Reel reel;
 
   @override
-  _HomeReelItemState createState() => _HomeReelItemState();
+  State<HomeReelItem> createState() => _HomeReelItemState();
 }
 
 class _HomeReelItemState extends State<HomeReelItem> {
@@ -26,31 +30,8 @@ class _HomeReelItemState extends State<HomeReelItem> {
   late HomeReelController _homeReelController;
   final reelRepository = ReelRepository();
 
-  @override
-  void initState() {
-    super.initState();
-    _homeReelController = HomeReelController(Dio());
-    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.reelUrl))
-      ..initialize().then((_) {
-        if(mounted){
-          setState(() {
-            _isVideoInitialized = true;
-          });
-        }
-        _controller.setLooping(true);
-        _controller.play();
-        _isVideoPlaying = true;
-      });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    if(mounted) {
-      _isControllerDisposed = true;
-    }
-    super.dispose();
-  }
+  double _currentPosition = 0.0;
+  int _currentTimestamp = 0;
 
   void _onVisibilityChanged(VisibilityInfo info) {
     if (info.visibleFraction <= 0.5 && _isVideoPlaying) {
@@ -74,151 +55,195 @@ class _HomeReelItemState extends State<HomeReelItem> {
     }
   }
 
+  void _seekToClosestTimestamp(bool isForward) {
+    int closestTimestamp = _currentTimestamp;
+    List<Duration> timestampsInDurations = widget.reel.timestamps!
+      .map((e) => e.toDuration())
+      .toList();
+
+    if (isForward) {
+      for (var timestamp in timestampsInDurations) {
+        if (timestamp.inSeconds > _currentTimestamp) {
+          closestTimestamp = timestamp.inSeconds;
+          break;
+        }
+      }
+    } else {
+      for (var timestamp in timestampsInDurations.reversed) {
+        if (timestamp.inSeconds < _currentTimestamp) {
+          closestTimestamp = timestamp.inSeconds;
+          break;
+        }
+      }
+    }
+
+    setState(() {
+      _currentTimestamp = closestTimestamp;
+      _controller.seekTo(Duration(seconds: closestTimestamp));
+    });
+  }
+
+  void _updateProgress() {
+    if (_controller.value.isInitialized) {
+      if (mounted) {
+        setState(() {
+          _currentPosition = _controller.value.position.inSeconds.toDouble();
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _homeReelController = HomeReelController(Dio());
+
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.reelUrl))
+      ..initialize().then((_) {
+        if (mounted) {
+          setState(() => _isVideoInitialized = true);
+        }
+        _controller
+          ..setLooping(true)
+          ..play();
+        _isVideoPlaying = true;
+
+        /// Updates the progress indicator every [50ms] to reflect video playback.
+        /// This interval balances smooth UI updates with performance considerations.
+        Timer.periodic(Duration(milliseconds: 50), (timer) {
+          if (_controller.value.isInitialized) {
+            _updateProgress();
+          }
+        });
+
+        /// Resets progress tracking when video completes.
+        /// Uses seconds comparison (instead of milliseconds) to avoid precision errors
+        /// that could occur if checking exact duration matches.
+        _controller.addListener(() {
+          final position = _controller.value.position;
+          final duration = _controller.value.duration;
+
+          if (position.inSeconds == duration.inSeconds) {
+            setState(() {
+              _currentPosition = 0.0;
+              _currentTimestamp = 0;
+            });
+          }
+        });
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    if (mounted) {
+      _isControllerDisposed = true;
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-          children: [
-            SizedBox(height: 90),
-            Center(
-              child: Container(
-                height: MediaQuery.of(context).size.height - 200,
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                decoration: BoxDecoration(
-                  // color: Colors.black,
-                  borderRadius: BorderRadius.circular(30),
+        children: [
+          SizedBox(height: 90),
+          /// Video Chunk Indicators
+          // if (_isVideoInitialized)
+          //   ChunkIndicators(reel: widget.reel, currentPosition: _currentPosition),
+
+          SizedBox(height: 20),
+          /// Video Player
+          videoItem(context),
+          /// Video Meta Data
+          ReelMetaData(reel: widget.reel, homeReelController: _homeReelController),
+        ],
+      ),
+    );
+  }
+
+  Stack videoItem(BuildContext context) {
+    return Stack(
+      children: [
+        Center(
+          child: Container(
+            height: MediaQuery.of(context).size.height - 200,
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: _isVideoInitialized ? InkWell(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: VisibilityDetector(
+                  key: Key('reel-${widget.reel.id}'),
+                  onVisibilityChanged: _onVisibilityChanged,
+                  child: VideoPlayer(_controller),
                 ),
-                child: _isVideoInitialized
-                    ? InkWell(
-                        onTap: () {
-                          _controller.initialize().then((_) {
-                            _controller.play();
-                            if(mounted){
-                              setState(() {
-                                _isVideoPlaying = true;
-                              });
-                            }
-                          });
-                        },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: VisibilityDetector(
-                          key: Key('reel-${widget.reel.id}'),
-                          onVisibilityChanged: _onVisibilityChanged,
-                          child: VideoPlayer(_controller),
-                        ),
-                      ),
-                    ) : Center(child: CircularProgressIndicator()),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 13.0, right: 20.0, top: 10.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width/1.8,
-                  child: Text(
-                      "${widget.reel.title} ${widget.reel.id}",
-                      style: Theme.of(context).textTheme.titleLarge,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      softWrap: false,
-                    ),
-                  ),
-                  Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 20,
-                            width: 40,
-                            child: IconButton(
-                              icon: Icon(Icons.remove_red_eye_outlined,
-                                size: 25),
-                              onPressed: () => {},
-                            ),
-                          ),
-                          SizedBox(height: 12),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 3.0),
-                            child: Text(
-                              widget.reel.views!.formattedNumber,
-                              style: TextStyle(
-                                // color: Colors.white,
-                                fontWeight: FontWeight.bold
-                              )),
-                          )
-                        ],
-                      ),
-                      SizedBox(width: 5),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          LikeButton(
-                            size: 25,
-                            isLiked: widget.reel.isLiked,
-                            onTap: (isCurrentlyLiked) async {
-                              if(isCurrentlyLiked) {
-                                _homeReelController.unlikeVideo(widget.reel);
-                              } else {
-                                _homeReelController.likeVideo(widget.reel);
-                              }
-                              setState(() {
-                                widget.reel.isLiked = !isCurrentlyLiked;
-                              });
-                              return widget.reel.isLiked;
-                            },
-                            likeBuilder: (isLiked) {
-                              return Icon(
-                                isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                                color: isLiked ? Colors.red : Theme.of(context).iconTheme.color,
-                                size: 25,
-                              );
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 0.0),
-                            child: Text(widget.reel.likes!.formattedNumber, style: TextStyle(
-                              // color: Colors.white,
-                              fontWeight: FontWeight.bold
-                            ),textAlign: TextAlign.center,),
-                          )
-                        ],
-                      ),
-                      SizedBox(width: 10,),
-                      InkWell(
-                        onTap: () {
-                          print("Shared");
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/share.svg',
-                              semanticsLabel: 'Share Logo',
-                              height: 30,
-                              width: 30,
-                              colorFilter: ColorFilter.mode(Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, BlendMode.srcIn),
-                            ),
-                            SizedBox(height: 16,)
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ) : Center(child: CircularProgressIndicator()),
+          ),
         ),
+        Positioned(
+          right: 0,
+          left: MediaQuery.of(context).size.width / 2,
+          top: 0,
+          bottom: 0,
+          child: Container(
+            padding: EdgeInsets.only(right: 10.0),
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(30),
+              onTap: () {
+                _seekToClosestTimestamp(true);
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          right: MediaQuery.of(context).size.width / 2,
+          left: 0,
+          top: 0,
+          bottom: 0,
+          child: Container(
+            padding: EdgeInsets.only(left: 10.0),
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(30),
+              onTap: () {
+                _seekToClosestTimestamp(false);
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
+
+
+
+
+

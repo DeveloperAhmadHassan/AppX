@@ -7,7 +7,6 @@ import '../../../models/reel.dart';
 
 class WatchHistoryPage extends StatelessWidget {
   const WatchHistoryPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:heroapp/models/category.dart';
-import '../database/database_helper.dart';
 import '../models/reel.dart';
 
 class CategoryController {

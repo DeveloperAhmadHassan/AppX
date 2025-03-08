@@ -3,6 +3,7 @@ import 'package:heroapp/pages/carousal_page/carousal_page.dart';
 import 'package:heroapp/pages/home_page/home_page.dart';
 import 'package:heroapp/pages/discover_page/discover_page.dart';
 import '../models/reel.dart';
+import '../pages/carousal_page/_components/globals.dart';
 import './navigation_tab_bar.dart';
 
 class NavigationTabController extends StatefulWidget {
@@ -10,10 +11,8 @@ class NavigationTabController extends StatefulWidget {
   final Function(Reel?) handleReelSelected;
   final bool isCollapsed;
   final TabController tabController;
-  late final Reel? selectedReel;
-
-
-  NavigationTabController({super.key, required this.onSideMenuClick, this.isCollapsed = true, required this.tabController, this.selectedReel, required this.handleReelSelected});
+  final Reel? selectedReel;
+  const NavigationTabController({super.key, required this.onSideMenuClick, this.isCollapsed = true, required this.tabController, this.selectedReel, required this.handleReelSelected});
 
   @override
   State<NavigationTabController> createState() => _NavigationTabControllerState();
@@ -24,11 +23,6 @@ class _NavigationTabControllerState extends State<NavigationTabController> with 
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -58,6 +52,10 @@ class _NavigationTabControllerState extends State<NavigationTabController> with 
             onTabTapped: () {
               setState(() {
                 widget.handleReelSelected(null);
+                // videoFuture.value = play(widget.reel.reelUrl);
+                // print("Tab Changed");
+                videoPlayerController.dispose();
+                reel.value = Reel("");
               });
             }),
         ],

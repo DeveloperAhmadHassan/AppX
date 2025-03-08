@@ -33,7 +33,7 @@ migrate_working_dir/
 .pub/
 /build/
 
-# platform related
+# Platform Related
 /windows/
 /web/
 /linux/

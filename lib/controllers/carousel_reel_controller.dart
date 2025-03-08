@@ -64,10 +64,4 @@ class CarouselReelController {
       throw Exception('Error: $e');
     }
   }
-
-  void dispose() {
-    for (var reel in reels) {
-      reel.dispose();
-    }
-  }
 }

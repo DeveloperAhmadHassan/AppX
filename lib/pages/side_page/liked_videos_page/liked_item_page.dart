@@ -10,7 +10,7 @@ import 'package:flutter_svg/svg.dart';
 
 class LikedItemPage extends StatefulWidget {
   final Reel reel;
-  LikedItemPage({super.key, required this.reel});
+  const LikedItemPage({super.key, required this.reel});
 
   @override
   State<LikedItemPage> createState() => _LikedItemPageState();

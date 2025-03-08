@@ -8,6 +8,7 @@ import 'package:heroapp/pages/carousal_page/_components/long_press_item.dart';
 import 'package:heroapp/pages/carousal_page/_components/two_dimensional_grid_view.dart';
 import 'package:heroapp/utils/constants.dart';
 
+// TODO: Change 'Carousal' to 'Carousel' everywhere in the application
 
 class CarousalPage extends StatefulWidget {
   final TabController tabController;
@@ -15,7 +16,7 @@ class CarousalPage extends StatefulWidget {
   const CarousalPage({super.key, required this.tabController, required this.onReelSelected});
 
   @override
-  _CarousalPageState createState() => _CarousalPageState();
+  State<CarousalPage> createState() => _CarousalPageState();
 }
 
 class _CarousalPageState extends State<CarousalPage> {
@@ -37,13 +38,6 @@ class _CarousalPageState extends State<CarousalPage> {
     _horizontalController.dispose();
     _verticalController.dispose();
 
-    for (List<Reel> listOfReel in reels) {
-      for(Reel reel in listOfReel) {
-        reel.dispose();
-      }
-    }
-
-    _carouselReelController.dispose();
     super.dispose();
   }
 
@@ -80,7 +74,6 @@ class _CarousalPageState extends State<CarousalPage> {
         isLoading = false;
       });
     } catch (e) {
-      print(e);
       setState(() {
         hasError = true;
         isLoading = false;
@@ -113,9 +106,9 @@ class _CarousalPageState extends State<CarousalPage> {
 
     layers.add(_buildPage());
 
-    if (_dialogVisible) {
-      layers.add(_buildDialog());
-    }
+    // if (_dialogVisible) {
+    //   layers.add(_buildDialog());
+    // }
 
     return Listener(
       onPointerDown: (event) {},
@@ -129,7 +122,6 @@ class _CarousalPageState extends State<CarousalPage> {
 
   Widget _buildPage() {
     return Scaffold(
-      // backgroundColor: Colors.black,
       body: isLoading
         ? Center(child: CircularProgressIndicator())
         : hasError
@@ -163,13 +155,13 @@ class _CarousalPageState extends State<CarousalPage> {
     );
   }
 
-  Widget _buildDialog() {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width - 10,
-      color: Colors.black.withValues(alpha: 0.5),
-      padding: EdgeInsets.only(bottom: 20.0, top: 20, right: 10, left: 10),
-      child: LongPressItem(reel:  _selectedReel),
-    );
-  }
+  // Widget _buildDialog() {
+  //   return Container(
+  //     height: MediaQuery.of(context).size.height,
+  //     width: MediaQuery.of(context).size.width - 10,
+  //     color: Colors.black.withValues(alpha: 0.5),
+  //     padding: EdgeInsets.only(bottom: 20.0, top: 20, right: 10, left: 10),
+  //     child: LongPressItem(reel:  _selectedReel),
+  //   );
+  // }
 }

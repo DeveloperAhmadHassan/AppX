@@ -29,7 +29,7 @@ class MenuDashboardPage extends StatefulWidget {
 
 
   @override
-  _MenuDashboardPageState createState() => _MenuDashboardPageState();
+  State<MenuDashboardPage> createState() => _MenuDashboardPageState();
 }
 
 class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProviderStateMixin {

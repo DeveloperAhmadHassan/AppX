@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/user.dart';
+import '../../utils/assets.dart';
 import '../../utils/constants.dart';
 
 class AddDetailsPage extends StatefulWidget {
@@ -63,7 +64,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                 children: [
                   Stack(
                     children: [
-                      ProfileImagePicker(image: image, defaultImagePath: user?.imagePath ?? "assets/profile/p_a.jpg", onImagePicked: _updateImage,),
+                      ProfileImagePicker(image: image, defaultImagePath: user?.imagePath ?? Assets.profilePA, onImagePicked: _updateImage,),
                       Positioned(
                         bottom: 0,
                         right: 0,
@@ -131,7 +132,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                       DateTime dateOfBirth = _parseDate(dateEditingController.text);
                       String gender = genderEditingController.text;
                       String bio = bioEditingController.text == "" ? "Your Designation" : bioEditingController.text;
-                      String? imagePath = image?.path ?? user?.imagePath ?? 'assets/profile/p_a.jpg';
+                      String? imagePath = image?.path ?? user?.imagePath ?? Assets.profilePA;
 
                       User nuser = User(
                         name: name,

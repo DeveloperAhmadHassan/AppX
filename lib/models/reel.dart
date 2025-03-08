@@ -4,8 +4,6 @@ import '../database/database_helper.dart';
 
 class Reel {
   final String reelUrl;
-  late VideoPlayerController controller;
-  bool isVideoInitialized = false;
   final String? title;
   final String? id;
   final String? views;
@@ -30,9 +28,7 @@ class Reel {
       this.x,
       this.y,
       this.timestamps,
-    }) {
-    controller = VideoPlayerController.networkUrl(Uri.parse(reelUrl), videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
-  }
+    });
 
   Future<void> initializeIsLiked() async {
     if (id != null) {
@@ -84,20 +80,5 @@ class Reel {
       isLiked: map['is_liked'] == 1,
       dateWatched: map['date_watched'] != null ? DateTime.parse(map['date_watched']) : null,
     );
-  }
-
-  Future<void> initialize() async {
-    if (isVideoInitialized) return;
-
-    await controller.initialize();
-    controller.setLooping(true);
-    isVideoInitialized = true;
-    controller.play();
-    print('Video playing');
-  }
-
-  void dispose() {
-    controller.dispose();
-    isVideoInitialized = false;
   }
 }

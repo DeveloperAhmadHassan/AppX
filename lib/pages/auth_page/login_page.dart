@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heroapp/pages/settings_page/help_and_support_page.dart';
 
+import '../../utils/constants.dart';
+import '../../utils/extensions/color.dart';
+
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
@@ -24,7 +27,7 @@ class LoginPage extends StatelessWidget {
                 width: 100,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.blueGrey
+                    color: HexColor.fromHex(AppConstants.primaryColor)
                 ),
               ),
             ),
@@ -71,7 +74,7 @@ class LoginPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(13.0),
       decoration: BoxDecoration(
-          color: Colors.blueGrey,
+          color: HexColor.fromHex(AppConstants.primaryColor),
           borderRadius: BorderRadius.circular(10)
       ),
       child: Row(

@@ -9,7 +9,7 @@ import '../../../models/reel.dart';
 
 class CategoryReelPage extends StatefulWidget {
   final Reel reel;
-  CategoryReelPage({super.key, required this.reel});
+  const CategoryReelPage({super.key, required this.reel});
 
   @override
   State<CategoryReelPage> createState() => _CategoryReelPageState();

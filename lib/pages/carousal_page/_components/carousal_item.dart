@@ -28,7 +28,7 @@ class CarousalItem extends StatefulWidget {
   });
 
   @override
-  _CarousalItemState createState() => _CarousalItemState();
+  State<CarousalItem> createState() => _CarousalItemState();
 }
 
 class _CarousalItemState extends State<CarousalItem> {
@@ -42,7 +42,6 @@ class _CarousalItemState extends State<CarousalItem> {
 
   @override
   void dispose() {
-    _carouselReelController.dispose();
     super.dispose();
   }
 

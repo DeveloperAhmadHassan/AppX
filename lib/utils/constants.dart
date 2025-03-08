@@ -1,4 +1,5 @@
 class AppConstants {
+  AppConstants._();
   static const double HEIGHT = 600;
   static const double WIDTH = 300;
   static const double horizontalGap = 25.0; // Horizontal gap

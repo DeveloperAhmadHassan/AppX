@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+import '../../utils/assets.dart';
+
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
 
   @override
-  _AboutPageState createState() => _AboutPageState();
+  State<AboutPage> createState() => _AboutPageState();
 }
 
 class _AboutPageState extends State<AboutPage> {
@@ -19,7 +21,7 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   Future<void> _loadMarkdown() async {
-    String content = await rootBundle.loadString('assets/files/about.md');
+    String content = await rootBundle.loadString(Assets.filesAbout);
     setState(() {
       markdownContent = content;
     });

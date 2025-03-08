@@ -8,7 +8,7 @@ class TermsOfUsePage extends StatefulWidget {
   const TermsOfUsePage({super.key});
 
   @override
-  _TermsOfUsePageState createState() => _TermsOfUsePageState();
+  State<TermsOfUsePage> createState() => _TermsOfUsePageState();
 }
 
 class _TermsOfUsePageState extends State<TermsOfUsePage> {
