@@ -8,4 +8,6 @@ class Assets {
   static const String iconsSettings = 'assets/icons/settings.svg';
   static const String iconsShare = 'assets/icons/share.svg';
   static const String profilePA = 'assets/profile/p_a.jpg';
+
+  static const String profileTutorialScreen = 'assets/profile/tutorial_screen.png';
 }

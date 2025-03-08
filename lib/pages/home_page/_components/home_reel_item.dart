@@ -149,9 +149,8 @@ class _HomeReelItemState extends State<HomeReelItem> {
         children: [
           SizedBox(height: 90),
           /// Video Chunk Indicators
-          // if (_isVideoInitialized)
-          //   ChunkIndicators(reel: widget.reel, currentPosition: _currentPosition),
-
+          if (_isVideoInitialized)
+            ChunkIndicators(reel: widget.reel, currentPosition: _currentPosition),
           SizedBox(height: 20),
           /// Video Player
           videoItem(context),
