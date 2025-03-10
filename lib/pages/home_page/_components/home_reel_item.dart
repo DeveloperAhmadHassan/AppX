@@ -149,9 +149,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
         children: [
           SizedBox(height: 90),
           /// Video Chunk Indicators
-          if (_isVideoInitialized)
-            ChunkIndicators(reel: widget.reel, currentPosition: _currentPosition),
-          SizedBox(height: 20),
+          // SizedBox(height: 10),
           /// Video Player
           videoItem(context),
           /// Video Meta Data
@@ -183,6 +181,15 @@ class _HomeReelItemState extends State<HomeReelItem> {
             ) : Center(child: CircularProgressIndicator()),
           ),
         ),
+        if(_isVideoInitialized)
+          Positioned(
+            child: Container(
+              padding: EdgeInsets.only(top: 10.0),
+              height: 30,
+              // color: Colors.red,
+              child: ChunkIndicators(reel: widget.reel, currentPosition: _currentPosition),
+            ),
+          ),
         Positioned(
           right: 0,
           left: MediaQuery.of(context).size.width / 2,
