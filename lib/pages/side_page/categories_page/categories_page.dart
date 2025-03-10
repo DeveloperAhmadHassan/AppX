@@ -98,11 +98,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 30.0),
             sliver: SliverGrid(
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
                 crossAxisSpacing: 30,
                 mainAxisSpacing: 30,
-                mainAxisExtent: 180,
-                maxCrossAxisExtent: 300,
+                childAspectRatio: 250 / 280,
               ),
               delegate: SliverChildBuilderDelegate(
                     (context, index) {

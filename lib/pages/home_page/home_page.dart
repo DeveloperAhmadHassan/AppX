@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:heroapp/pages/home_page/_components/home_reel_item.dart';
 import 'package:heroapp/utils/assets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../controllers/home_reel_controller.dart';
 import '../../models/reel.dart';
 
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _loadShowBackdrop();
     reels = [];
     if (widget.reel != null) {
       reels.insert(0, widget.reel!);
@@ -68,6 +70,25 @@ class _HomePageState extends State<HomePage> {
         });
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _viewTimer?.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadShowBackdrop() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _showBackdrop = prefs.getBool('showBackdrop') ?? true;
+    });
+  }
+
+  Future<void> _saveShowBackdrop() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('showBackdrop', _showBackdrop);
   }
 
   Future<void> fetchReels(int page) async {
@@ -114,11 +135,16 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  @override
-  void dispose() {
-    _viewTimer?.cancel();
-    _pageController.dispose();
-    super.dispose();
+  void _onTouch() {
+    if (_showBackdrop) {
+      setState(() {
+        _showBackdrop = false;
+      });
+      _saveShowBackdrop();
+      setState(() {
+        _pageController.animateToPage(1, duration: Duration(seconds: 1), curve: Curves.easeInOut);
+      });
+    }
   }
 
   @override
@@ -160,6 +186,28 @@ class _HomePageState extends State<HomePage> {
               }
             },
           ),
+          _showBackdrop ? GestureDetector(
+            onPanUpdate: (details) {
+              _onTouch();
+            },
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.black.withValues(alpha: 0.5),
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.4),
+                      borderRadius: BorderRadius.circular(20)
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(Assets.profileTutorialScreen),
+                  ),
+                ),
+              ),
+            ),
+          ) : Container(),
         ],
       ),
     );
