@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   String? _currentReelId;
   bool _error = false;
 
-  bool _showBackdrop = false;
+  bool _showBackdrop = true;
 
   late PageController _pageController;
 
@@ -121,6 +121,17 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  void _onTouch() {
+    if (_showBackdrop) {
+      setState(() {
+        _showBackdrop = false;
+      });
+      setState(() {
+        _pageController.animateToPage(1, duration: Duration(seconds: 1), curve: Curves.easeInOut);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,6 +171,28 @@ class _HomePageState extends State<HomePage> {
               }
             },
           ),
+          _showBackdrop ? GestureDetector(
+            onPanUpdate: (details) {
+              _onTouch();
+            },
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.black.withValues(alpha: 0.5),
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.4),
+                      borderRadius: BorderRadius.circular(20)
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(Assets.profileTutorialScreen),
+                  ),
+                ),
+              ),
+            ),
+          ) : Container(),
         ],
       ),
     );
