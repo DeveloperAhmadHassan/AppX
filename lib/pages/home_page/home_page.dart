@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:heroapp/pages/home_page/_components/home_reel_item.dart';
 import 'package:heroapp/utils/assets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../controllers/home_reel_controller.dart';
 import '../../models/reel.dart';
 
@@ -26,13 +27,14 @@ class _HomePageState extends State<HomePage> {
   String? _currentReelId;
   bool _error = false;
 
-  bool _showBackdrop = true;
+  bool _showBackdrop = false;
 
   late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
+    _loadShowBackdrop();
     reels = [];
     if (widget.reel != null) {
       reels.insert(0, widget.reel!);
@@ -68,6 +70,25 @@ class _HomePageState extends State<HomePage> {
         });
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _viewTimer?.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadShowBackdrop() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _showBackdrop = prefs.getBool('showBackdrop') ?? true;
+    });
+  }
+
+  Future<void> _saveShowBackdrop() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('showBackdrop', _showBackdrop);
   }
 
   Future<void> fetchReels(int page) async {
@@ -114,18 +135,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  @override
-  void dispose() {
-    _viewTimer?.cancel();
-    _pageController.dispose();
-    super.dispose();
-  }
-
   void _onTouch() {
     if (_showBackdrop) {
       setState(() {
         _showBackdrop = false;
       });
+      _saveShowBackdrop();
       setState(() {
         _pageController.animateToPage(1, duration: Duration(seconds: 1), curve: Curves.easeInOut);
       });
