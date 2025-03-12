@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:heroapp/models/settings.dart';
-import 'package:heroapp/utils/extensions/color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../models/settings.dart';
+import '../../../utils/extensions/color.dart';
 
 class SettingsItem extends StatefulWidget {
   final IconData? icon;

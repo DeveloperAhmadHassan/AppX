@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
+import 'category_reel_page.dart';
 import '../../../models/reel.dart';
 
-class DiscoverItem extends StatelessWidget {
+class CategoryReelItem extends StatelessWidget {
   final Reel reel;
-  final VoidCallback onTap;
 
-  const DiscoverItem({super.key, required this.reel, required this.onTap});
+  const CategoryReelItem({super.key, required this.reel});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryReelPage(reel: reel))),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -25,6 +25,14 @@ class DiscoverItem extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.black.withValues(alpha: 0.3),
+                ),
+              ),
+            ),
             Positioned(
               bottom: 15,
               left: 15,
@@ -34,7 +42,6 @@ class DiscoverItem extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 12
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,

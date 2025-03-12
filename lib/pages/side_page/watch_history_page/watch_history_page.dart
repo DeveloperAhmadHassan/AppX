@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:heroapp/pages/side_page/watch_history_page/watch_history_item_page.dart';
-import 'package:heroapp/utils/extensions/string.dart';
 
-import '../../../database/database_helper.dart';
+import 'watch_history_item.dart';
+import '../../../repository/reel_repository.dart';
 import '../../../models/reel.dart';
 
 class WatchHistoryPage extends StatelessWidget {
@@ -17,7 +16,7 @@ class WatchHistoryPage extends StatelessWidget {
         )),
       ),
       body: FutureBuilder<List<Reel>>(
-        future: DatabaseHelper.instance.getWatchHistory(),
+        future: ReelRepository().getWatchHistory(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -30,7 +29,7 @@ class WatchHistoryPage extends StatelessWidget {
             return ListView.builder(
               itemCount: reels.length,
               itemBuilder: (context, index) {
-                return watchHistoryItem(reels[index], context);
+                return WatchHistoryItem(reel: reels[index],);
               },
             );
           }
@@ -39,54 +38,4 @@ class WatchHistoryPage extends StatelessWidget {
     );
   }
 
-  Widget watchHistoryItem(Reel reel, BuildContext context) {
-    return InkWell(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WatchHistoryItemPage(reel: reel))),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 200,
-              width: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10)
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(reel.thumbnailUrl!, fit: BoxFit.cover),
-              ),
-            ),
-            SizedBox(width: 30),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 180,
-                  child: Text(
-                    "${reel.title} ${reel.id}",
-                    style: Theme.of(context).textTheme.titleMedium,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    softWrap: false,
-                  ),
-                ),
-                Text(
-                  reel.dateWatched.toString().toFormattedDate(),
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Text(
-                  '${reel.views!.formattedNumber} Views',
-                  style: Theme.of(context).textTheme.labelSmall
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
 }

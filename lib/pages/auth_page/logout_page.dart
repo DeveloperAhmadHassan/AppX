@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:heroapp/pages/settings_page/help_and_support_page.dart';
 
+import '../../pages/settings_page/help_and_support_page.dart';
 import '../../utils/constants.dart';
 import '../../utils/extensions/color.dart';
 

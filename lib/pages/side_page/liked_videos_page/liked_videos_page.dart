@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:heroapp/pages/side_page/liked_videos_page/liked_item_page.dart';
 
 import '../../../models/reel.dart';
 import '../../../repository/reel_repository.dart';
+import 'liked_item.dart';
 
 class LikedVideosPage extends StatefulWidget {
   final TabController tabController;
@@ -83,7 +83,9 @@ class _LikedVideosPageState extends State<LikedVideosPage> {
               reel: reels[index],
               onTap: () async {
                 await widget.onReelSelected(reels[index]);
-                Navigator.pop(context);
+                if(context.mounted){
+                  Navigator.pop(context);
+                }
                 widget.onSideMenuClick();
                 Future.delayed(const Duration(milliseconds: 800), () {
                   widget.tabController.animateTo(1);
@@ -92,43 +94,6 @@ class _LikedVideosPageState extends State<LikedVideosPage> {
             )
           );
         },
-      ),
-    );
-  }
-}
-
-class LikedItem extends StatefulWidget {
-  final Reel reel;
-  final VoidCallback onTap;
-
-  const LikedItem({super.key, required this.reel, required this.onTap});
-
-  @override
-  State<LikedItem> createState() => _LikedItemState();
-}
-
-class _LikedItemState extends State<LikedItem> {
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LikedItemPage(reel: widget.reel))),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                widget.reel.thumbnailUrl ?? 'assets/default_thumbnail.jpg',
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

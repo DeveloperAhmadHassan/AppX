@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import '_components/discover_item.dart';
 import '../../controllers/discover_reel_controller.dart';
 import '../../models/reel.dart';
-import '_components/discover_item.dart';
 
 class DiscoverPage extends StatefulWidget {
   final TabController tabController;
@@ -107,7 +108,6 @@ class _DiscoverPageState extends State<DiscoverPage> with TickerProviderStateMix
         });
       }
       _error = true;
-      print('Error fetching reels: $e');
     }
   }
 

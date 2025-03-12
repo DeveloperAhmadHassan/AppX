@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:heroapp/pages/carousal_page/_components/two_dimensional_grid_viewport.dart';
 
+import 'two_dimensional_grid_viewport.dart';
 
 class TwoDimensionalGridView extends TwoDimensionalScrollView {
   const TwoDimensionalGridView({

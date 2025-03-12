@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:heroapp/models/reel.dart';
 import 'package:video_player/video_player.dart';
+
+import '../../../models/reel.dart';
 
 VideoPlayerController videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(""));
 

@@ -4,22 +4,22 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:heroapp/pages/auth_page/login_page.dart';
-import 'package:heroapp/pages/carousal_page/_components/globals.dart';
-import 'package:heroapp/pages/side_page/categories_page/categories_page.dart';
-import 'package:heroapp/pages/side_page/watch_history_page/watch_history_page.dart';
-import 'package:heroapp/pages/profile_page/add_details_page.dart';
-import 'package:heroapp/pages/settings_page/settings_page.dart';
-import 'package:heroapp/pages/side_page/liked_videos_page/liked_videos_page.dart';
-import 'package:heroapp/utils/components/gradient_divider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'navigation_tab_controller.dart';
+import '../pages/auth_page/login_page.dart';
+import '../pages/carousel_page/_components/globals.dart';
+import '../pages/side_page/categories_page/categories_page.dart';
+import '../pages/side_page/watch_history_page/watch_history_page.dart';
+import '../pages/profile_page/add_details_page.dart';
+import '../pages/settings_page/settings_page.dart';
+import '../pages/side_page/liked_videos_page/liked_videos_page.dart';
+import '../utils/components/gradient_divider.dart';
 import '../models/reel.dart';
 import '../models/user.dart';
 import '../utils/assets.dart';
 import '../utils/constants.dart';
 import '../utils/extensions/color.dart';
-import 'navigation_tab_controller.dart';
 
 class MenuDashboardPage extends StatefulWidget {
   final bool isDarkMode;
@@ -68,7 +68,6 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
     _tabController.dispose();
     super.dispose();
   }
-
 
   Future<void> getUserFromLocal() async {
     setState(() {

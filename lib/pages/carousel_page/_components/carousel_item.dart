@@ -1,28 +1,27 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:heroapp/pages/carousal_page/_components/carousel_thumbnail.dart';
-import 'package:heroapp/utils/extensions/string.dart';
 import 'package:like_button/like_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import 'functions.dart';
+import 'globals.dart';
+import '../../../pages/carousel_page/_components/carousel_thumbnail.dart';
+import '../../../utils/extensions/string.dart';
 import '../../../controllers/carousel_reel_controller.dart';
 import '../../../models/reel.dart';
 import '../../../utils/constants.dart';
-import 'functions.dart';
-import 'globals.dart';
 
 class CarousalItem extends StatefulWidget {
   final int xIndex;
   final int yIndex;
   final Reel reel;
-  final Function(LongPressStartDetails details, Reel reel) onLongPressStart;
   final VoidCallback onTap;
 
   const CarousalItem({
     super.key,
     required this.xIndex,
     required this.yIndex,
-    required this.onLongPressStart,
     required this.reel,
     required this.onTap
   });

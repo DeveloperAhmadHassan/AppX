@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:heroapp/pages/carousal_page/_components/render_two_dimensional_grid_viewport.dart';
+
+import 'render_two_dimensional_grid_viewport.dart';
 
 class TwoDimensionalGridViewport extends TwoDimensionalViewport {
   const TwoDimensionalGridViewport({

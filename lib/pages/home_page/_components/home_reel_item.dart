@@ -2,17 +2,14 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:heroapp/controllers/home_reel_controller.dart';
-import 'package:heroapp/models/reel.dart';
-import 'package:heroapp/pages/discover_page/discover_page.dart';
-import 'package:heroapp/pages/home_page/_components/reel_meta_data.dart';
-import 'package:heroapp/utils/assets.dart';
-import 'package:heroapp/utils/extensions/string.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../../repository/reel_repository.dart';
+import 'reel_meta_data.dart';
 import 'chunk_indicators.dart';
+import '../../../controllers/home_reel_controller.dart';
+import '../../../models/reel.dart';
+import '../../../utils/extensions/string.dart';
 
 class HomeReelItem extends StatefulWidget {
   const HomeReelItem({super.key, required this.reel});
@@ -28,7 +25,6 @@ class _HomeReelItemState extends State<HomeReelItem> {
   bool _isVideoPlaying = false;
   bool _isControllerDisposed = false;
   late HomeReelController _homeReelController;
-  final reelRepository = ReelRepository();
 
   double _currentPosition = 0.0;
   int _currentTimestamp = 0;

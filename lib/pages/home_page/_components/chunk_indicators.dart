@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:heroapp/utils/extensions/string.dart';
 
+import '../../../utils/extensions/string.dart';
 import '../../../models/reel.dart';
 
 class ChunkIndicators extends StatelessWidget {

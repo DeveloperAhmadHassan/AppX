@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
-import '../database/database_helper.dart';
+
+import 'base_controller.dart';
 import '../models/reel.dart';
 
-class DiscoverReelController {
-  final Dio _dio = Dio();
-  final String _baseUrl = 'https://appx-api.vercel.app/api/reels';
+class DiscoverReelController extends BaseController {
+  final Dio _dio;
 
-  DiscoverReelController(Dio dio);
+  DiscoverReelController(this._dio) : super(_dio);
 
   Future<Map<String, dynamic>> fetchReels(int page) async {
     try {
       final response = await _dio.get(
-        '$_baseUrl/discover',
+        '$baseUrl/reels/discover',
         queryParameters: {'page': page},
       );
 
@@ -31,40 +31,6 @@ class DiscoverReelController {
       }
     } catch (e) {
       rethrow;
-    }
-  }
-
-  Future<bool> likeVideo(Reel reel) async {
-    try {
-      final response = await _dio.put('$_baseUrl/likes/${reel.id}');
-
-      if (response.statusCode == 200) {
-        reel.isLiked = true;
-        await DatabaseHelper.instance.insertLikedVideo(reel);
-        print("liked");
-        return true;
-      } else {
-        throw Exception('Failed to like reel');
-      }
-    } catch (e) {
-      throw Exception('Error: $e');
-    }
-  }
-
-  Future<bool> unlikeVideo(Reel reel) async {
-    try {
-      final response = await _dio.put('$_baseUrl/likes/${reel.id}?increment=-1');
-
-      if (response.statusCode == 200) {
-        reel.isLiked = false;
-        await DatabaseHelper.instance.deleteLikedVideo(int.parse(reel.id ?? "1"));
-        print("unliked");
-        return true;
-      } else {
-        throw Exception('Failed to unlike reel');
-      }
-    } catch (e) {
-      throw Exception('Error: $e');
     }
   }
 }

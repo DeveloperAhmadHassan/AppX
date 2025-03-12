@@ -2,7 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:heroapp/utils/constants.dart';
+
+import '../../../utils/constants.dart';
 
 class RenderTwoDimensionalGridViewport extends RenderTwoDimensionalViewport {
   RenderTwoDimensionalGridViewport({

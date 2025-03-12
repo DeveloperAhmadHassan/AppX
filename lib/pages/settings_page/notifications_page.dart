@@ -1,8 +1,11 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:heroapp/models/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '_components/settings_item.dart';
+import '../../../models/settings.dart';
+
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -74,7 +77,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
   }
 
   Future<void> _loadSettingsData() async {
-    print("Here");
     await getSettingsFromLocal();
   }
 

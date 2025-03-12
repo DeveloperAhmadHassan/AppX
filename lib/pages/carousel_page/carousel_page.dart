@@ -1,25 +1,24 @@
 import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:heroapp/controllers/carousel_reel_controller.dart';
-import 'package:heroapp/models/reel.dart';
-import 'package:heroapp/pages/carousal_page/_components/carousal_item.dart';
-import 'package:heroapp/pages/carousal_page/_components/long_press_item.dart';
-import 'package:heroapp/pages/carousal_page/_components/two_dimensional_grid_view.dart';
-import 'package:heroapp/utils/constants.dart';
 
-// TODO: Change 'Carousal' to 'Carousel' everywhere in the application
+import '_components/carousel_item.dart';
+import '_components/two_dimensional_grid_view.dart';
+import '../../controllers/carousel_reel_controller.dart';
+import '../../models/reel.dart';
+import '../../utils/constants.dart';
 
-class CarousalPage extends StatefulWidget {
+class CarouselPage extends StatefulWidget {
   final TabController tabController;
   final Function(Reel) onReelSelected;
-  const CarousalPage({super.key, required this.tabController, required this.onReelSelected});
+  const CarouselPage({super.key, required this.tabController, required this.onReelSelected});
 
   @override
-  State<CarousalPage> createState() => _CarousalPageState();
+  State<CarouselPage> createState() => _CarouselPageState();
 }
 
-class _CarousalPageState extends State<CarousalPage> {
+class _CarouselPageState extends State<CarouselPage> {
   late ScrollController _horizontalController;
   late ScrollController _verticalController;
 
@@ -29,8 +28,6 @@ class _CarousalPageState extends State<CarousalPage> {
   late CarouselReelController _carouselReelController;
 
   Timer? _showDialogTimer;
-  bool _dialogVisible = false;
-  Reel _selectedReel = Reel('assets/reels/a.mp4', thumbnailUrl: 'assets/thumbnails/a.jpg');
 
   @override
   void dispose() {
@@ -81,52 +78,14 @@ class _CarousalPageState extends State<CarousalPage> {
     }
   }
 
-  void _onLongPressStart(LongPressStartDetails details, Reel reel) {
-    _selectedReel = reel;
-    _showDialogTimer = Timer(Duration(seconds: 1), _showDialog);
-  }
-
-  void _onPointerUp(PointerUpEvent event) {
-    _showDialogTimer?.cancel();
-    _showDialogTimer = null;
-    setState(() {
-      _dialogVisible = false;
-    });
-  }
-
-  void _showDialog() {
-    setState(() {
-      _dialogVisible = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final layers = <Widget>[];
-
-    layers.add(_buildPage());
-
-    // if (_dialogVisible) {
-    //   layers.add(_buildDialog());
-    // }
-
-    return Listener(
-      onPointerDown: (event) {},
-      onPointerUp: _onPointerUp,
-      child: Stack(
-        fit: StackFit.expand,
-        children: layers,
-      ),
-    );
-  }
-
-  Widget _buildPage() {
     return Scaffold(
       body: isLoading
-        ? Center(child: CircularProgressIndicator())
-        : hasError
-        ? Center(child: const Padding(padding: EdgeInsets.only(top: 16.0), child: Center(child: Text('Some Error Occurred'))))
-        : TwoDimensionalGridView(
+          ? Center(child: CircularProgressIndicator())
+          : hasError
+          ? Center(child: const Padding(padding: EdgeInsets.only(top: 16.0), child: Center(child: Text('Some Error Occurred'))))
+          : TwoDimensionalGridView(
         diagonalDragBehavior: DiagonalDragBehavior.free,
         horizontalDetails: ScrollableDetails.horizontal(controller: _horizontalController),
         verticalDetails: ScrollableDetails.vertical(controller: _verticalController),
@@ -140,7 +99,6 @@ class _CarousalPageState extends State<CarousalPage> {
             return CarousalItem(
               xIndex: vicinity.xIndex,
               yIndex: vicinity.yIndex,
-              onLongPressStart: _onLongPressStart,
               onTap: () async {
                 await widget.onReelSelected(reel);
                 Future.delayed(const Duration(milliseconds: 200), () {
@@ -154,14 +112,4 @@ class _CarousalPageState extends State<CarousalPage> {
       ),
     );
   }
-
-  // Widget _buildDialog() {
-  //   return Container(
-  //     height: MediaQuery.of(context).size.height,
-  //     width: MediaQuery.of(context).size.width - 10,
-  //     color: Colors.black.withValues(alpha: 0.5),
-  //     padding: EdgeInsets.only(bottom: 20.0, top: 20, right: 10, left: 10),
-  //     child: LongPressItem(reel:  _selectedReel),
-  //   );
-  // }
 }

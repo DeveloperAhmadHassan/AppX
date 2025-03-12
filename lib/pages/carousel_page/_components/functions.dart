@@ -1,5 +1,6 @@
-import 'package:heroapp/pages/carousal_page/_components/globals.dart';
 import 'package:video_player/video_player.dart';
+
+import 'globals.dart';
 
 Future<void> play(String url) async {
   if(url.isEmpty) return;

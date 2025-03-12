@@ -3,17 +3,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:heroapp/pages/profile_page/add_details_page.dart';
-import 'package:heroapp/pages/settings_page/_components/settings_item.dart';
-import 'package:heroapp/pages/settings_page/about_page.dart';
-import 'package:heroapp/pages/settings_page/help_and_support_page.dart';
-import 'package:heroapp/pages/auth_page/logout_page.dart';
-import 'package:heroapp/pages/settings_page/notifications_page.dart';
-import 'package:heroapp/pages/settings_page/privacy_policy_page.dart';
-import 'package:heroapp/pages/settings_page/terms_of_use_page.dart';
-import 'package:heroapp/utils/extensions/color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../pages/profile_page/add_details_page.dart';
+import '../../pages/settings_page/_components/settings_item.dart';
+import '../../pages/settings_page/about_page.dart';
+import '../../pages/settings_page/help_and_support_page.dart';
+import '../../pages/auth_page/logout_page.dart';
+import '../../pages/settings_page/notifications_page.dart';
+import '../../pages/settings_page/privacy_policy_page.dart';
+import '../../pages/settings_page/terms_of_use_page.dart';
+import '../../utils/extensions/color.dart';
 import '../../models/settings.dart';
 import '../../models/user.dart';
 import '../../utils/assets.dart';
@@ -97,7 +97,6 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _loadSettingsData() async {
-    print("Here");
     await getSettingsFromLocal();
   }
 

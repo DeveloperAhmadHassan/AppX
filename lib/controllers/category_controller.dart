@@ -1,19 +1,18 @@
 import 'package:dio/dio.dart';
-import 'package:heroapp/models/category.dart';
+
+import 'base_controller.dart';
+import '../models/category.dart';
 import '../models/reel.dart';
 
-class CategoryController {
-  final Dio _dio = Dio();
-  final String _categoriesUrl = 'https://appx-api.vercel.app/api/categories';
-  final String _reelsByCategoriesUrl = 'https://appx-api.vercel.app/api/reels/category';
+class CategoryController extends BaseController {
+  final Dio _dio;
 
-
-  CategoryController(Dio dio);
+  CategoryController(this._dio) : super(_dio);
 
   Future<Map<String, dynamic>> fetchCategories(int page) async {
     try {
       final response = await _dio.get(
-        _categoriesUrl,
+        '$baseUrl/categories',
         queryParameters: {'page': page},
       );
 
@@ -38,7 +37,7 @@ class CategoryController {
   Future<Map<String, dynamic>> fetchReelsByCategory(int page, String category) async {
     try {
       final response = await _dio.get(
-        "$_reelsByCategoriesUrl/$category",
+        "$baseUrl/category/$category",
         queryParameters: {'page': page},
       );
 

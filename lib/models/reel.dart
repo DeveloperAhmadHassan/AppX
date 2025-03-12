@@ -1,6 +1,4 @@
-import 'package:video_player/video_player.dart';
-
-import '../database/database_helper.dart';
+import '../repository/reel_repository.dart';
 
 class Reel {
   final String reelUrl;
@@ -32,7 +30,7 @@ class Reel {
 
   Future<void> initializeIsLiked() async {
     if (id != null) {
-      isLiked = await DatabaseHelper.instance.isReelLiked(int.parse(id!));
+      isLiked = await ReelRepository().isReelLiked(int.parse(id!));
     }
   }
 

@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
-import '../database/database_helper.dart';
+
+import 'base_controller.dart';
 import '../models/reel.dart';
 
-class HomeReelController {
-  final Dio _dio = Dio();
-  final String _baseUrl = 'https://appx-api.vercel.app/api/reels';
+class HomeReelController extends BaseController {
+  final Dio _dio;
 
-  HomeReelController(Dio dio);
+  HomeReelController(this._dio) : super(_dio);
 
   Future<Map<String, dynamic>> fetchReels(int page) async {
     try {
       final response = await _dio.get(
-        _baseUrl,
+        '$baseUrl/reels',
         queryParameters: {'page': page},
       );
 
@@ -31,57 +31,6 @@ class HomeReelController {
       }
     } catch (e) {
       rethrow;
-    }
-  }
-
-  Future<bool> likeVideo(Reel reel) async {
-    try {
-      final response = await _dio.put('$_baseUrl/likes/${reel.id}');
-
-      if (response.statusCode == 200) {
-        reel.isLiked = true;
-        await DatabaseHelper.instance.insertLikedVideo(reel);
-        print("liked");
-        return true;
-      } else {
-        throw Exception('Failed to like reel');
-      }
-    } catch (e) {
-      throw Exception('Error: $e');
-    }
-  }
-
-  Future<bool> unlikeVideo(Reel reel) async {
-    try {
-      final response = await _dio.put('$_baseUrl/likes/${reel.id}?increment=-1');
-
-      if (response.statusCode == 200) {
-        reel.isLiked = false;
-        await DatabaseHelper.instance.deleteLikedVideo(int.parse(reel.id ?? "1"));
-        print("unliked");
-        return true;
-      } else {
-        throw Exception('Failed to unlike reel');
-      }
-    } catch (e) {
-      throw Exception('Error: $e');
-    }
-  }
-
-  Future<bool> incrementViews(Reel reel) async {
-    try {
-      final response = await _dio.put('$_baseUrl/views/${reel.id}');
-
-      if (response.statusCode == 200) {
-        print('Views incremented');
-        // reel.dateWatched = true;
-        await DatabaseHelper.instance.insertWatchHistory(reel);
-        return true;
-      } else {
-        throw Exception('Failed to increase views of reel');
-      }
-    } catch (e) {
-      throw Exception('Error: $e');
     }
   }
 }

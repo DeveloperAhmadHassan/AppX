@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:heroapp/pages/profile_page/_components/profile_image_picker.dart';
-import 'package:heroapp/pages/profile_page/_components/profile_textfield.dart';
-import 'package:heroapp/utils/extensions/color.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../pages/profile_page/_components/profile_image_picker.dart';
+import '../../pages/profile_page/_components/profile_text_field.dart';
+import '../../utils/extensions/color.dart';
 import '../../models/user.dart';
 import '../../utils/assets.dart';
 import '../../utils/constants.dart';
@@ -134,7 +134,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                       String bio = bioEditingController.text == "" ? "Your Designation" : bioEditingController.text;
                       String? imagePath = image?.path ?? user?.imagePath ?? Assets.profilePA;
 
-                      User nuser = User(
+                      User updatedUser = User(
                         name: name,
                         bio: bio,
                         gender: gender,
@@ -142,7 +142,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                         imagePath: imagePath,
                       );
 
-                      String userJson = jsonEncode(nuser.toJson());
+                      String userJson = jsonEncode(updatedUser.toJson());
                       saveUserToLocal(userJson);
 
                       Navigator.pop(context, true);

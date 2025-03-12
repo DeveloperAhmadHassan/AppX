@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:heroapp/controllers/home_reel_controller.dart';
-import 'package:heroapp/models/reel.dart';
-import 'package:heroapp/utils/extensions/string.dart';
 import 'package:like_button/like_button.dart';
 
+import '../../../controllers/home_reel_controller.dart';
+import '../../../models/reel.dart';
+import '../../../utils/extensions/string.dart';
 import '../../../utils/assets.dart';
 
 class ReelMetaData extends StatefulWidget {

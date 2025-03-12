@@ -1,10 +1,12 @@
 import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:heroapp/pages/home_page/_components/home_reel_item.dart';
-import 'package:heroapp/utils/assets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '_components/home_reel_item.dart';
+import '../../utils/assets.dart';
 import '../../controllers/home_reel_controller.dart';
 import '../../models/reel.dart';
 
@@ -119,7 +121,6 @@ class _HomePageState extends State<HomePage> {
           _error = true;
         });
       }
-      print('Error fetching reels: $e');
     }
   }
 
@@ -186,7 +187,7 @@ class _HomePageState extends State<HomePage> {
               }
             },
           ),
-          _showBackdrop ? GestureDetector(
+          _showBackdrop && reels.isNotEmpty ? GestureDetector(
             onPanUpdate: (details) {
               _onTouch();
             },
@@ -197,8 +198,8 @@ class _HomePageState extends State<HomePage> {
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.4),
-                      borderRadius: BorderRadius.circular(20)
+                    color: Colors.white.withValues(alpha: 0.4),
+                    borderRadius: BorderRadius.circular(20)
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),

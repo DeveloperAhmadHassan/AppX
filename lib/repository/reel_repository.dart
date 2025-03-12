@@ -27,4 +27,8 @@ class ReelRepository {
   Future<int> removeWatchHistory(int id) async {
     return await dbHelper.deleteWatchHistory(id);
   }
+
+  Future<bool> isReelLiked(int dbId) async {
+    return await dbHelper.isReelLiked(dbId);
+  }
 }

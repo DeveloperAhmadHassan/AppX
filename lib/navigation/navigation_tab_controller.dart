@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:heroapp/pages/carousal_page/carousal_page.dart';
-import 'package:heroapp/pages/home_page/home_page.dart';
-import 'package:heroapp/pages/discover_page/discover_page.dart';
+
+import 'navigation_tab_bar.dart';
+import '../pages/carousel_page/carousel_page.dart';
+import '../pages/carousel_page/_components/globals.dart';
+import '../pages/home_page/home_page.dart';
+import '../pages/discover_page/discover_page.dart';
 import '../models/reel.dart';
-import '../pages/carousal_page/_components/globals.dart';
-import './navigation_tab_bar.dart';
 
 class NavigationTabController extends StatefulWidget {
   final Function() onSideMenuClick;
@@ -34,7 +35,7 @@ class _NavigationTabControllerState extends State<NavigationTabController> with 
             controller:  widget.tabController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              CarousalPage(
+              CarouselPage(
                 tabController: widget.tabController,
                 onReelSelected: widget.handleReelSelected,
               ),
