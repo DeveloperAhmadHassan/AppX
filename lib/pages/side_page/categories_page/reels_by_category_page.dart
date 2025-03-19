@@ -77,6 +77,7 @@ class _ReelsByCategoryPageState extends State<ReelsByCategoryPage> {
         _isLoading = false;
       });
       _error = true;
+      print(e);
     }
   }
 

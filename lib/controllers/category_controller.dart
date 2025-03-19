@@ -37,7 +37,7 @@ class CategoryController extends BaseController {
   Future<Map<String, dynamic>> fetchReelsByCategory(int page, String category) async {
     try {
       final response = await _dio.get(
-        "$baseUrl/category/$category",
+        "$baseUrl/reels/category/$category",
         queryParameters: {'page': page},
       );
 
