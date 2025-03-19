@@ -31,6 +31,9 @@ class CarousalItem extends StatefulWidget {
 }
 
 class _CarousalItemState extends State<CarousalItem> {
+  double _width = 30;
+  double _height = 30;
+  double _opacity = 0.5;
   late CarouselReelController _carouselReelController;
 
   @override
@@ -48,162 +51,90 @@ class _CarousalItemState extends State<CarousalItem> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 50.0, bottom: 25.0, left: 25.0, right: 25.0),
-      child: VisibilityDetector(
-        key: Key('item-${widget.xIndex}${widget.yIndex}-key'),
-        onVisibilityChanged: (visibilityInfo) {
-          var visiblePercentage = visibilityInfo.visibleFraction * 100;
+      child: Container(
+        height: AppConstants.HEIGHT + 30,
+        width: AppConstants.WIDTH + 10,
+        decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(30),
+            // border: Border.all(color: Colors.white, width: 2.0)
+        ),
+        child: VisibilityDetector(
+          key: Key('item-${widget.xIndex}${widget.yIndex}-key'),
+          onVisibilityChanged: (visibilityInfo) {
+            var visiblePercentage = visibilityInfo.visibleFraction * 100;
 
-          if (visiblePercentage >= 90) {
-            if(reel.value.reelUrl != widget.reel.reelUrl) {
-              videoFuture.value = play(widget.reel.reelUrl);
-              reel.value = widget.reel;
+            if (visiblePercentage >= 90) {
+              setState(() {
+                _opacity = 1.0;
+              });
+              if (reel.value.reelUrl != widget.reel.reelUrl) {
+                videoFuture.value = play(widget.reel.reelUrl);
+                reel.value = widget.reel;
+              }
+              else {
+                if (mounted) {
+                  setState(() {
+                    if(widget.reel.reelUrl == reel.value.reelUrl) {
+                      videoPlayerController.play();
+                    }
+                  });
+                }
+              }
             }
-            else {
+
+            if (visiblePercentage <= 50) {
               if (mounted) {
                 setState(() {
+                  _opacity = 0.5;
                   if(widget.reel.reelUrl == reel.value.reelUrl) {
-                    videoPlayerController.play();
+                    videoPlayerController.pause();
                   }
                 });
               }
             }
-          }
 
-          if (visiblePercentage <= 50) {
-            if (mounted) {
+            if (visiblePercentage >= 1) {
               setState(() {
-                if(widget.reel.reelUrl == reel.value.reelUrl) {
-                  videoPlayerController.pause();
-                }
+                _width = AppConstants.WIDTH;
+                _height = AppConstants.HEIGHT;
               });
             }
-          }
-        },
-        child: ValueListenableBuilder(
-          valueListenable: videoFuture,
-          builder: (context, value, child) {
-            return value == null ? CarouselThumbnail(thumbnailUrl: widget.reel.thumbnailUrl!) : FutureBuilder(
-              future: value,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return ValueListenableBuilder(
-                    valueListenable: reel,
-                    builder: (context, value, child) {
-                      return value.reelUrl.isEmpty ? CarouselThumbnail(thumbnailUrl: widget.reel.thumbnailUrl!) : GestureDetector(
-                        onTap: widget.onTap,
-                        child: ((value.x == widget.xIndex) && (value.y == widget.yIndex)) ? Container(
-                          height: AppConstants.HEIGHT,
-                          width: AppConstants.WIDTH,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: VideoPlayer(
-                                  videoPlayerController,
-                                  key: Key("reel-${widget.reel.id}-coordinates-${widget.xIndex}${widget.yIndex}-key"),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 20,
-                                left: 15,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    SizedBox(
-                                      width: 180,
-                                      child: Text(
-                                        "${widget.reel.title} ${widget.reel.id}",
-                                        style: Theme.of(context).textTheme.titleMedium,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        softWrap: false,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 20,
-                                right: 15,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          height: 20,
-                                          width: 40,
-                                          child: IconButton(
-                                            icon: Icon(Icons.remove_red_eye_outlined, size: 20),
-                                            onPressed: () => {},
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 9.0),
-                                          child: Text(
-                                            widget.reel.views!.formattedNumber,
-                                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(width: 5),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        LikeButton(
-                                          size: 25,
-                                          isLiked: widget.reel.isLiked,
-                                          onTap: (isCurrentlyLiked) async {
-                                            if (isCurrentlyLiked) {
-                                              _carouselReelController.unlikeVideo(widget.reel);
-                                            } else {
-                                              _carouselReelController.likeVideo(widget.reel);
-                                            }
-                                            setState(() {
-                                              widget.reel.isLiked = !isCurrentlyLiked;
-                                            });
-                                            return widget.reel.isLiked;
-                                          },
-                                          likeBuilder: (isLiked) {
-                                            return Icon(
-                                              isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                                              color: isLiked ? Colors.red : Theme.of(context).iconTheme.color,
-                                              size: 20,
-                                            );
-                                          },
-                                        ),
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.only(top: 0.0),
-                                          child: Text(
-                                            widget.reel.likes!.formattedNumber,
-                                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ) : CarouselThumbnail(thumbnailUrl: widget.reel.thumbnailUrl!),
-                      );
-                    });
-                } else {
-                  return CarouselThumbnail(thumbnailUrl: widget.reel.thumbnailUrl!);
-                }
-              });
-          }),
+          },
+          child: Center(
+            child: AnimatedOpacity(
+              opacity: _opacity,
+              duration: Duration(milliseconds: 600),
+              child: AnimatedContainer(
+                // padding: EdgeInsets.all(10.0),
+                height: _opacity == 1.0 ? 630 : _height,
+                width: _opacity == 1.0 ? 310 : _width,
+                decoration: BoxDecoration(
+                  // borderRadius: BorderRadius.circular(30),
+                  // border: Border.all(color: Colors.white, width: 2.0)
+                ),
+                duration: Duration(milliseconds: 600, ),
+                curve: Curves.fastEaseInToSlowEaseOut,
+                child: ValueListenableBuilder(
+                  valueListenable: videoFuture,
+                  builder: (context, value, child) {
+                    return value == null ? CarouselThumbnail(thumbnailUrl: "assets/thumbnails/Artsy.jpg") : FutureBuilder(
+                      future: value,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return ValueListenableBuilder(
+                            valueListenable: reel,
+                            builder: (context, value, child) {
+                              return value.reelUrl.isEmpty ? CarouselThumbnail(thumbnailUrl: "assets/thumbnails/Artsy.jpg") : CarouselThumbnail(thumbnailUrl: "assets/thumbnails/Artsy.jpg");
+                            });
+                        } else {
+                          return CarouselThumbnail(thumbnailUrl: "assets/thumbnails/Artsy.jpg");
+                        }
+                      });
+                  }),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

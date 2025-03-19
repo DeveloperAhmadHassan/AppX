@@ -16,7 +16,7 @@ class CarouselThumbnail extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30),
-        child: Image.network(
+        child: Image.asset(
           thumbnailUrl,
           fit: BoxFit.cover,
         ),
