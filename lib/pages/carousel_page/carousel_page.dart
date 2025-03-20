@@ -44,8 +44,8 @@ class _CarouselPageState extends State<CarouselPage> {
 
     _carouselReelController = CarouselReelController(Dio());
 
-    final double initialHorizontalOffset = (AppConstants.WIDTH + AppConstants.horizontalGap) * 0.85;
-    final double initialVerticalOffset = (AppConstants.HEIGHT + AppConstants.verticalGap) * 0.75;
+    final double initialHorizontalOffset = (AppConstants.WIDTH + AppConstants.horizontalGap) * 0.90;
+    final double initialVerticalOffset = (AppConstants.HEIGHT + AppConstants.verticalGap) * 0.85;
 
     _horizontalController = ScrollController(initialScrollOffset: initialHorizontalOffset);
     _verticalController = ScrollController(initialScrollOffset: initialVerticalOffset);
@@ -57,13 +57,13 @@ class _CarouselPageState extends State<CarouselPage> {
     try {
       List<Reel> fetchedReels = await _carouselReelController.fetchReelsData();
 
-      if (fetchedReels.length % 9 != 0) {
-        fetchedReels = fetchedReels.take(fetchedReels.length - fetchedReels.length % 9).toList();
+      if (fetchedReels.length % 36 != 0) {
+        fetchedReels = fetchedReels.take(fetchedReels.length - fetchedReels.length % 36).toList();
       }
 
       List<List<Reel>> reels2D = [];
-      for (int i = 0; i < fetchedReels.length; i += 3) {
-        reels2D.add(fetchedReels.sublist(i, i + 3));
+      for (int i = 0; i < fetchedReels.length; i += 6) {
+        reels2D.add(fetchedReels.sublist(i, i + 6));
       }
 
       setState(() {

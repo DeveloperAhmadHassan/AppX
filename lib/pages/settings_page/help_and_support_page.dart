@@ -18,8 +18,8 @@ class HelpAndSupportPage extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 30,),
-            SettingsItem(title: "Report a problem"),
-            SettingsItem(title: "Help Center"),
+            SettingsItem(title: "Report a problem", morePadding: false,),
+            SettingsItem(title: "Help Center", morePadding: false,),
           ],
         ),
       ),

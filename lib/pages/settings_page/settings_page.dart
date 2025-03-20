@@ -182,50 +182,31 @@ class _SettingsPageState extends State<SettingsPage> {
                     color: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black54
                   )),
                   SizedBox(height: 10,),
-                  InkWell(
-                    onTap: () async {
-                      var result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AddDetailsPage()),
-                      );
+                  Center(
+                    child: FilledButton.icon(
+                      onPressed: () async {
+                        var result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AddDetailsPage()),
+                        );
 
-                      if (!mounted) return;
+                        if (!mounted) return;
 
-                      setState(() {
-                        if (result == true) {
-                          _loadUserData();
-                        }
-                      });
-                    },
-                    child: Center(
-                      child: Container(
-                        width: 155,
-                        padding: EdgeInsets.only(left: 13.0, right: 0.0, top: 5.0, bottom: 5.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
-                        ),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 4.0),
-                              child: Text('Add Details', style: TextStyle(
-                                color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700
-                              )),
-                            ),
-                            Spacer(),
-                            Icon(
-                              Icons.navigate_next,
-                              size: 24,
-                              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
-                              weight: 700,
-                            ),
-                            SizedBox(width: 5,)
-                          ],
-                        ),
+                        setState(() {
+                          if (result == true) {
+                            _loadUserData();
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.navigate_next, size: 22,),
+                      label: Padding(
+                        padding: const EdgeInsets.only(left: 3.0),
+                        child: Text('Add Details', style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700
+                        ),textAlign: TextAlign.center,),
                       ),
+                      iconAlignment: IconAlignment.end,
                     ),
                   ),
                   SizedBox(height: 30,),

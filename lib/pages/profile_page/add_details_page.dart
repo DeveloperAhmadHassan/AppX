@@ -107,7 +107,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(left: 55.0, top: 25.0, right: 55.0),
+              padding: EdgeInsets.only(left: 55.0, top: 10.0, right: 55.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +125,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                   ProfileTextField(label: "Gender", prefixIcon: Icons.perm_identity_rounded,textEditingController: genderEditingController, isDropdown: true, options: ["Male", "Female", "Other"],),
                   SizedBox(height: 20,),
                   ProfileTextField(label: "Bio", prefixIcon: Icons.contact_page_outlined,textEditingController: bioEditingController, isMultiLine: true,),
-                  SizedBox(height: 30,),
+                  SizedBox(height: 25,),
                   InkWell(
                     onTap: () {
                       String name = nameEditingController.text == "" ? "Username" : nameEditingController.text;
@@ -163,14 +163,14 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 10,),
                   Center(
                     child: Text("or", style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20
                     )),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 10,),
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -99,6 +99,13 @@ class AppTheme {
 
           )
       ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(Colors.black),
+          foregroundColor: WidgetStateProperty.all(Colors.white),
+            padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 13.0))
+        ),
+      ),
       fontFamily: 'Poppins',
     );
   }
@@ -197,6 +204,13 @@ class AppTheme {
             prefixIconColor: Colors.white,
             suffixIconColor: Colors.white.withValues(alpha: 0.5),
           )
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(Colors.white),
+          foregroundColor: WidgetStateProperty.all(Colors.black),
+          padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 13.0))
+        ),
       ),
       fontFamily: 'Poppins',
     );
