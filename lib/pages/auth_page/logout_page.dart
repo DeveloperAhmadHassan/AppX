@@ -112,12 +112,13 @@ class LogoutPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 150,),
+            SizedBox(height: 130,),
             InkWell(
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HelpAndSupportPage())),
               child: Center(
                 child: Text("Need Help? Visit our help center", style: TextStyle(
-                  fontWeight: FontWeight.bold
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400
                 )),
               ),
             )

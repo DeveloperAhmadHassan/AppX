@@ -9,6 +9,7 @@ class CarouselThumbnail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       height: AppConstants.HEIGHT,
       width: AppConstants.WIDTH,
       decoration: BoxDecoration(
@@ -16,7 +17,7 @@ class CarouselThumbnail extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30),
-        child: Image.asset(
+        child: Image.network(
           thumbnailUrl,
           fit: BoxFit.cover,
         ),

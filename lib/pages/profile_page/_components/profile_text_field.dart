@@ -47,7 +47,7 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
           hintText: widget.hint,
           labelText: widget.label,
           prefixIcon: Icon(widget.prefixIcon),
-          suffixIcon: Icon(FontAwesomeIcons.penToSquare, size: 18),
+          suffixIcon: Icon(FontAwesomeIcons.penToSquare, size: 12),
         ),
         items: widget.options.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
@@ -72,8 +72,12 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
         hintText: widget.hint,
         labelText: widget.label,
         prefixIcon: Icon(widget.prefixIcon,),
-        suffixIcon: Icon(FontAwesomeIcons.penToSquare, size: 18,),
+        suffixIcon: Icon(FontAwesomeIcons.penToSquare, size: 12,),
+        counterStyle: TextStyle(
+          fontSize: 9
+        )
       ),
+
       keyboardType: widget.isCalendar ? TextInputType.datetime : TextInputType.text,
       textInputAction: TextInputAction.done,
       cursorColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
