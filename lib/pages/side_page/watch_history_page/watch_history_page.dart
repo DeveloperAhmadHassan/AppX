@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
 
-import 'watch_history_item.dart';
 import '../../../repository/reel_repository.dart';
 import '../../../models/reel.dart';
 
-class WatchHistoryPage extends StatelessWidget {
-  const WatchHistoryPage({super.key});
+import 'watch_history_item.dart';
+
+//ignore: must_be_immutable
+class WatchHistoryPage extends StatefulWidget {
+  WatchHistoryPage({super.key});
+  late List<Reel> reels = [];
+
+  @override
+  State<WatchHistoryPage> createState() => _WatchHistoryPageState();
+}
+
+class _WatchHistoryPageState extends State<WatchHistoryPage> {
+  void removeFromWatchHistoryList(Reel reel) {
+    setState(() {
+      widget.reels.remove(reel);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +39,11 @@ class WatchHistoryPage extends StatelessWidget {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('No watch history available'));
           } else {
-            List<Reel> reels = snapshot.data!;
+            widget.reels = snapshot.data!;
             return ListView.builder(
-              itemCount: reels.length,
+              itemCount: widget.reels.length,
               itemBuilder: (context, index) {
-                return WatchHistoryItem(reel: reels[index],);
+                return WatchHistoryItem(reel: widget.reels[index], removeFromWatchHistoryList: removeFromWatchHistoryList);
               },
             );
           }
@@ -37,5 +51,4 @@ class WatchHistoryPage extends StatelessWidget {
       ),
     );
   }
-
 }

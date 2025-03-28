@@ -176,11 +176,17 @@ class _SettingsPageState extends State<SettingsPage> {
                       fontWeight: FontWeight.bold,
                       fontSize: 18
                   )),
-                  Text(user?.bio ?? "Bio", style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    color: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black54
-                  )),
+                  Text(
+                    (user?.bio?.length ?? 0) > 30 ? '${user?.bio?.substring(0, 30)}...' : user?.bio ?? "Bio",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black54,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    maxLines: 1,
+                    softWrap: false,
+                  ),
                   SizedBox(height: 10,),
                   Center(
                     child: FilledButton.icon(
@@ -207,18 +213,22 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),textAlign: TextAlign.center,),
                       ),
                       iconAlignment: IconAlignment.end,
+                      style: ButtonStyle(
+                        minimumSize: WidgetStateProperty.all(Size(0, 35)),
+                      ),
                     ),
                   ),
                   SizedBox(height: 30,),
                 ],
               ),
             ),
-            SizedBox(height: 35,),
+            SizedBox(height: 15,),
             _isSettingsLoading ? CircularProgressIndicator() : Column(
               children: [
                 SettingsItem(
-                  icon: FontAwesomeIcons.circleHalfStroke,
+                  icon: Icons.contrast,
                   title: "Dark Mode",
+                  iconSize: 23.0,
                   isSwitch: true,
                   isSwitched: settings?.isDarkMode ?? widget.isDarkMode,
                   onToggle: (value) {
@@ -227,11 +237,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   }
                 ),
                 SizedBox(height: 10,),
-                SettingsItem(icon: FontAwesomeIcons.bell, title: "Notifications", onTap: (){
+                SettingsItem(icon: FontAwesomeIcons.bell, title: "Notifications",iconSize: 21.0, onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsPage()));
                 }),
                 SizedBox(height: 10,),
-                SettingsItem(icon: Icons.help_outline_rounded, title: "Help and Support", onTap: (){
+                SettingsItem(icon: Icons.help_outline_rounded, title: "Help and Support", iconSize: 25.0, onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => HelpAndSupportPage()));
                 }),
                 SizedBox(height: 10,),
@@ -239,17 +249,20 @@ class _SettingsPageState extends State<SettingsPage> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => TermsOfUsePage()));
                 }),
                 SizedBox(height: 10,),
-                SettingsItem(icon: FontAwesomeIcons.circleCheck, title: "Privacy Policy", onTap: (){
+                SettingsItem(icon: Icons.privacy_tip_outlined, title: "Privacy Policy",iconSize: 25.0, onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyPage()));
                 }),
                 SizedBox(height: 10,),
-                SettingsItem(icon: Icons.info_outline_rounded, title: "About", onTap: (){
+                SettingsItem(icon: Icons.info_outline_rounded, title: "About", iconSize: 26.0, onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => AboutPage()));
                 }),
                 SizedBox(height: 10,),
-                SettingsItem(icon: Icons.logout_rounded, title: "Logout", onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LogoutPage()));
-                }),
+                Padding(
+                  padding: EdgeInsets.only(left: 2.0),
+                  child: SettingsItem(icon: Icons.logout_rounded, title: "Logout", iconSize: 25.0, onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LogoutPage()));
+                  }),
+                ),
               ],
             )
           ],

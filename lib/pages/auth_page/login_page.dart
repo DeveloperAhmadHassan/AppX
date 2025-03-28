@@ -55,7 +55,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 150,),
+            SizedBox(height: 80,),
             InkWell(
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HelpAndSupportPage())),
               child: Center(
@@ -74,20 +74,29 @@ class LoginPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(13.0),
       decoration: BoxDecoration(
-          color: HexColor.fromHex(AppConstants.primaryColor),
-          borderRadius: BorderRadius.circular(10)
+        color: HexColor.fromHex(AppConstants.primaryColor),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: [
-          Icon(icon, color: Colors.black, size: 20,),
-          SizedBox(width: 30,),
-          Center(child: Text("Continue With $title",style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 16
-          ) ,textAlign: TextAlign.center,))
+          Icon(icon, color: Colors.black, size: 20),
+          SizedBox(width: 30),
+          Expanded(
+            child: Center(
+              child: Text(
+                "Continue With $title",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
+
 }

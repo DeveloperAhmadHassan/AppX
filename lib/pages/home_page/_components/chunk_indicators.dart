@@ -15,27 +15,30 @@ class ChunkIndicators extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-      child: Row(
-        children: reel.timestamps!.asMap().entries.map((entry) {
-          String timestamp = entry.value;
-          int timestampInSeconds = timestamp.toSeconds();
-          bool isActivated = _currentPosition >= timestampInSeconds;
+    return Container(
+      color: Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Row(
+          children: reel.timestamps!.asMap().entries.map((entry) {
+            String timestamp = entry.value;
+            int timestampInSeconds = timestamp.toSeconds();
+            bool isActivated = _currentPosition >= timestampInSeconds;
 
-          return Expanded(
-            flex: 1,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: reel.timestamps!.length < 20 ? 4.0 : 0.2),
-              child: LinearProgressIndicator(
-                value: 1.0,
-                backgroundColor: Colors.grey,
-                minHeight: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(isActivated ? Colors.white : Colors.grey),
+            return Expanded(
+              flex: 1,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: reel.timestamps!.length < 20 ? 4.0 : 0.2),
+                child: LinearProgressIndicator(
+                  value: 1.0,
+                  backgroundColor: Colors.grey,
+                  minHeight: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(isActivated ? Colors.white : Colors.grey),
+                ),
               ),
-            ),
-          );
-        }).toList(),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

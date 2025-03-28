@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
@@ -61,6 +63,16 @@ class BaseController {
         throw Exception('Failed to increase views of reel');
       }
     } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<bool> deleteFromWatchHistory(Reel reel) async {
+    try {
+      await ReelRepository().removeWatchHistory(int.parse(reel.id ?? '1'));
+      return true;
+    } catch (e) {
+      print(e);
       throw Exception('Error: $e');
     }
   }

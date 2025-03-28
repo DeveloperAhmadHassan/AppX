@@ -44,23 +44,31 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
           });
         },
         decoration: InputDecoration(
-          hintText: widget.hint,
-          labelText: widget.label,
+          // hintText: widget.label,
+          labelText: widget.textEditingController.text.isEmpty ? widget.label : null,
           prefixIcon: Icon(widget.prefixIcon),
           suffixIcon: Icon(FontAwesomeIcons.penToSquare, size: 12),
+          contentPadding: EdgeInsets.only(top: 11),
+          labelStyle: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: Colors.grey
+          )
         ),
         items: widget.options.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
               value,
-              selectionColor: Colors.black,
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                fontWeight: FontWeight.w400,
+                fontSize: 16
+              ),
             ),
           );
         }).toList(),
-        dropdownColor: HexColor.fromHex(AppConstants.primaryColor),
-        style: TextTheme().labelMedium,
+        dropdownColor: Colors.blueGrey,
+        style: TextTheme().bodyMedium,
         icon: Container(),
       );
     }
@@ -69,13 +77,13 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
       readOnly: widget.isCalendar,
       controller: widget.textEditingController,
       decoration: InputDecoration(
-        hintText: widget.hint,
-        labelText: widget.label,
+        hintText: widget.label,
         prefixIcon: Icon(widget.prefixIcon,),
-        suffixIcon: Icon(FontAwesomeIcons.penToSquare, size: 12,),
+        suffixIcon: Icon(FontAwesomeIcons.penToSquare, size: 12),
         counterStyle: TextStyle(
           fontSize: 9
-        )
+        ),
+        contentPadding: EdgeInsets.only(top: 10),
       ),
 
       keyboardType: widget.isCalendar ? TextInputType.datetime : TextInputType.text,

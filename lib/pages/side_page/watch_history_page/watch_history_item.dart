@@ -1,15 +1,20 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import 'watch_history_item_page.dart';
+import '../../../controllers/home_reel_controller.dart';
 import '../../../utils/extensions/string.dart';
 import '../../../models/reel.dart';
 
+import 'watch_history_item_page.dart';
+
 class WatchHistoryItem extends StatelessWidget {
   final Reel reel;
-  const WatchHistoryItem({super.key, required this.reel});
+  final Function removeFromWatchHistoryList;
+  const WatchHistoryItem({super.key, required this.reel, required this.removeFromWatchHistoryList});
 
   @override
   Widget build(BuildContext context) {
+    var homeReelController = HomeReelController(Dio());
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
       child: Row(
@@ -63,11 +68,13 @@ class WatchHistoryItem extends StatelessWidget {
           ),
           InkWell(
             borderRadius: BorderRadius.circular(10),
-            // TODO: Add Remove from watch history functionality
-            onTap: () => {},
+            onTap: () async {
+              await homeReelController.deleteFromWatchHistory(reel);
+              removeFromWatchHistoryList(reel);
+            },
             child: Padding(
               padding: const EdgeInsets.all(2.0),
-              child: Icon(Icons.close, color: Colors.white, size: 20,),
+              child: Icon(Icons.close, color: Theme.of(context).brightness == Brightness.dark ? Colors.red : Colors.red, size: 20,),
             )
           )
         ],

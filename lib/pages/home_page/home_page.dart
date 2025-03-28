@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:video_player/video_player.dart'; // Import video player
 
 import '_components/home_reel_item.dart';
 import '../../utils/assets.dart';
@@ -30,8 +30,12 @@ class _HomePageState extends State<HomePage> {
   bool _error = false;
 
   bool _showBackdrop = false;
-
   late PageController _pageController;
+  
+  int controllerPointer = 0;
+
+  // List to hold VideoPlayerControllers
+  List<VideoPlayerController> videoControllers = [];
 
   @override
   void initState() {
@@ -40,7 +44,7 @@ class _HomePageState extends State<HomePage> {
     reels = [];
     if (widget.reel != null) {
       reels.insert(0, widget.reel!);
-    } else if (widget.reel == null) {
+    } else {
       if (kDebugMode) {
         print("Reel is null");
       }
@@ -53,6 +57,7 @@ class _HomePageState extends State<HomePage> {
       if (reels.isNotEmpty) {
         _currentReelId = reels[0].id;
         _startViewTimer(reels[0]);
+        _initializeVideoControllers(); // Initialize controllers on start
       }
     });
   }
@@ -69,6 +74,7 @@ class _HomePageState extends State<HomePage> {
             reels.insert(0, widget.reel!);
           }
           fetchReels(currentPage);
+          _initializeVideoControllers(); // Reinitialize video controllers
         });
       }
     }
@@ -78,6 +84,10 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _viewTimer?.cancel();
     _pageController.dispose();
+    // Dispose of all video controllers
+    for (var controller in videoControllers) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
@@ -113,6 +123,8 @@ class _HomePageState extends State<HomePage> {
           nextPage = pagination['nextPage'];
           isLoading = false;
         });
+        // Initialize video controllers after reels are fetched
+        _initializeVideoControllers();
       }
     } catch (e) {
       if (mounted) {
@@ -148,6 +160,148 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // Initialize video controllers
+  void _initializeVideoControllers() {
+    // Only keep up to 4 controllers in memory
+    for (int i = 0; i < 4; i++) {
+      if (reels.length > i) {
+        final controller = VideoPlayerController. networkUrl(Uri.parse(reels[i].reelUrl))
+          ..initialize().then((_) {
+            if (mounted) {
+              setState(() {});
+            }
+          });
+        videoControllers.add(controller);
+      }
+    }
+  }
+
+  // Handle page change for the video controllers
+  void _onPageChangedDownwards(int index) {
+    if (index < reels.length) {
+      final reel = reels[index];
+      _currentReelId = reel.id;
+      _startViewTimer(reel);
+
+      setState(() {
+        controllerPointer = index % 4;
+      });
+      print('Index: $index ----- Pointer: $controllerPointer');
+
+      if(controllerPointer == 0) {
+        if(index >=4 ){
+          print("Video Controller ${(index - 2) % 4} disposed ----- Reel Id: ${reels[index - 2].id}");
+          print("Video Controller ${(index - 1) % 4} paused ----- Reel Id: ${reels[index - 1].id}");
+        }
+        print("Video Controller $controllerPointer played ----- Reel Id: ${reels[index].id}");
+        print("Video Controller ${(controllerPointer + 1)} initialised ----- Reel Id: ${reels[index + 1].id}");
+      }
+
+      if(controllerPointer == 1) {
+        if(index >=4 ){
+          print("Video Controller ${(index - 2) % 4} disposed ----- Reel Id: ${reels[index - 2].id}");
+        }
+        print("Video Controller ${controllerPointer - 1} paused ----- Reel Id: ${reels[index - 1].id}");
+        print("Video Controller $controllerPointer played ----- Reel Id: ${reels[index].id}");
+        print("Video Controller ${(controllerPointer + 1)} initialised ----- Reel Id: ${reels[index + 1].id}");
+      }
+
+      if(controllerPointer == 2) {
+        print("Video Controller ${controllerPointer - 2} disposed ----- Reel Id: ${reels[index - 2].id}");
+        print("Video Controller ${controllerPointer - 1} paused ----- Reel Id: ${reels[index - 1].id}");
+        print("Video Controller $controllerPointer played ----- Reel Id: ${reels[index].id}");
+        print("Video Controller ${controllerPointer + 1} initialised ----- Reel Id: ${reels[index + 1].id}");
+      }
+
+      if(controllerPointer == 3) {
+        print("Video Controller ${controllerPointer - 2} disposed ----- Reel Id: ${reels[index - 2].id}");
+        print("Video Controller ${controllerPointer - 1} paused ----- Reel Id: ${reels[index - 1].id}");
+        print("Video Controller $controllerPointer played ----- Reel Id: ${reels[index].id}");
+        print("Video Controller ${(controllerPointer + 1) % 4} initialised ----- Reel Id: ${reels[index + 1].id}");
+      }
+
+      // Play the current video
+      if (videoControllers.isNotEmpty && index < videoControllers.length) {
+        videoControllers[index].play();
+      }
+
+      // Preload the next video (video controller for the next URL)
+      if (index + 1 < reels.length && videoControllers.length > index) {
+        _initializeNextVideoController(index + 1);
+      }
+
+      // Dispose of the controller that is two indices behind
+      if (index - 2 >= 0) {
+        videoControllers[index - 2].dispose();
+        videoControllers.removeAt(index - 2);
+      }
+    }
+  }
+
+  void _onPageChangedUpwards(int index) {
+    if (index < reels.length) {
+      final reel = reels[index];
+      _currentReelId = reel.id;
+      _startViewTimer(reel);
+
+      setState(() {
+        controllerPointer = index % 4;
+      });
+      print('Index: $index ----- Pointer: $controllerPointer');
+
+      if(controllerPointer == 0) {
+        if(index >= 4) {
+          print("Video Controller ${(index - 1) % 4} initialised ----- Reel Id: ${reels[index - 1].id}");
+        }
+        print("Video Controller $controllerPointer played ----- Reel Id: ${reels[index].id}");
+        print("Video Controller ${controllerPointer + 1} paused ----- Reel Id: ${reels[index + 1].id}");
+        if(index <= 4) {
+          print("Video Controller ${(index - 2) % 4} disposed ----- Reel Id: ${reels[index + 2].id}");
+        }
+      }
+
+      if(controllerPointer == 1) {
+        print("Video Controller ${controllerPointer - 1} initialised ----- Reel Id: ${reels[index - 1].id}");
+        print("Video Controller $controllerPointer played ----- Reel Id: ${reels[index].id}");
+        print("Video Controller ${controllerPointer + 1} paused ----- Reel Id: ${reels[index + 1].id}");
+        print("Video Controller ${controllerPointer + 2} disposed ----- Reel Id: ${reels[index + 2].id}");
+      }
+
+      if(controllerPointer == 2) {
+        print("Video Controller ${controllerPointer - 1} initialised ----- Reel Id: ${reels[index - 1].id}");
+        print("Video Controller $controllerPointer played ----- Reel Id: ${reels[index].id}");
+        print("Video Controller ${controllerPointer + 1} paused ----- Reel Id: ${reels[index + 1].id}");
+        if(index <= 4) {
+          print("Video Controller ${(index + 2) % 4} disposed ----- Reel Id: ${reels[index + 2].id}");
+        }
+      }
+
+      if(controllerPointer == 3) {
+        print("Video Controller ${controllerPointer - 1} initialised ----- Reel Id: ${reels[index - 1].id}");
+        print("Video Controller $controllerPointer played ----- Reel Id: ${reels[index].id}");
+        if(index <= 4) {
+          print("Video Controller ${(index + 1) % 4} paused ----- Reel Id: ${reels[index + 1].id}");
+          print("Video Controller ${(index + 2) % 4} disposed ----- Reel Id: ${reels[index + 2].id}");
+        }
+      }
+    }
+  }
+
+  // Initialize the next video controller
+  void _initializeNextVideoController(int nextIndex) {
+    if (nextIndex < reels.length) {
+      final controller = VideoPlayerController.networkUrl(Uri.parse(reels[nextIndex].reelUrl))
+        ..initialize().then((_) {
+          if (mounted) {
+            setState(() {});
+          }
+        });
+      videoControllers.add(controller);
+    }
+  }
+
+  int _previousIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,13 +312,22 @@ class _HomePageState extends State<HomePage> {
             controller: _pageController,
             scrollDirection: Axis.vertical,
             physics: _showBackdrop ? NeverScrollableScrollPhysics() : AlwaysScrollableScrollPhysics(),
-            onPageChanged: (index) {
-              if (index < reels.length) {
-                final reel = reels[index];
-                _currentReelId = reel.id;
-                _startViewTimer(reel);
+            onPageChanged: (int index) {
+              // Detect the direction of the scroll (up or down)
+              if (index > _previousIndex) {
+                print("Scrolled down");
+                _onPageChangedDownwards(index);
+              } else if (index < _previousIndex) {
+                print("Scrolled up");
+                _onPageChangedUpwards(index);
               }
-            },
+
+              // Update the previous index to the current index
+              _previousIndex = index;
+
+              // Call your existing page change handler
+              // _onPageChangedDownwards(index);
+            }, // Handle page changes here
             itemBuilder: (context, index) {
               if (index == reels.length) {
                 if (isLoading) {
@@ -183,7 +346,20 @@ class _HomePageState extends State<HomePage> {
                   return Container();
                 }
               } else {
-                return HomeReelItem(reel: reels[index]);
+                if (index >= videoControllers.length) {
+                  _initializeVideoControllers();
+                }
+
+                print(videoControllers.length);
+                videoControllers[index]
+                  ..setLooping(true)
+                  ..play();
+                return HomeReelItem(
+                  reel: reels[index],
+                  videoPlayerController: index < videoControllers.length
+                      ? videoControllers[index]
+                      : VideoPlayerController.networkUrl(Uri.parse(reels[index].reelUrl)),
+                );
               }
             },
           ),
@@ -194,12 +370,12 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: Colors.black.withValues(alpha: 0.5),
+              color: Colors.black.withOpacity(0.5),
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.4),
-                    borderRadius: BorderRadius.circular(20)
+                      color: Colors.white.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(20)
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),

@@ -22,7 +22,8 @@ class _ReelMetaDataState extends State<ReelMetaData> {
     return Padding(
       padding: const EdgeInsets.only(left: 13.0, right: 20.0, top: 10.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width / 1.8,
@@ -36,8 +37,8 @@ class _ReelMetaDataState extends State<ReelMetaData> {
           ),
           Spacer(),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -56,16 +57,17 @@ class _ReelMetaDataState extends State<ReelMetaData> {
                     padding: const EdgeInsets.only(top: 3.0),
                     child: Text(
                       widget.reel.views!.formattedNumber,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
                 ],
               ),
-              SizedBox(width: 5),
+              SizedBox(width: 7),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: 10,),
                   LikeButton(
                     size: 25,
                     isLiked: widget.reel.isLiked,
@@ -96,23 +98,24 @@ class _ReelMetaDataState extends State<ReelMetaData> {
                     padding: const EdgeInsets.only(top: 0.0),
                     child: Text(
                       widget.reel.likes!.formattedNumber,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
                 ],
               ),
-              SizedBox(width: 10),
+              SizedBox(width: 7),
               InkWell(
                 onTap: () {},
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 8,),
                     SvgPicture.asset(
                       Assets.iconsShare,
                       semanticsLabel: 'Share Logo',
-                      height: 30,
-                      width: 30,
+                      height: 26,
+                      width: 26,
                       colorFilter: ColorFilter.mode(
                           Theme.of(context).brightness == Brightness.dark
                               ? Colors.white

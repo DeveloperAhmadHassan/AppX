@@ -123,6 +123,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _isLoading ? CircularProgressIndicator() : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     InkWell(
                       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetailsPage())),
@@ -179,7 +180,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                 SizedBox(height: 30),
                 GradientDivider(),
                 SizedBox(height: 30),
-                menuItem(icon: FontAwesomeIcons.heart, title: "Liked Videos", onPressed: (){
+                menuItem(icon: Icons.favorite_border_rounded, size: 24, title: "Liked Videos", onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => LikedVideosPage(
                     tabController: _tabController,
                     onReelSelected: _handleReelSelected,
@@ -197,11 +198,11 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                   )));
                 }),
                 SizedBox(height: 20),
-                menuItem(icon: FontAwesomeIcons.list, title: "Categories", onPressed: (){
+                menuItem(icon: Icons.category_outlined, title: "Categories", size: 24, onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const CategoriesPage()));
                 }),
                 SizedBox(height: 20),
-                menuItem(icon: FontAwesomeIcons.clockRotateLeft, title: "Watch History", onPressed: (){
+                menuItem(icon: Icons.history, title: "Watch History", size: 25, onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => WatchHistoryPage()));
                 }),
                 SizedBox(height: 30),
@@ -245,50 +246,72 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
       right: isCollapsed ? 0 : -0.2 * screenWidth,
       child: ScaleTransition(
         scale: _scaleAnimation,
-        child: Container(
-          decoration: BoxDecoration(
-            color: HexColor.fromHex(AppConstants.primaryColor),
-            borderRadius: BorderRadius.all(Radius.circular(isCollapsed ? 0 : 40)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
-                offset: Offset(0, 8),
-                blurRadius: 10,
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: HexColor.fromHex(AppConstants.primaryColor),
+                borderRadius: BorderRadius.all(Radius.circular(isCollapsed ? 0 : 40)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.3),
+                    offset: Offset(0, 8),
+                    blurRadius: 10,
+                  ),
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.3),
+                    offset: Offset(-7, 0),
+                    blurRadius: 10,
+                  ),
+                ],
               ),
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
-                offset: Offset(-7, 0),
-                blurRadius: 10,
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(isCollapsed ? 0 : 40)),
-            child: NavigationTabController(
-              tabController: _tabController,
-              handleReelSelected: _handleReelSelected,
-              selectedReel: _selectedReel,
-              onSideMenuClick: () {
-                setState(() {
-                  if (isCollapsed) {
-                    _controller.forward();
-                    videoPlayerController.pause();
-                  } else {
-                    _controller.reverse();
-                  }
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(isCollapsed ? 0 : 40)),
+                child: NavigationTabController(
+                  tabController: _tabController,
+                  handleReelSelected: _handleReelSelected,
+                  selectedReel: _selectedReel,
+                  onSideMenuClick: () {
+                    setState(() {
+                      if (isCollapsed) {
+                        _controller.forward();
+                        videoPlayerController.pause();
+                      } else {
+                        _controller.reverse();
+                      }
 
-                  isCollapsed = !isCollapsed;
-                });
-              },
-              isCollapsed: isCollapsed,
+                      isCollapsed = !isCollapsed;
+                    });
+                  },
+                  isCollapsed: isCollapsed,
+                ),
+              ),
             ),
-          ),
+            !isCollapsed ? SizedBox(
+              width: screenWidth,
+              height: screenHeight,
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    if (isCollapsed) {
+                      _controller.forward();
+                      videoPlayerController.pause();
+                    } else {
+                      _controller.reverse();
+                    }
+
+                    isCollapsed = !isCollapsed;
+                  });
+                }
+              ),
+            ) : Container(),
+          ],
         ),
       ),
     );
   }
 
-  Widget menuItem({IconData? icon, required String title, GestureTapCallback? onPressed, SvgPicture? svgIcon}){
+  Widget menuItem({IconData? icon, required String title, GestureTapCallback? onPressed, SvgPicture? svgIcon, double size = 20}){
     return InkWell(
       onTap: (){
         onPressed?.call();
@@ -296,9 +319,9 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
       child: Row(
         children: [
           icon != null
-            ? Icon(icon, size: 20)
+            ? Icon(icon, size: size)
             : svgIcon ?? Container(),
-          SizedBox(width: icon != null ? 20 : 15,),
+          SizedBox(width: icon != null ? size <= 20 ? 20 : 15 : 15,),
           SizedBox(
             width: 160,
             child: Text(title, style: TextStyle(

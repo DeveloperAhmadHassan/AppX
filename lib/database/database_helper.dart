@@ -141,6 +141,6 @@ class DatabaseHelper {
 
   Future<int> deleteWatchHistory(int id) async {
     Database db = await instance.database;
-    return await db.delete('watch_history', where: 'id = ?', whereArgs: [id]);
+    return await db.delete('watch_history', where: 'db_id = ?', whereArgs: [id]);
   }
 }

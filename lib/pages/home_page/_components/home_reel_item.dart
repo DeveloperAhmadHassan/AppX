@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloudinary_flutter/video/cld_video_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -12,8 +13,9 @@ import '../../../models/reel.dart';
 import '../../../utils/extensions/string.dart';
 
 class HomeReelItem extends StatefulWidget {
-  const HomeReelItem({super.key, required this.reel});
+  const HomeReelItem({super.key, required this.reel, required this.videoPlayerController});
   final Reel reel;
+  final VideoPlayerController videoPlayerController;
 
   @override
   State<HomeReelItem> createState() => _HomeReelItemState();
@@ -94,6 +96,11 @@ class _HomeReelItemState extends State<HomeReelItem> {
     super.initState();
     _homeReelController = HomeReelController(Dio());
 
+    setState(() {
+      widget.videoPlayerController.setLooping(true);
+      widget.videoPlayerController.play();
+    });
+
     _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.reelUrl))
       ..initialize().then((_) {
         if (mounted) {
@@ -141,16 +148,22 @@ class _HomeReelItemState extends State<HomeReelItem> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 90),
-          /// Video Chunk Indicators
-          // SizedBox(height: 10),
-          /// Video Player
-          videoItem(context),
-          /// Video Meta Data
-          ReelMetaData(reel: widget.reel, homeReelController: _homeReelController),
-        ],
+      child: Container(
+        color: Colors.transparent,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(height: 90),
+            /// Video Chunk Indicators
+            // SizedBox(height: 10),
+            /// Video Player
+            videoItem(context),
+            /// Video Meta Data
+            ReelMetaData(reel: widget.reel, homeReelController: _homeReelController),
+            SizedBox(height: 25),
+          ],
+        ),
       ),
     );
   }
@@ -165,19 +178,21 @@ class _HomeReelItemState extends State<HomeReelItem> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
             ),
-            child: _isVideoInitialized ? InkWell(
+            child: widget.videoPlayerController.value.isInitialized ? InkWell(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
-                child: VisibilityDetector(
-                  key: Key('reel-${widget.reel.id}'),
-                  onVisibilityChanged: _onVisibilityChanged,
-                  child: VideoPlayer(_controller),
-                ),
+                child: VideoPlayer(widget.videoPlayerController),
               ),
-            ) : Center(child: CircularProgressIndicator()),
+            ) : ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Image.network(
+                widget.reel.thumbnailUrl ?? "",
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
-        if(_isVideoInitialized)
+        if(widget.videoPlayerController.value.isInitialized)
           Positioned(
             child: Container(
               padding: EdgeInsets.only(top: 10.0),

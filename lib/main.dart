@@ -1,10 +1,17 @@
+import 'package:cloudinary_flutter/cloudinary_context.dart';
+import 'package:cloudinary_url_gen/cloudinary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'navigation/side_menu_controller.dart';
 import 'repository/reel_repository.dart';
 import 'utils/app_theme.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  // CloudinaryContext.cloudinary = Cloudinary.fromCloudName(cloudName: 'dqudeifns');
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
   runApp(MyApp());
 }
 
@@ -27,6 +34,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
+
     final reelRepository = ReelRepository();
 
     return MaterialApp(

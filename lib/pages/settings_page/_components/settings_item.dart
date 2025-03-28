@@ -13,6 +13,7 @@ class SettingsItem extends StatefulWidget {
   bool isSwitch;
   bool isSwitched;
   bool morePadding;
+  final iconSize;
   Function? onTap;
   final Function(bool)? onToggle;
   SettingsItem({
@@ -24,6 +25,7 @@ class SettingsItem extends StatefulWidget {
     this.onTap,
     this.onToggle,
     this.morePadding = true,
+    this.iconSize = 22.0
   });
 
   @override
@@ -50,6 +52,7 @@ class _SettingsItemState extends State<SettingsItem> {
             widget.icon != null
                 ? Icon(
               widget.icon,
+              size: widget.iconSize,
               // color: Colors.white,
             )
                 : Container(),
@@ -58,7 +61,7 @@ class _SettingsItemState extends State<SettingsItem> {
             ),
             Text(
               widget.title,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
             ),
             Spacer(),
             widget.isSwitch ? FlutterSwitch(

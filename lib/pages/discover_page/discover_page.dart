@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:visibility_detector/visibility_detector.dart';
-
-import '_components/discover_item.dart';
 import '../../controllers/discover_reel_controller.dart';
 import '../../models/reel.dart';
+import '_components/discover_item.dart';
 
 class DiscoverPage extends StatefulWidget {
   final TabController tabController;
@@ -20,7 +18,7 @@ class DiscoverPage extends StatefulWidget {
   State<DiscoverPage> createState() => _DiscoverPageState();
 }
 
-class _DiscoverPageState extends State<DiscoverPage> with TickerProviderStateMixin {
+class _DiscoverPageState extends State<DiscoverPage> {
   final DiscoverReelController _discoverReelController = DiscoverReelController(Dio());
   List<Reel> _reels = [];
   Map<String, dynamic> _pagination = {};
@@ -29,9 +27,6 @@ class _DiscoverPageState extends State<DiscoverPage> with TickerProviderStateMix
   bool _hasMoreData = true;
   bool _error = false;
   final ScrollController _scrollController = ScrollController();
-
-  List<AnimationController> _controllers = [];
-  List<bool> _animationTriggered = [];
 
   @override
   void initState() {
@@ -44,9 +39,6 @@ class _DiscoverPageState extends State<DiscoverPage> with TickerProviderStateMix
 
   @override
   void dispose() {
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
     super.dispose();
@@ -55,7 +47,6 @@ class _DiscoverPageState extends State<DiscoverPage> with TickerProviderStateMix
   void _scrollListener() {
     if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && !_isLoading && _hasMoreData) {
       _currentPage = _pagination['nextPage'];
-      _currentPage = _pagination['nextPage'];
       _fetchReels();
     }
   }
@@ -63,51 +54,33 @@ class _DiscoverPageState extends State<DiscoverPage> with TickerProviderStateMix
   Future<void> _fetchReels() async {
     double currentScrollPosition = _scrollController.position.pixels;
 
-    if(mounted) {
-      setState(() {
-        _isLoading = true;
-      });
+    setState(() {
+      _isLoading = true;
+    });
 
-    }
     try {
       final result = await _discoverReelController.fetchReels(_currentPage);
-      if(mounted) {
-        setState(() {
-          _isLoading = false;
-          if (_currentPage == 1) {
-            _reels = result['reels'];
-            _controllers = List.generate(_reels.length, (index) {
-              return AnimationController(
-                duration: const Duration(milliseconds: 300),
-                vsync: this,
-              );
-            });
-            _animationTriggered = List.generate(_reels.length, (index) => false);
-          } else {
-            _reels.addAll(result['reels']);
-            _controllers.addAll(List.generate(result['reels'].length, (index) {
-              return AnimationController(
-                duration: const Duration(milliseconds: 300),
-                vsync: this,
-              );
-            }));
-            _animationTriggered.addAll(List.generate(result['reels'].length, (index) => false));
-          }
-          _pagination = result['pagination'];
-          _hasMoreData = _pagination['nextPage'] <= _pagination['totalPages'];
-        });
-      }
+      setState(() {
+        _isLoading = false;
+        if (_currentPage == 1) {
+          _reels = result['reels'];
+        } else {
+          _reels.addAll(result['reels']);
+        }
+        _pagination = result['pagination'];
+        _hasMoreData = _pagination['nextPage'] <= _pagination['totalPages'];
+      });
 
+      // Restore the scroll position after the data is loaded
       if (currentScrollPosition > 0) {
         _scrollController.jumpTo(currentScrollPosition);
       }
     } catch (e) {
-      if(mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+      setState(() {
+        _isLoading = false;
+      });
       _error = true;
+      print('Error fetching reels: $e');
     }
   }
 
@@ -122,7 +95,7 @@ class _DiscoverPageState extends State<DiscoverPage> with TickerProviderStateMix
           children: [
             const SizedBox(height: 110),
             const Padding(
-              padding: EdgeInsets.only(left: 20.0, bottom: 0.0),
+              padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
               child: Text(
                 "Trending",
                 style: TextStyle(
@@ -132,8 +105,8 @@ class _DiscoverPageState extends State<DiscoverPage> with TickerProviderStateMix
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 0.0),
-              child: _controllers.isEmpty ? Container() : itemGrid(),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: itemGrid(),
             ),
             if (_error)
               Center(
@@ -167,55 +140,20 @@ class _DiscoverPageState extends State<DiscoverPage> with TickerProviderStateMix
         padding: EdgeInsets.only(top: 7),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           mainAxisSpacing: 18,
-          crossAxisSpacing: 0,
+          crossAxisSpacing: 2,
           crossAxisCount: 2,
           childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.45),
         ),
         itemBuilder: (context, index) {
           final reel = _reels[index];
-
-          return VisibilityDetector(
-            key: Key('item-$index'),
-            onVisibilityChanged: (info) {
-              if (info.visibleFraction > 0.1 && !_animationTriggered[index]) {
-                if(mounted) {
-                  setState(() {
-                    _animationTriggered[index] = true;
-                  });
-                }
-                _controllers[index].forward();
-              }
-            },
-            child: AnimatedBuilder(
-              animation: _controllers[index],
-              builder: (context, child) {
-                return FadeTransition(
-                  opacity: Tween(begin: 0.0, end: 1.0).animate(
-                    CurvedAnimation(
-                      parent: _controllers[index],
-                      curve: Curves.easeInOut,
-                    ),
-                  ),
-                  child: ScaleTransition(
-                    scale: Tween(begin: 0.0, end: 1.0).animate(
-                      CurvedAnimation(
-                        parent: _controllers[index],
-                        curve: Curves.easeInOut,
-                      ),
-                    ),
-                    child: Center(
-                      child: DiscoverItem(
-                        reel: reel,
-                        onTap: () async {
-                          await widget.onReelSelected(reel);
-                          Future.delayed(const Duration(milliseconds: 200), () {
-                            widget.tabController.animateTo(1);
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                );
+          return Center(
+            child: DiscoverItem(
+              reel: reel,
+              onTap: () async {
+                await widget.onReelSelected(reel);
+                Future.delayed(const Duration(milliseconds: 200), () {
+                  widget.tabController.animateTo(1);
+                });
               },
             ),
           );
