@@ -46,7 +46,7 @@ class _SettingsItemState extends State<SettingsItem> {
         widget.onTap?.call();
       },
       child: Padding(
-        padding: EdgeInsets.only(top: 13.0, left: widget.morePadding ? 20.0 : 10.0, right: 20.0, bottom: 5.0),
+        padding: EdgeInsets.only(top: 13.0, left: widget.morePadding ? 10.0 : 10.0, right: 20.0, bottom: 5.0),
         child: Row(
           children: [
             widget.icon != null

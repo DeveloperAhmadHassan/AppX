@@ -9,14 +9,15 @@ class HelpAndSupportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Help and Support", style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18
-        )),
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: Text("help & support", style: Theme.of(context).textTheme.headlineSmall),
+            ),
             SizedBox(height: 30,),
             SettingsItem(title: "Report a problem", morePadding: false,),
             SettingsItem(title: "Help Center", morePadding: false,),

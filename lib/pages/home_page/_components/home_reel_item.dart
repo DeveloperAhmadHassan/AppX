@@ -96,10 +96,10 @@ class _HomeReelItemState extends State<HomeReelItem> {
     super.initState();
     _homeReelController = HomeReelController(Dio());
 
-    setState(() {
-      widget.videoPlayerController.setLooping(true);
-      widget.videoPlayerController.play();
-    });
+    // setState(() {
+    //   widget.videoPlayerController.setLooping(true);
+    //   widget.videoPlayerController.play();
+    // });
 
     _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.reelUrl))
       ..initialize().then((_) {
@@ -178,10 +178,10 @@ class _HomeReelItemState extends State<HomeReelItem> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
             ),
-            child: widget.videoPlayerController.value.isInitialized ? InkWell(
+            child: _isVideoInitialized ? InkWell(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
-                child: VideoPlayer(widget.videoPlayerController),
+                child: VideoPlayer(_controller),
               ),
             ) : ClipRRect(
               borderRadius: BorderRadius.circular(30),
@@ -192,7 +192,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
             ),
           ),
         ),
-        if(widget.videoPlayerController.value.isInitialized)
+        if(_isVideoInitialized)
           Positioned(
             child: Container(
               padding: EdgeInsets.only(top: 10.0),

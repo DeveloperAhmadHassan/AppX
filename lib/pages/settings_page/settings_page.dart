@@ -17,6 +17,7 @@ import '../../utils/extensions/color.dart';
 import '../../models/settings.dart';
 import '../../models/user.dart';
 import '../../utils/assets.dart';
+import '../../utils/constants.dart';
 
 class SettingsPage extends StatefulWidget {
   final bool isDarkMode;
@@ -123,13 +124,9 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       // backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text("Settings", style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold
-        ),),
-        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex("#ADF7E3"),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,),
+          icon: Icon(Icons.arrow_back,size: 34,),
           onPressed: () {
             Navigator.pop(context, true);
           },
@@ -137,12 +134,24 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex("#ADF7E3"),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              padding: EdgeInsets.only(bottom: 30.0),
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Text("settings", style: Theme.of(context).textTheme.headlineMedium,),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 20.0, bottom: 30.0),
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 20,),
                   !_isLoading
@@ -172,59 +181,57 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ) : CircularProgressIndicator(),
                   SizedBox(height: 10,),
-                  Text(user?.name ?? "Your Name", style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18
-                  )),
-                  Text(
-                    (user?.bio?.length ?? 0) > 30 ? '${user?.bio?.substring(0, 30)}...' : user?.bio ?? "Bio",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black54,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    maxLines: 1,
-                    softWrap: false,
-                  ),
-                  SizedBox(height: 10,),
-                  Center(
-                    child: FilledButton.icon(
-                      onPressed: () async {
-                        var result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AddDetailsPage()),
-                        );
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Column(
+                      children: [
+                        Text(user?.name ?? "Anonymous", style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18
+                        )),
+                        // SizedBox(height: 10,),
+                        Center(
+                          child: FilledButton.icon(
+                            onPressed: () async {
+                              var result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => AddDetailsPage()),
+                              );
 
-                        if (!mounted) return;
+                              if (!mounted) return;
 
-                        setState(() {
-                          if (result == true) {
-                            _loadUserData();
-                          }
-                        });
-                      },
-                      icon: const Icon(Icons.navigate_next, size: 22,),
-                      label: Padding(
-                        padding: const EdgeInsets.only(left: 3.0),
-                        child: Text('Add Details', style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700
-                        ),textAlign: TextAlign.center,),
-                      ),
-                      iconAlignment: IconAlignment.end,
-                      style: ButtonStyle(
-                        minimumSize: WidgetStateProperty.all(Size(0, 35)),
-                      ),
+                              setState(() {
+                                if (result == true) {
+                                  _loadUserData();
+                                }
+                              });
+                            },
+                            icon: const Icon(Icons.navigate_next, size: 22,),
+                            label: Padding(
+                              padding: const EdgeInsets.only(left: 7.0),
+                              child: Text('Edit Details', style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700
+                              ),textAlign: TextAlign.center,),
+                            ),
+                            iconAlignment: IconAlignment.end,
+                            style: ButtonStyle(
+                              minimumSize: WidgetStateProperty.all(Size(0, 25)),
+                              padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 7.0))
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 30,),
                 ],
               ),
             ),
-            SizedBox(height: 15,),
+            // SizedBox(height: 35,),
             _isSettingsLoading ? CircularProgressIndicator() : Column(
               children: [
+                SizedBox(height: 35,),
                 SettingsItem(
                   icon: Icons.contrast,
                   title: "Dark Mode",

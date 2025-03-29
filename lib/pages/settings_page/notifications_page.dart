@@ -84,19 +84,26 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Notifications",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,size: 34,),
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
         ),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: Text(
+                "notifications",
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+            ),
             SizedBox(height: 10),
             SettingsItem(
               title: "Following Shows",

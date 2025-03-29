@@ -8,6 +8,7 @@ class Reel {
   final String? likes;
   final String? thumbnailUrl;
   bool? isLiked = false;
+  bool? isSaved = false;
   DateTime? dateWatched;
   int? x;
   int? y;
@@ -22,6 +23,7 @@ class Reel {
       this.id,
       this.thumbnailUrl,
       this.isLiked = false,
+      this.isSaved = false,
       this.dateWatched,
       this.x,
       this.y,

@@ -94,14 +94,11 @@ class _DiscoverPageState extends State<DiscoverPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 110),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
               child: Text(
-                "Trending",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                "trending",
+                style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
             Padding(

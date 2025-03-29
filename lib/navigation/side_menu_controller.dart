@@ -122,63 +122,72 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _isLoading ? CircularProgressIndicator() : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetailsPage())),
-                      child: Container(
-                        width: 100.0,
-                        height: 100.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
-                            width: 4.0,
-                          ),
-                        ),
-                        child: ClipOval(
-                          child: (user != null && user!.imagePath!.contains('assets/')) || user?.imagePath == null || user == null
-                              ? Image.asset (
-                            'assets/profile/p_a.jpg',
+                SizedBox(height: 30,),
+                Text("menu", style: Theme.of(context).textTheme.headlineLarge,),
+                SizedBox(height: 70,),
+                _isLoading ? CircularProgressIndicator() : SizedBox(
+                  width: 300,
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetailsPage())),
+                          child: Container(
                             width: 100.0,
                             height: 100.0,
-                            fit: BoxFit.cover,
-                          ) : Image.file (
-                            File(user!.imagePath ?? ""),
-                            width: 100.0,
-                            height: 100.0,
-                            fit: BoxFit.cover,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: user?.imagePath == null || user == null ? null : Border.all(
+                                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                                width: 4.0,
+                              ),
+                            ),
+                            child: ClipOval(
+                              child: (user != null && user!.imagePath!.contains('assets/')) || user?.imagePath == null || user == null
+                                  ? Icon(Icons.account_circle_outlined, size: 100, weight: 20,) : Image.file (
+                                File(user!.imagePath ?? ""),
+                                width: 100.0,
+                                height: 100.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        SizedBox(height: 10,),
+                        Text("Hello, ${user?.name ?? "User"}!",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              fontFamily: 'Outfit'
+                            )),
+                        SizedBox(height: 15,),
+                        OutlinedButton.icon(
+                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage())),
+                          icon: const Icon(Icons.add, size: 24, weight: 700,),
+                          label: Padding(
+                            padding: const EdgeInsets.only(right: 4.0),
+                            child: const Text('Login', style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold
+                            ),),
+                          ),
+                          iconAlignment: IconAlignment.start,
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                              color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                              width: 2.0,
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0.0),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 10,),
-                    Text("Hello, ${user?.name ?? "User"}!",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold
-                      )),
-                  ],
-                ),
-                OutlinedButton.icon(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage())),
-                  icon: const Icon(Icons.add, size: 24, weight: 700,),
-                  label: const Text('Login', style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold
-                  ),),
-                  iconAlignment: IconAlignment.start,
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(
-                      color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
-                      width: 2.0,
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0.0),
                   ),
                 ),
                 SizedBox(height: 30),
-                GradientDivider(),
+                // GradientDivider(),
                 SizedBox(height: 30),
                 menuItem(icon: Icons.favorite_border_rounded, size: 24, title: "Liked Videos", onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => LikedVideosPage(
@@ -198,7 +207,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                   )));
                 }),
                 SizedBox(height: 20),
-                menuItem(icon: Icons.category_outlined, title: "Categories", size: 24, onPressed: (){
+                menuItem(icon: FontAwesomeIcons.list, title: "Categories", size: 20, onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const CategoriesPage()));
                 }),
                 SizedBox(height: 20),
@@ -206,29 +215,35 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                   Navigator.push(context, MaterialPageRoute(builder: (context) => WatchHistoryPage()));
                 }),
                 SizedBox(height: 30),
-                GradientDivider(),
-                SizedBox(height: 30),
-                menuItem(title: "Settings", svgIcon: SvgPicture.asset(
-                  Assets.iconsSettings,
-                    semanticsLabel: 'Settings Logo',
-                    height: 24,
-                    width: 24,
-                    colorFilter: ColorFilter.mode(Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, BlendMode.srcIn),
-                  ),
-                  onPressed: () async {
-                  var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage(
-                    isDarkMode: widget.isDarkMode,
-                    onSwitchChanged: widget.onSwitchChanged,
-                  )));
+                // GradientDivider(),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                      child: menuItem(title: "Settings", svgIcon: SvgPicture.asset(
+                        Assets.iconsSettings,
+                        semanticsLabel: 'Settings Logo',
+                        height: 24,
+                        width: 24,
+                        colorFilter: ColorFilter.mode(Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, BlendMode.srcIn),
+                      ),
+                          onPressed: () async {
+                            var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage(
+                              isDarkMode: widget.isDarkMode,
+                              onSwitchChanged: widget.onSwitchChanged,
+                            )));
 
-                  if (!mounted) return;
+                            if (!mounted) return;
 
-                  setState(() {
-                    if(result == true){
-                      _loadUserData();
-                    }
-                  });
-                }),
+                            setState(() {
+                              if(result == true){
+                                _loadUserData();
+                              }
+                            });
+                          }),
+                    ),
+                  )),
+                SizedBox(height: 100,)
               ],
             ),
           ),
@@ -323,7 +338,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
             : svgIcon ?? Container(),
           SizedBox(width: icon != null ? size <= 20 ? 20 : 15 : 15,),
           SizedBox(
-            width: 160,
+            width: 215,
             child: Text(title, style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
@@ -334,10 +349,10 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
             height: 30,
             width: 30,
             decoration: BoxDecoration(
-              color: Theme.of(context).brightness == Brightness.dark ? Colors.blueGrey[300] : HexColor.fromHex(AppConstants.primaryColor),
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.white : HexColor.fromHex(AppConstants.primaryColor),
               borderRadius: BorderRadius.circular(100)
             ),
-            child: Icon(Icons.navigate_next),
+            child: Icon(Icons.navigate_next, color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,),
           ),
         ],
       ),

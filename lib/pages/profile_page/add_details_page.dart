@@ -44,18 +44,24 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
-        title: Text("User Profile", style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold
-        ),),
-        // foregroundColor: Colors.black,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,size: 34,),
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: Text("profile", style: Theme.of(context).textTheme.headlineMedium,),
+            ),
+            SizedBox(height: 30,),
             Container(
               width: MediaQuery.of(context).size.width,
               color: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
@@ -107,17 +113,17 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(left: 55.0, top: 10.0, right: 55.0),
+              padding: EdgeInsets.only(left: 55.0, top: 20.0, right: 55.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Personal Details", style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18
-                  ),),
-                  SizedBox(height: 20,),
+                  // Text("Personal Details", style: TextStyle(
+                  //     color: Colors.white,
+                  //     fontWeight: FontWeight.bold,
+                  //     fontSize: 18
+                  // ),),
+                  // SizedBox(height: 20,),
                   ProfileTextField(hint: "John Doe", label: "Name", prefixIcon: Icons.account_circle_outlined, textEditingController: nameEditingController,),
                   SizedBox(height: 20,),
                   ProfileTextField(hint: "31/1/2025", label: "Date Of Birth", prefixIcon: Icons.calendar_month,isCalendar: true, textEditingController: dateEditingController,),
@@ -147,19 +153,21 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
 
                       Navigator.pop(context, true);
                     },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: HexColor.fromHex(AppConstants.primaryColor)
-                      ),
-                      child: Center(
-                        child: Text("Submit", style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black
-                        ),)
+                    child: Center(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width - 200,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: HexColor.fromHex(AppConstants.primaryColor)
+                        ),
+                        child: Center(
+                          child: Text("Submit", style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.black
+                          ),)
+                        ),
                       ),
                     ),
                   ),
@@ -184,7 +192,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                             width: MediaQuery.of(context).size.width / 3.5,
                             height: 45,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(100),
                                 border: Border.all(
                                     color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                                     width: 2
@@ -208,7 +216,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                             width: MediaQuery.of(context).size.width / 3.5,
                             height: 45,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(100),
                                 color: HexColor.fromHex(AppConstants.primaryColor)
                             ),
                             child: Center(

@@ -80,7 +80,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(""),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,size: 34,),
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
+        ),
       ),
       body: CustomScrollView(
         controller: _scrollController,
@@ -89,8 +94,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
             child: Padding(
               padding: const EdgeInsets.only(left: 30.0, bottom: 0.0),
               child: Text(
-                "Categories",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                "categories",
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
           ),

@@ -6,9 +6,7 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       scaffoldBackgroundColor: Colors.white,
-      sliderTheme: SliderThemeData(
-
-      ),
+      sliderTheme: SliderThemeData(),
       tabBarTheme: TabBarTheme(
         dividerColor: Colors.transparent,
         indicatorColor: Colors.black,
@@ -17,13 +15,13 @@ class AppTheme {
         labelPadding: EdgeInsets.only(right: 15),
         unselectedLabelStyle: TextStyle(
           fontSize: 14,
-          fontFamily: 'Poppins',
+          fontFamily: 'Outfit',
         ),
         labelColor: Colors.black,
         labelStyle: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 14,
-          fontFamily: 'Poppins',
+          fontFamily: 'Outfit',
         ),
       ),
       iconTheme: IconThemeData(
@@ -34,6 +32,18 @@ class AppTheme {
           foregroundColor: Colors.black
       ),
       textTheme: TextTheme(
+          headlineLarge: TextStyle(
+              fontSize: 64,
+              fontWeight: FontWeight.w700
+          ),
+          headlineMedium: TextStyle(
+              fontSize: 64,
+              fontWeight: FontWeight.w500
+          ),
+          headlineSmall: TextStyle(
+              fontSize: 58,
+              fontWeight: FontWeight.w700
+          ),
           titleLarge: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
@@ -56,7 +66,7 @@ class AppTheme {
           ),
           labelMedium: TextStyle(
               color: Colors.white
-          )
+          ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
@@ -96,7 +106,6 @@ class AppTheme {
             ),
             prefixIconColor: Colors.black,
             suffixIconColor: Colors.black.withValues(alpha: 0.5),
-
           )
       ),
       filledButtonTheme: FilledButtonThemeData(
@@ -106,7 +115,7 @@ class AppTheme {
             padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 13.0))
         ),
       ),
-      fontFamily: 'Poppins',
+      fontFamily: 'Outfit',
     );
   }
 
@@ -123,13 +132,13 @@ class AppTheme {
         labelPadding: EdgeInsets.only(right: 15),
         unselectedLabelStyle: TextStyle(
           fontSize: 14,
-          fontFamily: 'Poppins',
+          fontFamily: 'Outfit',
         ),
         labelColor: Colors.white,
         labelStyle: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 14,
-          fontFamily: 'Poppins',
+          fontFamily: 'Outfit',
         ),
       ),
       iconTheme: IconThemeData(
@@ -140,6 +149,18 @@ class AppTheme {
           foregroundColor: Colors.white
       ),
       textTheme: TextTheme(
+          headlineLarge: TextStyle(
+              fontSize: 64,
+              fontWeight: FontWeight.w700
+          ),
+          headlineMedium: TextStyle(
+              fontSize: 64,
+              fontWeight: FontWeight.w500
+          ),
+          headlineSmall: TextStyle(
+              fontSize: 58,
+              fontWeight: FontWeight.w700
+          ),
           titleLarge: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -212,7 +233,7 @@ class AppTheme {
           padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 13.0))
         ),
       ),
-      fontFamily: 'Poppins',
+      fontFamily: 'Outfit',
     );
   }
 }

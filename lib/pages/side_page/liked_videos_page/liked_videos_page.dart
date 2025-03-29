@@ -28,11 +28,11 @@ class _LikedVideosPageState extends State<LikedVideosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Liked Videos",
-          style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,size: 34,),
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
         ),
       ),
       body: FutureBuilder<List<Reel>>(
@@ -50,10 +50,14 @@ class _LikedVideosPageState extends State<LikedVideosPage> {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-                    child: itemGrid(reels),
+                  Text(
+                    "Liked Videos",
+                    style: Theme.of(context).textTheme.headlineMedium
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+                  //   child: itemGrid(reels),
+                  // ),
                 ],
               ),
             );

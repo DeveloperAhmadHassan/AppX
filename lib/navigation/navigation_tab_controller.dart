@@ -33,7 +33,7 @@ class _NavigationTabControllerState extends State<NavigationTabController> with 
         children: [
           TabBarView(
             controller:  widget.tabController,
-            physics: const NeverScrollableScrollPhysics(),
+            // physics: const NeverScrollableScrollPhysics(),
             children: [
               CarouselPage(
                 tabController: widget.tabController,

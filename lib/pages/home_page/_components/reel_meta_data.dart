@@ -4,6 +4,8 @@ import 'package:like_button/like_button.dart';
 
 import '../../../controllers/home_reel_controller.dart';
 import '../../../models/reel.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/extensions/color.dart';
 import '../../../utils/extensions/string.dart';
 import '../../../utils/assets.dart';
 
@@ -17,6 +19,7 @@ class ReelMetaData extends StatefulWidget {
 }
 
 class _ReelMetaDataState extends State<ReelMetaData> {
+  bool isCurrentlySaved = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,15 +44,21 @@ class _ReelMetaDataState extends State<ReelMetaData> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: 2),
                   SizedBox(
                     height: 20,
                     width: 40,
                     child: IconButton(
-                      icon: Icon(Icons.remove_red_eye_outlined, size: 25),
-                      onPressed: () => {},
+                      icon: Icon(!isCurrentlySaved ? Icons.bookmark_border_outlined : Icons.bookmark, size: 25, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : HexColor.fromHex(AppConstants.primaryColor),),
+                      onPressed: () => {
+                        // TODO: Implement bookmark system like Instagram
+                        setState(() {
+                          isCurrentlySaved = !isCurrentlySaved;
+                        })
+                      },
                     ),
                   ),
                   SizedBox(height: 12),
@@ -95,7 +104,7 @@ class _ReelMetaDataState extends State<ReelMetaData> {
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 0.0),
+                    padding: const EdgeInsets.only(top: 2.0),
                     child: Text(
                       widget.reel.likes!.formattedNumber,
                       style: TextStyle(fontSize: 14),
@@ -117,10 +126,10 @@ class _ReelMetaDataState extends State<ReelMetaData> {
                       height: 26,
                       width: 26,
                       colorFilter: ColorFilter.mode(
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white
-                              : Colors.black,
-                          BlendMode.srcIn
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
+                        BlendMode.srcIn
                       ),
                     ),
                     SizedBox(height: 16)
