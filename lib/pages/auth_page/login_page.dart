@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:loopyfeed/utils/components/full_logo.dart';
 
 import '../../pages/settings_page/help_and_support_page.dart';
 import '../../utils/constants.dart';
@@ -21,21 +22,22 @@ class LoginPage extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 30,),
-            Center(
-              child: Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: HexColor.fromHex(AppConstants.primaryColor)
-                ),
-              ),
-            ),
+            FullLogo(),
             SizedBox(height: 130,),
-            Text("Login to AppX", style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22
-            )),
+            Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Login to", style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28,
+                  color: HexColor.fromHex("#F8FFE0").withValues(alpha: 3.0)
+                )),
+                SizedBox(width: 7,),
+                Image.asset(AppConstants.iconsSecondaryLogo, fit: BoxFit.contain,)
+              ],
+            ),
             Center(
               child: Container(
                 width: MediaQuery.of(context).size.width - 10,
@@ -72,14 +74,14 @@ class LoginPage extends StatelessWidget {
 
   Widget loginOption(IconData icon, String title) {
     return Container(
-      padding: EdgeInsets.all(13.0),
+      padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 13.0),
       decoration: BoxDecoration(
-        color: HexColor.fromHex(AppConstants.primaryColor),
-        borderRadius: BorderRadius.circular(10),
+        color: HexColor.fromHex("#E1FF8B"),
+        borderRadius: BorderRadius.circular(100),
       ),
       child: Row(
         children: [
-          Icon(icon, color: Colors.black, size: 20),
+          Icon(icon, color: Colors.black, size: 23),
           SizedBox(width: 30),
           Expanded(
             child: Center(

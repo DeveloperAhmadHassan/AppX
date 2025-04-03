@@ -1,3 +1,5 @@
+import 'package:loopyfeed/models/saved_collection.dart';
+
 import '../database/database_helper.dart';
 import '../models/reel.dart';
 
@@ -6,6 +8,10 @@ class ReelRepository {
 
   Future<int> addLikedVideo(Reel reel) async {
     return await dbHelper.insertLikedVideo(reel);
+  }
+
+  Future<int> addSavedVideo(SavedCollection collection) async {
+    return await dbHelper.insertSavedVideo(collection);
   }
 
   Future<int> addWatchHistory(Reel reel) async {
@@ -28,7 +34,19 @@ class ReelRepository {
     return await dbHelper.deleteWatchHistory(id);
   }
 
+  Future<int> removeSavedVideo(int id) async {
+    return await dbHelper.deleteSavedVideo(id);
+  }
+
+  Future<int> removeSavedCollection(String collectionName) async {
+    return await dbHelper.deleteSavedCollection(collectionName);
+  }
+
   Future<bool> isReelLiked(int dbId) async {
     return await dbHelper.isReelLiked(dbId);
+  }
+
+  Future<bool> isReelSaved(int dbId) async {
+    return await dbHelper.isReelSaved(dbId);
   }
 }

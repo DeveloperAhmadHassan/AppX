@@ -16,5 +16,4 @@ class Category {
       thumbnailUrl: json['category_tile_url'],
     );
   }
-
 }

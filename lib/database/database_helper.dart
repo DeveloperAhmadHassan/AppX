@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:loopyfeed/models/saved_collection.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -53,6 +54,21 @@ class DatabaseHelper {
         date_watched TEXT
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE saved_videos(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        db_id INTEGER UNIQUE,
+        title TEXT,
+        reel_url TEXT,
+        views TEXT,
+        likes TEXT,
+        thumbnail_url TEXT,
+        is_saved INTEGER,
+        collection_name TEXT,
+        is_public INTEGER
+      )
+    ''');
   }
 
   Future<int> insertLikedVideo(Reel reel) async {
@@ -65,6 +81,22 @@ class DatabaseHelper {
     var result = await db.query(
       'liked_videos',
       where: 'db_id = ? AND is_liked = ?',
+      whereArgs: [dbId, 1],
+    );
+
+    return result.isNotEmpty;
+  }
+
+  Future<int> insertSavedVideo(SavedCollection collection) async {
+    Database db = await instance.database;
+    return await db.insert('saved_videos', collection.toMap());
+  }
+
+  Future<bool> isReelSaved(int dbId) async {
+    Database db = await instance.database;
+    var result = await db.query(
+      'saved_videos',
+      where: 'db_id = ? AND is_saved = ?',
       whereArgs: [dbId, 1],
     );
 
@@ -96,7 +128,7 @@ class DatabaseHelper {
       if (newDate.isAfter(existingDate)) {
         await db.update(
           'watch_history',
-          reel.toMap(forLikedVideos: false),
+          reel.toMap(forWatchHistory: true),
           where: 'db_id = ?',
           whereArgs: [reel.id],
         );
@@ -105,7 +137,7 @@ class DatabaseHelper {
         return 0;
       }
     } else {
-      return await db.insert('watch_history', reel.toMap(forLikedVideos: false));
+      return await db.insert('watch_history', reel.toMap(forWatchHistory: true));
     }
   }
 
@@ -133,10 +165,19 @@ class DatabaseHelper {
     return yesterday.toIso8601String().substring(0, 10);
   }
 
-
   Future<int> deleteLikedVideo(int id) async {
     Database db = await instance.database;
     return await db.delete('liked_videos', where: 'db_id = ?', whereArgs: [id]);
+  }
+
+  Future<int> deleteSavedVideo(int id) async {
+    Database db = await instance.database;
+    return await db.delete('saved_videos', where: 'db_id = ?', whereArgs: [id]);
+  }
+
+  Future<int> deleteSavedCollection(String title) async {
+    Database db = await instance.database;
+    return await db.delete('saved_videos', where: 'collection_name = ?', whereArgs: [title]);
   }
 
   Future<int> deleteWatchHistory(int id) async {

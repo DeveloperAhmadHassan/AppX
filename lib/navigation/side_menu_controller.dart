@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../pages/side_page/saved_videos_page/saved_videos_page.dart';
 import 'navigation_tab_controller.dart';
 import '../pages/auth_page/login_page.dart';
 import '../pages/carousel_page/_components/globals.dart';
@@ -207,7 +208,25 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                   )));
                 }),
                 SizedBox(height: 20),
-                menuItem(icon: FontAwesomeIcons.list, title: "Categories", size: 20, onPressed: (){
+                menuItem(icon: Icons.bookmark_border_rounded, size: 24, title: "Saved Videos", onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SavedVideosPage(
+                    tabController: _tabController,
+                    onReelSelected: _handleReelSelected,
+                    onSideMenuClick: () {
+                      setState(() {
+                        if (isCollapsed) {
+                          _controller.forward();
+                        } else {
+                          _controller.reverse();
+                        }
+
+                        isCollapsed = !isCollapsed;
+                      });
+                    },
+                  )));
+                }),
+                SizedBox(height: 20),
+                menuItem(icon: FontAwesomeIcons.list, title: "Categories", size: 20, givePadding: true, onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const CategoriesPage()));
                 }),
                 SizedBox(height: 20),
@@ -326,7 +345,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
     );
   }
 
-  Widget menuItem({IconData? icon, required String title, GestureTapCallback? onPressed, SvgPicture? svgIcon, double size = 20}){
+  Widget menuItem({IconData? icon, required String title, GestureTapCallback? onPressed, SvgPicture? svgIcon, double size = 20, bool givePadding = false}){
     return InkWell(
       onTap: (){
         onPressed?.call();
@@ -334,17 +353,21 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
       child: Row(
         children: [
           icon != null
-            ? Icon(icon, size: size)
+            ? Padding(
+              padding: EdgeInsets.only(left: givePadding ? 4.0 : 0.0),
+              child: Icon(icon, size: size),
+            )
             : svgIcon ?? Container(),
           SizedBox(width: icon != null ? size <= 20 ? 20 : 15 : 15,),
           SizedBox(
-            width: 215,
+            width: givePadding ? 185 : 190,
             child: Text(title, style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
               // color: Colors.white
             )),
           ),
+
           Container(
             height: 30,
             width: 30,

@@ -8,6 +8,7 @@ import '../../../utils/constants.dart';
 import '../../../utils/extensions/color.dart';
 import '../../../utils/extensions/string.dart';
 import '../../../utils/assets.dart';
+import 'bookmark_bottom_sheet.dart';
 
 class ReelMetaData extends StatefulWidget {
   final Reel reel;
@@ -44,24 +45,46 @@ class _ReelMetaDataState extends State<ReelMetaData> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 2),
+                  SizedBox(height: 10),
                   SizedBox(
                     height: 20,
                     width: 40,
-                    child: IconButton(
-                      icon: Icon(!isCurrentlySaved ? Icons.bookmark_border_outlined : Icons.bookmark, size: 25, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : HexColor.fromHex(AppConstants.primaryColor),),
-                      onPressed: () => {
-                        // TODO: Implement bookmark system like Instagram
-                        setState(() {
+                    child: InkWell(
+                      child: Icon(!isCurrentlySaved ? Icons.bookmark_border_outlined : Icons.bookmark, size: 25, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : HexColor.fromHex(AppConstants.primaryColor),),
+                      onTap: () {
+                        if(!isCurrentlySaved) {
                           isCurrentlySaved = !isCurrentlySaved;
-                        })
+                        }
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          constraints: BoxConstraints(
+                            maxHeight: 700,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                          ),
+                          builder: (BuildContext context) {
+                            return BookmarkBottomSheet(
+                              isSaved: isCurrentlySaved,
+                              thumbnailUrl: widget.reel.thumbnailUrl ?? "",
+                              onToggleSave: () {
+                                setState(() {
+                                  isCurrentlySaved = !isCurrentlySaved;
+                                });
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                        );
                       },
+
                     ),
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: 4),
                   Padding(
                     padding: const EdgeInsets.only(top: 3.0),
                     child: Text(

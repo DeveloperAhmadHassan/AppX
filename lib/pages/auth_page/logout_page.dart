@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../pages/settings_page/help_and_support_page.dart';
-import '../../utils/constants.dart';
+import '../../utils/components/full_logo.dart';
 import '../../utils/extensions/color.dart';
 
 class LogoutPage extends StatelessWidget {
@@ -20,38 +20,36 @@ class LogoutPage extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 30,),
-            Center(
-              child: Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: HexColor.fromHex(AppConstants.primaryColor)
-                ),
-              ),
-            ),
-            SizedBox(height: 120,),
+            FullLogo(),
+            SizedBox(height: 90,),
             Center(
               child: Container(
                 width: MediaQuery.of(context).size.width - 50,
                 padding: EdgeInsets.symmetric(horizontal: 30.0),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: HexColor.fromHex(AppConstants.primaryColor)
+                    color: HexColor.fromHex("#E1FF8B")
                 ),
                 child: Column(
                   children: [
                     SizedBox(height: 20,),
-                    Text("Logout", style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22
-                    )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(Icons.arrow_back, color: Colors.black, size: 35,),
+                        Text("Logout", style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 24
+                        )),
+                        Container()
+                        // Spacer()
+                      ],
+                    ),
                     SizedBox(height: 50,),
                     Text("Are you sure you want to logout?", style: TextStyle(
                         color: Colors.black,
-                        // fontWeight: FontWeight.bold,
-                        fontSize: 16
+                        fontSize: 20
                     ), textAlign: TextAlign.center,),
                     SizedBox(height: 50,),
                     Center(
@@ -65,20 +63,20 @@ class LogoutPage extends StatelessWidget {
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 3.5,
-                              height: 45,
+                              height: 55,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     width: 3
                                   ),
-                                color: Colors.white
+                                color: Colors.black
                               ),
                               child: Center(
                                 child: Text("Cancel", style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
-                                  color: Colors.black
+                                  color: Colors.white
                                 ))
                               ),
                             ),
@@ -90,10 +88,11 @@ class LogoutPage extends StatelessWidget {
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 3.5,
-                              height: 45,
+                              height: 55,
+                              // padding: EdgeInsets.symmetric(vertical: 20),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Colors.black
+                                  color: Colors.black87
                               ),
                               child: Center(
                                   child: Text("Logout", style: TextStyle(

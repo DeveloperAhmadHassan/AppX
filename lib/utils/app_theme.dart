@@ -37,11 +37,11 @@ class AppTheme {
               fontWeight: FontWeight.w700
           ),
           headlineMedium: TextStyle(
-              fontSize: 64,
+              fontSize: 58,
               fontWeight: FontWeight.w500
           ),
           headlineSmall: TextStyle(
-              fontSize: 58,
+              fontSize: 54,
               fontWeight: FontWeight.w700
           ),
           titleLarge: TextStyle(
@@ -154,11 +154,11 @@ class AppTheme {
               fontWeight: FontWeight.w700
           ),
           headlineMedium: TextStyle(
-              fontSize: 64,
+              fontSize: 58,
               fontWeight: FontWeight.w500
           ),
           headlineSmall: TextStyle(
-              fontSize: 58,
+              fontSize: 54,
               fontWeight: FontWeight.w700
           ),
           titleLarge: TextStyle(

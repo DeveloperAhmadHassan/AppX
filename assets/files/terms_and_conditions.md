@@ -38,5 +38,5 @@ The Service Provider may periodically update their Terms and Conditions. Therefo
 
 
 # Contact Us
-If you have any questions or suggestions about the Terms and Conditions, please do not hesitate to contact the Service Provider at *sayed.khizar.ashfaq@zynthdigital.com*.
+If you have any questions or suggestions about the Terms and Conditions, please do not hesitate to contact the Service Provider at *example@zynthdigital.com*.
 

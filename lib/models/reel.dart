@@ -30,9 +30,10 @@ class Reel {
       this.timestamps,
     });
 
-  Future<void> initializeIsLiked() async {
+  Future<void> initializeDynamicFields() async {
     if (id != null) {
       isLiked = await ReelRepository().isReelLiked(int.parse(id!));
+      isSaved = await ReelRepository().isReelSaved(int.parse(id!));
     }
   }
 
@@ -48,7 +49,7 @@ class Reel {
     );
   }
 
-  Map<String, dynamic> toMap({bool forLikedVideos = false}) {
+  Map<String, dynamic> toMap({bool forLikedVideos = false, bool forSavedVideos = false, bool forWatchHistory = false}) {
     var map = <String, dynamic>{
       'reel_url': reelUrl,
       'title': title,
@@ -62,8 +63,12 @@ class Reel {
       map['is_liked'] = isLiked! ? 1 : 0;
     }
 
-    if (!forLikedVideos && dateWatched != null) {
+    if (forWatchHistory && dateWatched != null) {
       map['date_watched'] = dateWatched?.toIso8601String();
+    }
+
+    if (forSavedVideos && isSaved != null) {
+      map['is_saved'] = isSaved! ? 1 : 0;
     }
 
     return map;
@@ -78,6 +83,7 @@ class Reel {
       id: map['db_id'].toString(),
       thumbnailUrl: map['thumbnail_url'],
       isLiked: map['is_liked'] == 1,
+      isSaved: map['is_saved'] == 1,
       dateWatched: map['date_watched'] != null ? DateTime.parse(map['date_watched']) : null,
     );
   }

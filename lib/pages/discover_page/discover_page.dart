@@ -129,17 +129,21 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }
 
   Widget itemGrid() {
+    double screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount = 2;
+    double spacing = screenWidth * 0.02;
+
     return SizedBox(
       child: GridView.builder(
         itemCount: _reels.length,
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        padding: EdgeInsets.only(top: 7),
+        padding: EdgeInsets.only(top: spacing),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          mainAxisSpacing: 18,
-          crossAxisSpacing: 2,
-          crossAxisCount: 2,
-          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.45),
+          mainAxisSpacing: screenWidth * 0.055,
+          crossAxisSpacing: 0,
+          crossAxisCount: crossAxisCount,
+          childAspectRatio: screenWidth / (MediaQuery.of(context).size.height / 1.45),
         ),
         itemBuilder: (context, index) {
           final reel = _reels[index];

@@ -17,7 +17,7 @@ class CarouselReelController extends BaseController {
         List<dynamic> jsonData = response.data;
         List<Reel> reels = await Future.wait(jsonData.map((e) async {
           Reel reel = Reel.fromJson(e);
-          await reel.initializeIsLiked();
+          await reel.initializeDynamicFields();
           return reel;
         }).toList());
 

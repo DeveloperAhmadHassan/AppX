@@ -19,7 +19,7 @@ class HomeReelController extends BaseController {
         List<dynamic> data = response.data['data'];
         List<Reel> reels = await Future.wait(data.map((e) async {
           Reel reel = Reel.fromJson(e);
-          await reel.initializeIsLiked();
+          await reel.initializeDynamicFields();
           return reel;
         }).toList());
 
@@ -30,6 +30,7 @@ class HomeReelController extends BaseController {
         throw Exception('Failed to load reels');
       }
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
