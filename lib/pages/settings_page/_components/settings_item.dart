@@ -61,7 +61,7 @@ class _SettingsItemState extends State<SettingsItem> {
             ),
             Text(
               widget.title,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
             ),
             Spacer(),
             widget.isSwitch ? FlutterSwitch(

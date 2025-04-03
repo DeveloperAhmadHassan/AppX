@@ -41,7 +41,7 @@ class AppTheme {
               fontWeight: FontWeight.w500
           ),
           headlineSmall: TextStyle(
-              fontSize: 54,
+              fontSize: 50,
               fontWeight: FontWeight.w700
           ),
           titleLarge: TextStyle(
@@ -158,7 +158,7 @@ class AppTheme {
               fontWeight: FontWeight.w500
           ),
           headlineSmall: TextStyle(
-              fontSize: 54,
+              fontSize: 50,
               fontWeight: FontWeight.w700
           ),
           titleLarge: TextStyle(

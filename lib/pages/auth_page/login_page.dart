@@ -13,10 +13,12 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login", style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18
-        )),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,size: 34,),
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -82,7 +84,6 @@ class LoginPage extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, color: Colors.black, size: 23),
-          SizedBox(width: 30),
           Expanded(
             child: Center(
               child: Text(
@@ -90,7 +91,7 @@ class LoginPage extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 18,
                 ),
                 textAlign: TextAlign.center,
               ),

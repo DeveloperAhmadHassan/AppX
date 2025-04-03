@@ -101,6 +101,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
     return Scaffold(
         backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
         body: Stack(
+          clipBehavior: Clip.hardEdge,
           children: <Widget>[
             menu(context),
             dashboard(context),
