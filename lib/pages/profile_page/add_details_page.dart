@@ -45,9 +45,9 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryColor),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,size: 34,),
+          icon: Icon(Icons.arrow_back,size: 34, color: Colors.black,),
           onPressed: () {
             Navigator.pop(context, true);
           },
@@ -57,14 +57,20 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0),
-              child: Text("profile", style: Theme.of(context).textTheme.headlineMedium,),
-            ),
-            SizedBox(height: 30,),
             Container(
               width: MediaQuery.of(context).size.width,
-              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
+              padding: EdgeInsets.only(bottom: 30.0),
+              color: HexColor.fromHex(AppConstants.primaryColor),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 25.0),
+                child: Text("profile", style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: Colors.black,
+                ),),
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryColor),
               padding: EdgeInsets.only(left: 25.0, bottom: 45.0),
               child: Row(
                 children: [
@@ -75,12 +81,16 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                         bottom: 0,
                         right: 0,
                         child: Container(
-                          padding: EdgeInsets.all(5),
+                          padding: EdgeInsets.all(6),
                           decoration: BoxDecoration(
-                              color: Colors.grey.withValues(alpha: 0.8),
-                              borderRadius: BorderRadius.circular(100)
+                              color: HexColor.fromHex(AppConstants.primaryWhite),
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 2
+                              )
                           ),
-                          child: Icon(FontAwesomeIcons.penToSquare, size: 15,),
+                          child: Icon(FontAwesomeIcons.penToSquare, size: 15, color: Colors.black,),
                         ),
                       )
                     ],
@@ -94,14 +104,14 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                       Text(user?.name ?? "Username", style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                        color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
+                        color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.black
                       ),),
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 210,
                         child: Text(user?.bio ?? "Bio", style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
-                          color: Theme.of(context).brightness == Brightness.dark ? Colors.white.withValues(alpha: 0.6) : Colors.black.withValues(alpha: 0.6)
+                          color: Theme.of(context).brightness == Brightness.dark ? Colors.black.withValues(alpha: 0.6) : Colors.black.withValues(alpha: 0.6)
                         ),
                           textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,),

@@ -10,4 +10,16 @@ class Assets {
   static const String profilePA = 'assets/profile/p_a.jpg';
 
   static const String profileTutorialScreen = 'assets/profile/tutorial_screen.png';
+  static const String profileLikedVideosIllustration = 'assets/profile/liked_videos_illustration.png';
+  static const String profileDarkIllustration = 'assets/profile/dark_illustration.png';
+  static const String profileLightIllustration = 'assets/profile/light_illustration.png';
+  static const String iconsBranding2 = 'assets/icons/branding_2.png';
+
+  static const String iconsFacebook = 'assets/icons/facebook.svg';
+  static const String iconsGoogle = 'assets/icons/google.svg';
+  static const String iconsInstagram = 'assets/icons/instagram.svg';
+  static const String iconsX = 'assets/icons/x.svg';
+  static const String iconsPerson = 'assets/icons/person.svg';
+
+
 }

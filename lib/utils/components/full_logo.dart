@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class FullLogo extends StatelessWidget {
-  const FullLogo({super.key});
+  final double size;
+  const FullLogo({super.key, this.size = 110});
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +12,8 @@ class FullLogo extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: 110,
-            width: 110,
+            height: size,
+            width: size,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               // color: HexColor.fromHex(AppConstants.primaryColor)

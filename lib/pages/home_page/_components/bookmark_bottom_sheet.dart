@@ -104,7 +104,7 @@ class BookmarkBottomSheet extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(100),
                       color: HexColor.fromHex(AppConstants.primaryColor)
                   ),
                   child: Text("Try It", style: TextStyle(

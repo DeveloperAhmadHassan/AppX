@@ -91,11 +91,11 @@ class _DiscoverPageState extends State<DiscoverPage> {
         controller: _scrollController,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 110),
             Padding(
-              padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
+              padding: EdgeInsets.only(left: 8.0, bottom: 10.0),
               child: Text(
                 "trending",
                 style: Theme.of(context).textTheme.headlineLarge,
@@ -138,12 +138,12 @@ class _DiscoverPageState extends State<DiscoverPage> {
         itemCount: _reels.length,
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        padding: EdgeInsets.only(top: spacing),
+        padding: EdgeInsets.only(top: 0),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          mainAxisSpacing: screenWidth * 0.055,
-          crossAxisSpacing: 0,
-          crossAxisCount: crossAxisCount,
-          childAspectRatio: screenWidth / (MediaQuery.of(context).size.height / 1.45),
+          mainAxisSpacing: 20,
+          crossAxisSpacing: 20,
+          crossAxisCount: 2,
+          childAspectRatio: (MediaQuery.of(context).size.width) / (MediaQuery.of(context).size.height / 1.34),
         ),
         itemBuilder: (context, index) {
           final reel = _reels[index];

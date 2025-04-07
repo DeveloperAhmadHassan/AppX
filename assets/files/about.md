@@ -1,4 +1,4 @@
-# About AppX
+# about loopyfeed
 Welcome to AppX, your go-to destination for short, satisfying ASMR DIY content! We bring you a unique blend of creativity and relaxation, perfect for unwinding and exploring your artistic side.
 ## Our Mission
 At AppX, our mission is to inspire creativity and provide a soothing escape through engaging DIY projects and ASMR experiences. We believe that everyone deserves a moment of tranquility in their busy lives.

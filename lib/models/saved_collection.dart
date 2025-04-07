@@ -5,12 +5,12 @@ import 'package:loopyfeed/models/reel.dart';
 class SavedCollection {
   final Reel reel;
   final String? collectionName;
-  final Bool? isPublic;
+  final int? isPublic;
 
   SavedCollection({
     required this.reel,
     this.collectionName,
-    this.isPublic,
+    this.isPublic = 0,
   });
 
   Map<String, dynamic> toMap() {

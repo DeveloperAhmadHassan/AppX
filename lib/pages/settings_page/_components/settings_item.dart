@@ -5,6 +5,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/settings.dart';
+import '../../../utils/constants.dart';
 import '../../../utils/extensions/color.dart';
 
 class SettingsItem extends StatefulWidget {
@@ -80,9 +81,9 @@ class _SettingsItemState extends State<SettingsItem> {
               activeColor: Colors.transparent,
               inactiveColor: Colors.transparent,
               activeSwitchBorder: Border.all(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, width: 2),
-              toggleColor: HexColor.fromHex("#ADF7E3"),
-              activeToggleColor: Colors.blue,
-              inactiveToggleColor: HexColor.fromHex("#ADF7E3"),
+              toggleColor: HexColor.fromHex(AppConstants.primaryColor),
+              activeToggleColor: HexColor.fromHex(AppConstants.primaryColor),
+              inactiveToggleColor: HexColor.fromHex(AppConstants.primaryWhite),
               inactiveSwitchBorder: Border.all(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, width: 2),
             ) : Icon(
               Icons.navigate_next,

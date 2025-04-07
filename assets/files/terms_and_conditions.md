@@ -1,4 +1,4 @@
-# Terms & Conditions
+# terms & conditions
 These terms and conditions applies to the Appx app (hereby referred to as "Application") for mobile devices that was created by Zynth digital (hereby referred to as "Service Provider") as a Free service.
 
 

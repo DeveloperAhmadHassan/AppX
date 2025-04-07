@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloudinary_flutter/video/cld_video_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -171,23 +170,33 @@ class _HomeReelItemState extends State<HomeReelItem> {
   Stack videoItem(BuildContext context) {
     return Stack(
       children: [
-        Center(
-          child: Container(
-            height: MediaQuery.of(context).size.height - 200,
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: _isVideoInitialized ? InkWell(
-              child: ClipRRect(
+        VisibilityDetector(
+          onVisibilityChanged: (info) {
+            if(info.visibleFraction <= 0.5) {
+              _controller.pause();
+            } else {
+              _controller.play();
+            }
+          },
+          key: Key("reel-${widget.reel.id}"),
+          child: Center(
+            child: Container(
+              height: MediaQuery.of(context).size.height - 200,
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                child: VideoPlayer(_controller),
               ),
-            ) : ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Image.network(
-                widget.reel.thumbnailUrl ?? "",
-                fit: BoxFit.cover,
+              child: _isVideoInitialized ? InkWell(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: VideoPlayer(_controller),
+                ),
+              ) : ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Image.network(
+                  widget.reel.thumbnailUrl ?? "",
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

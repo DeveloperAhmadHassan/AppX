@@ -11,7 +11,7 @@ class ReelRepository {
   }
 
   Future<int> addSavedVideo(SavedCollection collection) async {
-    return await dbHelper.insertSavedVideo(collection);
+    return await dbHelper.insertSavedVideo(collection.reel);
   }
 
   Future<int> addWatchHistory(Reel reel) async {

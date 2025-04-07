@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+import 'extensions/color.dart';
+
 class AppTheme {
   static ThemeData lightTheme() {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: HexColor.fromHex(AppConstants.primaryWhite),
       sliderTheme: SliderThemeData(),
       tabBarTheme: TabBarTheme(
         dividerColor: Colors.transparent,
@@ -28,7 +31,7 @@ class AppTheme {
           color: Colors.black
       ),
       appBarTheme: AppBarTheme(
-          color: Colors.white,
+          color: HexColor.fromHex(AppConstants.primaryWhite),
           foregroundColor: Colors.black
       ),
       textTheme: TextTheme(
@@ -38,7 +41,7 @@ class AppTheme {
           ),
           headlineMedium: TextStyle(
               fontSize: 58,
-              fontWeight: FontWeight.w500
+              fontWeight: FontWeight.w800
           ),
           headlineSmall: TextStyle(
               fontSize: 50,
@@ -65,7 +68,7 @@ class AppTheme {
             // letterSpacing: 2.0,
           ),
           labelMedium: TextStyle(
-              color: Colors.white
+              color: HexColor.fromHex(AppConstants.primaryWhite)
           ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -111,7 +114,7 @@ class AppTheme {
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(Colors.black),
-          foregroundColor: WidgetStateProperty.all(Colors.white),
+          foregroundColor: WidgetStateProperty.all(HexColor.fromHex(AppConstants.primaryWhite)),
             padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 13.0))
         ),
       ),
@@ -126,15 +129,15 @@ class AppTheme {
       scaffoldBackgroundColor: Colors.black,
       tabBarTheme: TabBarTheme(
         dividerColor: Colors.transparent,
-        indicatorColor: Colors.white,
-        unselectedLabelColor: Colors.white,
+        indicatorColor: HexColor.fromHex(AppConstants.primaryWhite),
+        unselectedLabelColor: HexColor.fromHex(AppConstants.primaryWhite),
         tabAlignment: TabAlignment.center,
         labelPadding: EdgeInsets.only(right: 15),
         unselectedLabelStyle: TextStyle(
           fontSize: 14,
           fontFamily: 'Outfit',
         ),
-        labelColor: Colors.white,
+        labelColor: HexColor.fromHex(AppConstants.primaryWhite),
         labelStyle: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 14,
@@ -142,11 +145,11 @@ class AppTheme {
         ),
       ),
       iconTheme: IconThemeData(
-          color: Colors.white
+          color: HexColor.fromHex(AppConstants.primaryWhite)
       ),
       appBarTheme: AppBarTheme(
           color: Colors.black,
-          foregroundColor: Colors.white
+          foregroundColor: HexColor.fromHex(AppConstants.primaryWhite)
       ),
       textTheme: TextTheme(
           headlineLarge: TextStyle(
@@ -155,19 +158,19 @@ class AppTheme {
           ),
           headlineMedium: TextStyle(
               fontSize: 58,
-              fontWeight: FontWeight.w500
+              fontWeight: FontWeight.w800
           ),
           headlineSmall: TextStyle(
               fontSize: 50,
               fontWeight: FontWeight.w700
           ),
           titleLarge: TextStyle(
-              color: Colors.white,
+              color: HexColor.fromHex(AppConstants.primaryWhite),
               fontWeight: FontWeight.bold,
               fontSize: 18
           ),
           titleMedium: TextStyle(
-              color: Colors.white,
+              color: HexColor.fromHex(AppConstants.primaryWhite),
               fontWeight: FontWeight.bold,
               fontSize: 13
           ),
@@ -176,60 +179,60 @@ class AppTheme {
               fontSize: 15
           ),
           bodyMedium: TextStyle(
-            color: Colors.white,
+            color: HexColor.fromHex(AppConstants.primaryWhite),
             fontSize: 16,
             fontWeight: FontWeight.w400,
             // letterSpacing: 2.0,
           ),
           labelMedium: TextStyle(
-              color: Colors.white
+              color: HexColor.fromHex(AppConstants.primaryWhite)
           )
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-            side: BorderSide(color: Colors.white, width: 3.0,),
-            iconColor: Colors.white,
-            foregroundColor: Colors.white
+            side: BorderSide(color: HexColor.fromHex(AppConstants.primaryWhite), width: 3.0,),
+            iconColor: HexColor.fromHex(AppConstants.primaryWhite),
+            foregroundColor: HexColor.fromHex(AppConstants.primaryWhite)
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        prefixIconColor: Colors.white,
-        suffixIconColor: Colors.white.withValues(alpha: 0.5),
+        prefixIconColor: HexColor.fromHex(AppConstants.primaryWhite),
+        suffixIconColor: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.5),
         border: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+          borderSide: BorderSide(color: HexColor.fromHex(AppConstants.primaryWhite)),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+          borderSide: BorderSide(color: HexColor.fromHex(AppConstants.primaryWhite)),
         ),
         hintStyle: TextStyle(
-          color: Colors.white.withValues(alpha: 0.6),
+          color: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.6),
         ),
         labelStyle: TextStyle(
-          color: Colors.white,
+          color: HexColor.fromHex(AppConstants.primaryWhite),
         ),
       ),
       dropdownMenuTheme: DropdownMenuThemeData(
           inputDecorationTheme: InputDecorationTheme(
             border: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
+              borderSide: BorderSide(color: HexColor.fromHex(AppConstants.primaryWhite)),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
+              borderSide: BorderSide(color: HexColor.fromHex(AppConstants.primaryWhite)),
             ),
             hintStyle: TextStyle(
-              color: Colors.white.withValues(alpha: 0.6),
+              color: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.6),
             ),
             labelStyle: TextStyle(
-              color: Colors.white,
+              color: HexColor.fromHex(AppConstants.primaryWhite),
             ),
-            prefixIconColor: Colors.white,
-            suffixIconColor: Colors.white.withValues(alpha: 0.5),
+            prefixIconColor: HexColor.fromHex(AppConstants.primaryWhite),
+            suffixIconColor: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.5),
           )
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(Colors.white),
-          foregroundColor: WidgetStateProperty.all(Colors.black),
+          backgroundColor: WidgetStateProperty.all(Colors.black),
+          foregroundColor: WidgetStateProperty.all(HexColor.fromHex(AppConstants.primaryWhite)),
           padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 13.0))
         ),
       ),

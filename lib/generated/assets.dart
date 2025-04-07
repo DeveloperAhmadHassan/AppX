@@ -7,7 +7,12 @@ class Assets {
   static const String filesTermsAndConditions = 'assets/files/terms_and_conditions.md';
   static const String iconsAppIcon = 'assets/icons/app_icon.png';
   static const String iconsBranding2 = 'assets/icons/branding_2.png';
+  static const String iconsBrandingDark = 'assets/icons/branding_dark.png';
   static const String iconsBrandingHd = 'assets/icons/branding_hd.png';
+  static const String iconsFacebook = 'assets/icons/facebook.svg';
+  static const String iconsGoogle = 'assets/icons/google.svg';
+  static const String iconsInstagram = 'assets/icons/instagram.svg';
+  static const String iconsPerson = 'assets/icons/person.svg';
   static const String iconsPrimaryLogo = 'assets/icons/primary_logo.png';
   static const String iconsSecondaryLogo = 'assets/icons/secondary_logo.png';
   static const String iconsSettings = 'assets/icons/settings.svg';
@@ -15,6 +20,11 @@ class Assets {
   static const String iconsSplashBrandingLogo = 'assets/icons/splash_branding_logo.png';
   static const String iconsSplashLogo = 'assets/icons/splash_logo.png';
   static const String iconsSplashLogo2 = 'assets/icons/splash_logo_2.png';
+  static const String iconsSplashLogoLight = 'assets/icons/splash_logo_light.png';
+  static const String iconsX = 'assets/icons/x.svg';
+  static const String profileDarkIllustration = 'assets/profile/dark_illustration.png';
+  static const String profileLightIllustration = 'assets/profile/light_illustration.png';
+  static const String profileLikedVideosIllustration = 'assets/profile/liked_videos_illustration.png';
   static const String profilePA = 'assets/profile/p_a.jpg';
   static const String profileTutorialScreen = 'assets/profile/tutorial_screen.png';
   static const String thumbnailsASMR = 'assets/thumbnails/ASMR.jpg';

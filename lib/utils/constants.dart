@@ -7,7 +7,8 @@ class AppConstants {
   static const maxXIndex = 5;
   static const maxYIndex = 5;
 
-  static const String primaryColor = "#ADF7E3";
+  static const String primaryColor = "#E1FF8B";
+  static const String primaryWhite = "#F8FFE2";
 
   static const String iconsPrimaryLogo = 'assets/icons/primary_logo.png';
   static const String iconsSecondaryLogo = 'assets/icons/secondary_logo.png';

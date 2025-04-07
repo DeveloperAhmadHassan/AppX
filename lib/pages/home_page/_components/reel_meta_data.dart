@@ -4,10 +4,12 @@ import 'package:like_button/like_button.dart';
 
 import '../../../controllers/home_reel_controller.dart';
 import '../../../models/reel.dart';
+import '../../../models/saved_collection.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/extensions/color.dart';
 import '../../../utils/extensions/string.dart';
 import '../../../utils/assets.dart';
+
 import 'bookmark_bottom_sheet.dart';
 
 class ReelMetaData extends StatefulWidget {
@@ -21,6 +23,12 @@ class ReelMetaData extends StatefulWidget {
 
 class _ReelMetaDataState extends State<ReelMetaData> {
   bool isCurrentlySaved = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isCurrentlySaved = widget.reel.isSaved ?? false;
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -48,6 +56,47 @@ class _ReelMetaDataState extends State<ReelMetaData> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: 10,),
+                  LikeButton(
+                    size: 25,
+                    isLiked: widget.reel.isLiked,
+                    onTap: (isCurrentlyLiked) async {
+                      if (isCurrentlyLiked) {
+                        widget.homeReelController.unlikeVideo(widget.reel);
+                      } else {
+                        widget.homeReelController.likeVideo(widget.reel);
+                      }
+                      setState(() {
+                        widget.reel.isLiked = !isCurrentlyLiked;
+                      });
+                      return widget.reel.isLiked;
+                    },
+                    likeBuilder: (isLiked) {
+                      return Icon(
+                        isLiked
+                            ? Icons.favorite
+                            : Icons.favorite_border_outlined,
+                        color: isLiked
+                            ? Colors.red
+                            : Theme.of(context).iconTheme.color,
+                        size: 25,
+                      );
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2.0),
+                    child: Text(
+                      widget.reel.likes!.formattedNumber,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 7),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
                   SizedBox(height: 10),
                   SizedBox(
                     height: 20,
@@ -57,6 +106,11 @@ class _ReelMetaDataState extends State<ReelMetaData> {
                       onTap: () {
                         if(!isCurrentlySaved) {
                           isCurrentlySaved = !isCurrentlySaved;
+                          SavedCollection collection = SavedCollection(reel: widget.reel);
+                          widget.homeReelController.saveVideo(collection);
+                        } else {
+                          SavedCollection collection = SavedCollection(reel: widget.reel);
+                          widget.homeReelController.unSaveVideo(collection);
                         }
                         showModalBottomSheet(
                           context: context,
@@ -99,66 +153,45 @@ class _ReelMetaDataState extends State<ReelMetaData> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 10,),
-                  LikeButton(
-                    size: 25,
-                    isLiked: widget.reel.isLiked,
-                    onTap: (isCurrentlyLiked) async {
-                      if (isCurrentlyLiked) {
-                        widget.homeReelController.unlikeVideo(widget.reel);
-                      } else {
-                        widget.homeReelController.likeVideo(widget.reel);
-                      }
-                      setState(() {
-                        widget.reel.isLiked = !isCurrentlyLiked;
-                      });
-                      return widget.reel.isLiked;
-                    },
-                    likeBuilder: (isLiked) {
-                      return Icon(
-                        isLiked
-                            ? Icons.favorite
-                            : Icons.favorite_border_outlined,
-                        color: isLiked
-                            ? Colors.red
-                            : Theme.of(context).iconTheme.color,
-                        size: 25,
-                      );
-                    },
+                  // SizedBox(height: 10),
+                  SizedBox(
+                    // height: 28,
+                    // width: 40,
+                    child: InkWell(
+                      onTap: () {},
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 12,),
+                          SvgPicture.asset(
+                            Assets.iconsShare,
+                            semanticsLabel: 'Share Logo',
+                            height: 20,
+                            width: 20,
+                            colorFilter: ColorFilter.mode(
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black,
+                                BlendMode.srcIn
+                            ),
+                          ),
+                          // SizedBox(height: 16)
+                        ],
+                      ),
+                    ),
                   ),
+                  SizedBox(height: 2),
                   Padding(
-                    padding: const EdgeInsets.only(top: 2.0),
+                    padding: const EdgeInsets.only(top: 3.0),
                     child: Text(
-                      widget.reel.likes!.formattedNumber,
+                      widget.reel.views!.formattedNumber,
                       style: TextStyle(fontSize: 14),
                     ),
                   ),
                 ],
               ),
-              SizedBox(width: 7),
-              InkWell(
-                onTap: () {},
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 8,),
-                    SvgPicture.asset(
-                      Assets.iconsShare,
-                      semanticsLabel: 'Share Logo',
-                      height: 26,
-                      width: 26,
-                      colorFilter: ColorFilter.mode(
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black,
-                        BlendMode.srcIn
-                      ),
-                    ),
-                    SizedBox(height: 16)
-                  ],
-                ),
-              ),
+
             ],
           ),
         ],

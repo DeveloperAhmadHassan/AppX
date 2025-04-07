@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:loopyfeed/pages/auth_page/login_signup_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../pages/side_page/saved_videos_page/saved_videos_page.dart';
-import 'navigation_tab_controller.dart';
 import '../pages/auth_page/login_page.dart';
 import '../pages/carousel_page/_components/globals.dart';
 import '../pages/side_page/categories_page/categories_page.dart';
@@ -15,12 +15,13 @@ import '../pages/side_page/watch_history_page/watch_history_page.dart';
 import '../pages/profile_page/add_details_page.dart';
 import '../pages/settings_page/settings_page.dart';
 import '../pages/side_page/liked_videos_page/liked_videos_page.dart';
-import '../utils/components/gradient_divider.dart';
 import '../models/reel.dart';
 import '../models/user.dart';
 import '../utils/assets.dart';
 import '../utils/constants.dart';
 import '../utils/extensions/color.dart';
+
+import 'navigation_tab_controller.dart';
 
 class MenuDashboardPage extends StatefulWidget {
   final bool isDarkMode;
@@ -129,63 +130,61 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                 SizedBox(height: 70,),
                 _isLoading ? CircularProgressIndicator() : SizedBox(
                   width: 300,
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetailsPage())),
-                          child: Container(
-                            width: 100.0,
-                            height: 100.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: user?.imagePath == null || user == null ? null : Border.all(
-                                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
-                                width: 4.0,
-                              ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetailsPage())),
+                        child: Container(
+                          width: 100.0,
+                          height: 100.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: user?.imagePath == null || user == null ? null : Border.all(
+                              color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : Colors.black,
+                              width: 4.0,
                             ),
-                            child: ClipOval(
-                              child: (user != null && user!.imagePath!.contains('assets/')) || user?.imagePath == null || user == null
-                                  ? Icon(Icons.account_circle_outlined, size: 100, weight: 20,) : Image.file (
-                                File(user!.imagePath ?? ""),
-                                width: 100.0,
-                                height: 100.0,
-                                fit: BoxFit.cover,
-                              ),
+                          ),
+                          child: ClipOval(
+                            child: (user != null && user!.imagePath!.contains('assets/')) || user?.imagePath == null || user == null
+                                ? Icon(Icons.account_circle_outlined, size: 100, weight: 20,) : Image.file (
+                              File(user!.imagePath ?? ""),
+                              width: 100.0,
+                              height: 100.0,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
-                        SizedBox(height: 10,),
-                        Text("Hello, ${user?.name ?? "User"}!",
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                      ),
+                      SizedBox(height: 10,),
+                      Text("Hello, ${user?.name ?? "User"}!",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                               fontFamily: 'Outfit'
-                            )),
-                        SizedBox(height: 15,),
-                        OutlinedButton.icon(
-                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage())),
-                          icon: const Icon(Icons.add, size: 24, weight: 700,),
-                          label: Padding(
-                            padding: const EdgeInsets.only(right: 4.0),
-                            child: const Text('Login', style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold
-                            ),),
-                          ),
-                          iconAlignment: IconAlignment.start,
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(
-                              color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
-                              width: 2.0,
-                            ),
-                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0.0),
-                          ),
+                          )),
+                      SizedBox(height: 15,),
+                      OutlinedButton.icon(
+                        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginSignupPage())),
+                        icon: const Icon(Icons.add, size: 24, weight: 700,),
+                        label: Padding(
+                          padding: const EdgeInsets.only(right: 4.0),
+                          child: const Text('Login', style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold
+                          ),),
                         ),
-                      ],
-                    ),
+                        iconAlignment: IconAlignment.start,
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                            color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : Colors.black,
+                            width: 2.0,
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0.0),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(height: 30),
@@ -373,10 +372,10 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
             height: 30,
             width: 30,
             decoration: BoxDecoration(
-              color: Theme.of(context).brightness == Brightness.dark ? Colors.white : HexColor.fromHex(AppConstants.primaryColor),
+              color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryColor),
               borderRadius: BorderRadius.circular(100)
             ),
-            child: Icon(Icons.navigate_next, color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,),
+            child: Icon(Icons.navigate_next, color: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryWhite),),
           ),
         ],
       ),

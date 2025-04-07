@@ -1,4 +1,4 @@
-# Privacy Policy
+# privacy policy
 This privacy policy applies to the Appx app (hereby referred to as "Application") for mobile devices that was created by Zynth digital (hereby referred to as "Service Provider") as a Free service. This service is intended for use "AS IS".
 
 Information Collection and Use

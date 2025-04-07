@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:loopyfeed/utils/constants.dart';
+import 'package:loopyfeed/utils/extensions/color.dart';
 
 import '../../../models/reel.dart';
 
@@ -13,6 +15,7 @@ class DiscoverItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
+        // width: 300,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -32,9 +35,9 @@ class DiscoverItem extends StatelessWidget {
               child: Text(
                 "${reel.title} ${reel.id}",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: HexColor.fromHex(AppConstants.primaryWhite),
                   fontWeight: FontWeight.bold,
-                  fontSize: 12
+                  fontSize: 15
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,

@@ -31,9 +31,12 @@ class Reel {
     });
 
   Future<void> initializeDynamicFields() async {
+    print("initializing dynamic fields");
     if (id != null) {
       isLiked = await ReelRepository().isReelLiked(int.parse(id!));
       isSaved = await ReelRepository().isReelSaved(int.parse(id!));
+      print("isLiked: $isLiked, isSaved: $isSaved");
+
     }
   }
 

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:loopyfeed/utils/extensions/color.dart';
 
 class NavigationTabBar extends StatefulWidget {
   final Function() onSideMenuClick;
@@ -47,11 +48,8 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                       child: Stack(
                         children: [
                           Positioned.fill(
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                              child: Container(
-                                color: Colors.black.withValues(alpha: 0),
-                              ),
+                            child: Container(
+                              color: HexColor.fromHex("#F8FFE2").withValues(alpha: 0.2),
                             ),
                           ),
                           TabBar(

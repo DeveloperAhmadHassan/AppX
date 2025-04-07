@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loopyfeed/utils/constants.dart';
 
 import '../../pages/settings_page/help_and_support_page.dart';
 import '../../utils/components/full_logo.dart';
@@ -28,7 +29,7 @@ class LogoutPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 30.0),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: HexColor.fromHex("#E1FF8B")
+                    color: HexColor.fromHex(AppConstants.primaryWhite)
                 ),
                 child: Column(
                   children: [
@@ -65,18 +66,14 @@ class LogoutPage extends StatelessWidget {
                               width: MediaQuery.of(context).size.width / 3.5,
                               height: 55,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 3
-                                  ),
-                                color: Colors.black
+                                borderRadius: BorderRadius.circular(100),
+                                color: HexColor.fromHex(AppConstants.primaryColor)
                               ),
                               child: Center(
                                 child: Text("Cancel", style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
-                                  color: Colors.white
+                                  color: Colors.black
                                 ))
                               ),
                             ),
@@ -89,16 +86,15 @@ class LogoutPage extends StatelessWidget {
                             child: Container(
                               width: MediaQuery.of(context).size.width / 3.5,
                               height: 55,
-                              // padding: EdgeInsets.symmetric(vertical: 20),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.black87
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.black
                               ),
                               child: Center(
                                   child: Text("Logout", style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
-                                    color: Colors.red
+                                    color: Colors.white
                                   ))
                               ),
                             ),
