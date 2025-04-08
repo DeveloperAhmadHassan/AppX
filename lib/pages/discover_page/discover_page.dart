@@ -71,14 +71,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
         _hasMoreData = _pagination['nextPage'] <= _pagination['totalPages'];
       });
 
-      // Restore the scroll position after the data is loaded
       if (currentScrollPosition > 0) {
         _scrollController.jumpTo(currentScrollPosition);
       }
     } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
       _error = true;
       print('Error fetching reels: $e');
     }

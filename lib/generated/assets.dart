@@ -3,6 +3,7 @@ class Assets {
   Assets._();
 
   static const String filesAbout = 'assets/files/about.md';
+  static const String filesCountryCodes = 'assets/files/country_codes.json';
   static const String filesPrivacyPolicy = 'assets/files/privacy_policy.md';
   static const String filesTermsAndConditions = 'assets/files/terms_and_conditions.md';
   static const String iconsAppIcon = 'assets/icons/app_icon.png';
@@ -34,5 +35,16 @@ class Assets {
   static const String thumbnailsCrafty = 'assets/thumbnails/Crafty.jpg';
   static const String thumbnailsFashion = 'assets/thumbnails/Fashion.jpg';
   static const String thumbnailsFun = 'assets/thumbnails/Fun.jpg';
+  static const String videosA = 'assets/videos/a.mp4';
+  static const String videosB = 'assets/videos/b.mp4';
+  static const String videosC = 'assets/videos/c.mp4';
+  static const String videosD = 'assets/videos/d.mp4';
+  static const String videosE = 'assets/videos/e.mp4';
+  static const String videosF = 'assets/videos/f.mp4';
+  static const String videosG = 'assets/videos/g.mp4';
+  static const String videosH = 'assets/videos/h.mp4';
+  static const String videosI = 'assets/videos/i.mp4';
+  static const String videosJ = 'assets/videos/j.mp4';
+  static const String videosK = 'assets/videos/k.mp4';
 
 }

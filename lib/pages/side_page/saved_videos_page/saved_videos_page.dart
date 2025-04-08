@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:loopyfeed/models/saved_collection.dart';
+import 'package:loopyfeed/pages/side_page/saved_videos_page/collections_page.dart';
 import 'package:loopyfeed/utils/components/no_items_found.dart';
 
 import '../../../models/reel.dart';
 import '../../../repository/reel_repository.dart';
+import 'manage_saved_videos_page.dart';
 import 'saved_item.dart';
 
 class SavedVideosPage extends StatefulWidget {
@@ -27,24 +29,6 @@ class _LikedVideosPageState extends State<SavedVideosPage> {
     savedVideos = reelRepository.getSavedVideos();
     collections = reelRepository.getCollections();
   }
-
-  // final collections = [
-  //   {
-  //     "collection_name": "Something new",
-  //     "is_public": false,
-  //     "thumbnail_url": "https://res.cloudinary.com/dqudeifns/image/upload/v1739424587/thumbnails/thumb1.jpg"
-  //   },
-  //   {
-  //     "collection_name": "ASMR Videos",
-  //     "is_public": false,
-  //     "thumbnail_url": "https://res.cloudinary.com/dqudeifns/image/upload/v1739424587/thumbnails/thumb2.jpg"
-  //   },
-  //   {
-  //     "collection_name": "Cool Videos",
-  //     "is_public": true,
-  //     "thumbnail_url": "https://res.cloudinary.com/dqudeifns/image/upload/v1739424587/thumbnails/thumb3.jpg"
-  //   },
-  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -84,12 +68,14 @@ class _LikedVideosPageState extends State<SavedVideosPage> {
                         child: Row(
                           children: [
                             Text(
-                                "Collections",
-                                style: Theme.of(context).textTheme.titleLarge
+                              "Collections",
+                              style: Theme.of(context).textTheme.titleLarge
                             ),
                             Spacer(),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CollectionsPage(tabController: widget.tabController, onReelSelected: widget.onReelSelected, onSideMenuClick: widget.onSideMenuClick)));
+                              },
                               icon: Icon(Icons.chevron_right, size: 34,),
                             ),
                           ],
@@ -178,7 +164,9 @@ class _LikedVideosPageState extends State<SavedVideosPage> {
                             ),
                             Spacer(),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(context,  MaterialPageRoute(builder: (context)=>ManageSavedVideosPage(tabController: widget.tabController, onReelSelected: widget.onReelSelected, onSideMenuClick: widget.onSideMenuClick)));
+                              },
                               child: Text("Manage", style: TextStyle(
                                   color: Colors.blue
                               ),),

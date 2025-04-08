@@ -30,6 +30,9 @@ class ReelRepository {
     return await dbHelper.getSavedVideos();
   }
 
+  Future<List<Reel>> getSavedVideosByCollection(int collectionId) async {
+    return await dbHelper.getSavedVideosByCollection(collectionId);
+  }
   Future<List<SavedCollection>> getCollections() async {
     return await dbHelper.getCollections();
   }
@@ -60,5 +63,13 @@ class ReelRepository {
 
   Future<int> addCollection(String title, {bool isPublic = false, int? reelId, String? thumbnailUrl}) async {
     return await dbHelper.insertCollection(title, isPublic: isPublic ? 1 : 0, reelId: reelId, thumbnailUrl: thumbnailUrl);
+  }
+
+  Future<int> addToCollection(int collectionId, int reelId) async {
+    return await dbHelper.insertToCollection(reelId, collectionId);
+  }
+
+  Future<int> ge(int collectionId, int reelId) async {
+    return await dbHelper.insertToCollection(reelId, collectionId);
   }
 }

@@ -3,11 +3,13 @@ import 'dart:ffi';
 import 'package:loopyfeed/models/reel.dart';
 
 class SavedCollection {
+  final int id;
   final String thumbnailUrl;
   final String collectionName;
   final int? isPublic;
 
   SavedCollection({
+    required this.id,
     required this.thumbnailUrl,
     required this.collectionName,
     this.isPublic = 0,
@@ -31,6 +33,7 @@ class SavedCollection {
 
   factory SavedCollection.fromMap(Map<String, dynamic> map) {
     return SavedCollection(
+      id: map['id'],
       thumbnailUrl: map['thumbnail_url'],
       collectionName: map['title'],
       isPublic: map['is_public']

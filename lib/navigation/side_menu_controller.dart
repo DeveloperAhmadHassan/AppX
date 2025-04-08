@@ -47,6 +47,8 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
   bool _isLoading = false;
   late TabController _tabController;
   Reel? _selectedReel;
+  int _selectedIndex = 0;
+
 
   @override
   void initState() {
@@ -57,6 +59,13 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
     _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).animate(_controller);
     _tabController = TabController(length: 3, vsync: this, initialIndex: 2);
     _loadUserData();
+
+    _tabController.addListener(() {
+      setState(() {
+        _selectedIndex = _tabController.index;
+      });
+      print("Selected Index: ${_tabController.index}");
+    });
   }
 
   void _handleReelSelected(Reel? reel) {

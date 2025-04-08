@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:math' as math;
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loopyfeed/pages/auth_page/email_page.dart';
 import 'package:loopyfeed/pages/auth_page/otp_page.dart';
+import 'package:loopyfeed/pages/auth_page/select_country_page.dart';
 
 import '../../pages/settings_page/privacy_policy_page.dart';
 import '../../pages/settings_page/terms_of_use_page.dart';
@@ -87,11 +87,20 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                             child: Row(
                               children: [
-                                Text("PK +92", style: TextStyle(color: HexColor.fromHex(AppConstants.primaryWhite))),
-                                SizedBox(width: 8),
-                                Transform.rotate(
-                                  angle: math.pi / 2,
-                                  child: Icon(Icons.chevron_right, color: HexColor.fromHex(AppConstants.primaryWhite)),
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => SelectCountryPage()));
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Text("PK +92", style: TextStyle(color: HexColor.fromHex(AppConstants.primaryWhite))),
+                                      SizedBox(width: 8),
+                                      Transform.rotate(
+                                        angle: math.pi / 2,
+                                        child: Icon(Icons.chevron_right, color: HexColor.fromHex(AppConstants.primaryWhite)),
+                                      ),
+                                    ]
+                                  ),
                                 ),
                                 SizedBox(width: 8),
                                 Container(

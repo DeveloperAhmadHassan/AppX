@@ -7,7 +7,8 @@ import '../../../utils/constants.dart';
 class SaveDetailsPage extends StatefulWidget {
   final String thumbnailUrl;
   final int reelId;
-  const SaveDetailsPage({super.key, required this.thumbnailUrl, required this.reelId});
+  final bool isPublic;
+  const SaveDetailsPage({super.key, required this.thumbnailUrl, required this.reelId, this.isPublic = false});
 
   @override
   State<SaveDetailsPage> createState() => _SaveDetailsPageState();
@@ -29,6 +30,7 @@ class _SaveDetailsPageState extends State<SaveDetailsPage> {
         canBeSaved = _controller.text.trim().isNotEmpty;
       });
     });
+    isPublic = widget.isPublic;
   }
 
   @override

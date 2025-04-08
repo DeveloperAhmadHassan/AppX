@@ -19,21 +19,35 @@ class NavigationTabController extends StatefulWidget {
   State<NavigationTabController> createState() => _NavigationTabControllerState();
 }
 
-class _NavigationTabControllerState extends State<NavigationTabController> with TickerProviderStateMixin {
+class _NavigationTabControllerState extends State<NavigationTabController> {
 
   @override
   void initState() {
     super.initState();
+    widget.tabController.addListener(_handleTabControllerChange);
+  }
+
+  @override
+  void dispose() {
+    widget.tabController.removeListener(_handleTabControllerChange);
+    super.dispose();
+  }
+
+  void _handleTabControllerChange() {
+    if (widget.tabController.indexIsChanging) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print("tab index: ${widget.tabController.index}");
     return Scaffold(
       body: Stack(
         children: [
           TabBarView(
-            controller:  widget.tabController,
-            // physics: const NeverScrollableScrollPhysics(),
+            controller: widget.tabController,
+            physics: widget.tabController.index != 0 ? ClampingScrollPhysics() : NeverScrollableScrollPhysics(),
             children: [
               CarouselPage(
                 tabController: widget.tabController,
@@ -53,14 +67,14 @@ class _NavigationTabControllerState extends State<NavigationTabController> with 
             onTabTapped: () {
               setState(() {
                 widget.handleReelSelected(null);
-                // videoFuture.value = play(widget.reel.reelUrl);
-                // print("Tab Changed");
                 videoPlayerController.dispose();
                 reel.value = Reel("");
               });
-            }),
+            },
+          ),
         ],
       ),
     );
   }
+
 }

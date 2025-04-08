@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:loopyfeed/models/saved_collection.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -206,6 +205,13 @@ class DatabaseHelper {
       "reel_id": reelId
     });
   }
+  Future<int> insertToCollection(int reelId, int collectionId) async {
+    Database db = await instance.database;
+    return await db.insert("reels_collections", {
+      "collection_id": collectionId,
+      "reel_id": reelId
+    });
+  }
   Future<int> deleteSavedVideo(int id) async {
     Database db = await instance.database;
     return await db.update(
@@ -222,6 +228,18 @@ class DatabaseHelper {
     var result = await db.query('reels', where: 'is_saved = ?', whereArgs: [1]);
     print("getting saved videos");
     print(result);
+    return result.map((map) => Reel.fromMap(map)).toList();
+  }
+
+  Future<List<Reel>> getSavedVideosByCollection(int collectionId) async {
+    Database db = await instance.database;
+    var result =  await db.rawQuery('''
+        SELECT r.*
+        FROM reels r
+        JOIN reels_collections rc ON r.db_id = rc.reel_id
+        WHERE rc.collection_id = ?
+      ''', [collectionId]
+    );
     return result.map((map) => Reel.fromMap(map)).toList();
   }
   Future<List<SavedCollection>> getCollections() async {

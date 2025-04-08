@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:loopyfeed/utils/extensions/color.dart';
 
 import '_components/carousel_item.dart';
 import '_components/two_dimensional_grid_view.dart';
@@ -85,31 +86,54 @@ class _CarouselPageState extends State<CarouselPage> {
           ? Center(child: CircularProgressIndicator())
           : hasError
           ? Center(child: const Padding(padding: EdgeInsets.only(top: 16.0), child: Center(child: Text('Some Error Occurred'))))
-          : TwoDimensionalGridView(
-        diagonalDragBehavior: DiagonalDragBehavior.free,
-        horizontalDetails: ScrollableDetails.horizontal(controller: _horizontalController),
-        verticalDetails: ScrollableDetails.vertical(controller: _verticalController),
-        delegate: TwoDimensionalChildBuilderDelegate(
-          maxXIndex: AppConstants.maxXIndex,
-          maxYIndex: AppConstants.maxYIndex,
-          builder: (BuildContext context, ChildVicinity vicinity) {
-            var reel = reels[vicinity.xIndex][vicinity.yIndex];
-            reel.x = vicinity.xIndex;
-            reel.y = vicinity.yIndex;
-            return CarousalItem(
-              xIndex: vicinity.xIndex,
-              yIndex: vicinity.yIndex,
-              onTap: () async {
-                await widget.onReelSelected(reel);
-                Future.delayed(const Duration(milliseconds: 200), () {
-                  widget.tabController.animateTo(1);
-                });
-              },
-              reel: reel,
-            );
-          },
-        ),
-      ),
+          : Stack(
+            children: [
+              TwoDimensionalGridView(
+                diagonalDragBehavior: DiagonalDragBehavior.free,
+                horizontalDetails: ScrollableDetails.horizontal(controller: _horizontalController),
+                verticalDetails: ScrollableDetails.vertical(controller: _verticalController),
+                delegate: TwoDimensionalChildBuilderDelegate(
+                  maxXIndex: AppConstants.maxXIndex,
+                  maxYIndex: AppConstants.maxYIndex,
+                  builder: (BuildContext context, ChildVicinity vicinity) {
+                    var reel = reels[vicinity.xIndex][vicinity.yIndex];
+                    reel.x = vicinity.xIndex;
+                    reel.y = vicinity.yIndex;
+                    return CarousalItem(
+                      xIndex: vicinity.xIndex,
+                      yIndex: vicinity.yIndex,
+                      onTap: () async {
+                        await widget.onReelSelected(reel);
+                        Future.delayed(const Duration(milliseconds: 200), () {
+                          widget.tabController.animateTo(1);
+                        });
+                      },
+                      reel: reel,
+                    );
+                  },
+                ),
+              ),
+              Positioned(
+                  right: 60,
+                  bottom: 100,
+                  child: InkWell(
+                    onTap: (){
+                      setState(() {
+                        widget.tabController.animateTo(1);
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: HexColor.fromHex(AppConstants.primaryBlack),
+                        borderRadius: BorderRadius.circular(100)
+                      ),
+                      child: Icon(Icons.chevron_right, size: 25, color: HexColor.fromHex(AppConstants.primaryWhite),),
+                    ),
+                  )
+              ),
+            ],
+          ),
     );
   }
 }

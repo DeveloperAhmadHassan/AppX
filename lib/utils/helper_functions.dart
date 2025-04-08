@@ -1,6 +1,9 @@
-import 'package:country_codes/country_codes.dart';
+import 'dart:convert';
+import 'network.dart';
 
-Future<String> getCountryName() async {
-  final CountryDetails details = CountryCodes.detailsForLocale();
-  return details.name ?? "Unknown";
+Future<String> getCountryName() async{
+  Network n = Network("http://ip-api.com/json");
+  var locationSTR = (await n.getData());
+  var locationx = jsonDecode(locationSTR);
+  return locationx["country"];
 }

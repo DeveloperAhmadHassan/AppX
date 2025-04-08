@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:loopyfeed/utils/extensions/color.dart';
 
@@ -18,6 +16,23 @@ class NavigationTabBar extends StatefulWidget {
 
 class _NavigationTabBarState extends State<NavigationTabBar> {
   @override
+  void initState() {
+    super.initState();
+
+    widget.tabController.addListener(() {
+      if (widget.tabController.indexIsChanging) {
+        print("tab index: ${widget.tabController.index}");
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    widget.tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Positioned(
       top: 40,
@@ -31,8 +46,8 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
               child: IconButton(
                 onPressed: widget.onSideMenuClick,
                 icon: widget.isCollapsed
-                  ? Icon(Icons.menu, size: 30)
-                  : Icon(Icons.arrow_back, size: 30)
+                    ? Icon(Icons.menu, size: 30)
+                    : Icon(Icons.arrow_back, size: 30),
               ),
             ),
             Expanded(
@@ -40,7 +55,6 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 40.0),
                   child: Container(
-                    // width: MediaQuery.of(context).size.width - 160,
                     decoration: BoxDecoration(
                       color: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(15),
@@ -58,6 +72,7 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                             controller: widget.tabController,
                             tabAlignment: TabAlignment.center,
                             padding: EdgeInsets.only(left: 15),
+                            physics: widget.tabController.index != 0 ? ClampingScrollPhysics() : NeverScrollableScrollPhysics(),
                             onTap: (index) async {
                               await widget.onTabTapped();
                             },
@@ -66,7 +81,6 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                                 fontSize: 18,
                                 fontFamily: 'Outfit'
                             ),
-                            // labelColor: HexColor.fromHex(AppConstants.primaryWhite),
                             labelStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -87,7 +101,6 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
               ),
             ),
             Container()
-            // Spacer(),
           ],
         ),
       ),
