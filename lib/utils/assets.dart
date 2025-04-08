@@ -20,6 +20,8 @@ class Assets {
   static const String iconsInstagram = 'assets/icons/instagram.svg';
   static const String iconsX = 'assets/icons/x.svg';
   static const String iconsPerson = 'assets/icons/person.svg';
-
-
+  static const String iconsPrimaryLogo = 'assets/icons/primary_logo.png';
+  static const String iconsSecondaryLogo = 'assets/icons/secondary_logo.png';
+  static const String iconsPrimaryLogoLight = 'assets/icons/app_icon_light.png';
+  static const String iconsSecondaryLogoLight = 'assets/icons/branding_dark.png';
 }

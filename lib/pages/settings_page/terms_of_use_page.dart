@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../utils/assets.dart';
+import '../../utils/constants.dart';
+import '../../utils/extensions/color.dart';
 
 class TermsOfUsePage extends StatefulWidget {
   const TermsOfUsePage({super.key});
@@ -42,10 +44,10 @@ class _TermsOfUsePageState extends State<TermsOfUsePage> {
           ? SingleChildScrollView(
           padding: EdgeInsets.only(left: 25.0, right: 25.0, bottom: 10.0),
             child: MarkdownBody(data: markdownContent, styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-              p: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, fontSize: 14, fontFamily: 'Outfit'),
-              h1: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, fontSize: 36, fontFamily: 'Outfit'),
-              h2: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, fontSize: 28, fontFamily: 'Outfit'),
-              h3: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, fontSize: 24, fontFamily: 'Outfit'),
+              p: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack), fontSize: 14, fontFamily: 'Outfit'),
+              h1: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack), fontSize: 36, fontFamily: 'Outfit'),
+              h2: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack), fontSize: 28, fontFamily: 'Outfit'),
+              h3: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack), fontSize: 24, fontFamily: 'Outfit'),
               textAlign: WrapAlignment.spaceAround
             )),
           ) : Center(child: CircularProgressIndicator()),

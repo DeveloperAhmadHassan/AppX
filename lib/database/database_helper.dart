@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:loopyfeed/models/saved_collection.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -34,8 +35,9 @@ class DatabaseHelper {
       CREATE TABLE collections (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
+        thumbnail_url TEXT,
         is_public INTEGER,
-        reels_count INTEGER DEFAULT 0
+        total_reels INTEGER DEFAULT 0
       )
     ''');
 
@@ -70,7 +72,7 @@ class DatabaseHelper {
       CREATE TRIGGER delete_unused_reel
         AFTER UPDATE ON reels
         FOR EACH ROW
-        WHEN NEW.is_liked = 0 AND NEW.is_saved = 0 AND NEW.date_watched IS NULL AND NEW.collection_count <= 0
+        WHEN NEW.is_liked = 0 AND NEW.is_saved = 0 AND NEW.date_watched IS NULL AND NEW.collections_count <= 0
         BEGIN
           DELETE FROM reels WHERE id = NEW.id;
         END;
@@ -82,7 +84,7 @@ class DatabaseHelper {
         FOR EACH ROW
         BEGIN
           UPDATE reels
-          SET collection_count = collection_count + 1
+          SET collections_count = collections_count + 1
           WHERE id = NEW.reel_id;
         END;
     ''');
@@ -93,7 +95,7 @@ class DatabaseHelper {
         FOR EACH ROW
         BEGIN
           UPDATE reels
-          SET collection_count = collection_count - 1
+          SET collections_count = collections_count - 1
           WHERE id = OLD.reel_id;
         END;
     ''');
@@ -188,6 +190,22 @@ class DatabaseHelper {
       return await db.insert('reels', reel.toMap(forSavedVideos: true));
     }
   }
+  Future<int> insertCollection(String title, {int isPublic = 0, int? reelId, String? thumbnailUrl}) async {
+    Database db = await instance.database;
+    int res = await db.insert(
+        'collections',
+        {
+          "title": title,
+          "is_public": isPublic,
+          "thumbnail_url": thumbnailUrl
+        }
+    );
+
+    return await db.insert("reels_collections", {
+      "collection_id": res,
+      "reel_id": reelId
+    });
+  }
   Future<int> deleteSavedVideo(int id) async {
     Database db = await instance.database;
     return await db.update(
@@ -198,6 +216,21 @@ class DatabaseHelper {
       where: 'db_id = ?',
       whereArgs: [id],
     );
+  }
+  Future<List<Reel>> getSavedVideos() async {
+    Database db = await instance.database;
+    var result = await db.query('reels', where: 'is_saved = ?', whereArgs: [1]);
+    print("getting saved videos");
+    print(result);
+    return result.map((map) => Reel.fromMap(map)).toList();
+  }
+  Future<List<SavedCollection>> getCollections() async {
+    Database db = await instance.database;
+    var result = await db.query('collections');
+    print("getting saved collections");
+    print(result);
+    return result.map((map) => SavedCollection.fromMap(map)).toList();
+
   }
   Future<bool> isReelSaved(int dbId) async {
     Database db = await instance.database;
@@ -276,7 +309,6 @@ class DatabaseHelper {
       whereArgs: [id],
     );
   }
-
   Future<List<Reel>> getWatchHistory() async {
     Database db = await instance.database;
 

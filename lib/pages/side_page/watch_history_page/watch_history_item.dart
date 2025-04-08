@@ -38,13 +38,13 @@ class WatchHistoryItem extends StatelessWidget {
                     child: Image.network(reel.thumbnailUrl!, fit: BoxFit.cover),
                   ),
                 ),
-                SizedBox(width: 30),
+                SizedBox(width: 10),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 170,
+                      width: 140,
                       child: Text(
                         "${reel.title} ${reel.id}",
                         style: Theme.of(context).textTheme.titleMedium,

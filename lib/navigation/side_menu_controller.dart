@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loopyfeed/pages/auth_page/login_signup_page.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../pages/side_page/saved_videos_page/saved_videos_page.dart';
@@ -100,7 +101,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
     screenWidth = size.width;
 
     return Scaffold(
-        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryColor),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite),
         body: Stack(
           clipBehavior: Clip.hardEdge,
           children: <Widget>[
@@ -142,13 +143,13 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: user?.imagePath == null || user == null ? null : Border.all(
-                              color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : Colors.black,
+                              color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack),
                               width: 4.0,
                             ),
                           ),
                           child: ClipOval(
                             child: (user != null && user!.imagePath!.contains('assets/')) || user?.imagePath == null || user == null
-                                ? Icon(Icons.account_circle_outlined, size: 100, weight: 20,) : Image.file (
+                                ? Icon(Symbols.account_circle, size: 100, weight: 300,) : Image.file (
                               File(user!.imagePath ?? ""),
                               width: 100.0,
                               height: 100.0,
@@ -158,12 +159,15 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                         ),
                       ),
                       SizedBox(height: 10,),
-                      Text("Hello, ${user?.name ?? "User"}!",
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text("Hello, ${user?.name ?? "User"}!",
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Outfit'
-                          )),
+                          ), textAlign: TextAlign.center,),
+                      ),
                       SizedBox(height: 15,),
                       OutlinedButton.icon(
                         onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginSignupPage())),
@@ -178,8 +182,8 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                         iconAlignment: IconAlignment.start,
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(
-                            color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : Colors.black,
-                            width: 2.0,
+                            color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack),
+                            width: 3.0,
                           ),
                           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0.0),
                         ),
@@ -190,7 +194,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                 SizedBox(height: 30),
                 // GradientDivider(),
                 SizedBox(height: 30),
-                menuItem(icon: Icons.favorite_border_rounded, size: 24, title: "Liked Videos", onPressed: (){
+                menuItem(icon: Icons.favorite_border_rounded, size: 28, title: "Liked Videos", onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => LikedVideosPage(
                     tabController: _tabController,
                     onReelSelected: _handleReelSelected,
@@ -208,7 +212,28 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                   )));
                 }),
                 SizedBox(height: 20),
-                menuItem(icon: Icons.bookmark_border_rounded, size: 24, title: "Saved Videos", onPressed: (){
+                menuItem(icon: FontAwesomeIcons.list, title: "Categories", size: 23, givePadding: true, onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CategoriesPage()));
+                }),
+                SizedBox(height: 20),
+                menuItem(icon: Icons.history, title: "Watch History", size: 29, onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => WatchHistoryPage(
+                    tabController: _tabController,
+                    onSideMenuClick: () {
+                      setState(() {
+                        if (isCollapsed) {
+                          _controller.forward();
+                        } else {
+                          _controller.reverse();
+                        }
+
+                        isCollapsed = !isCollapsed;
+                      });
+                    },
+                  )));
+                }),
+                SizedBox(height: 20),
+                menuItem(icon: Icons.bookmark_border_rounded, size: 28, title: "Saved Videos", onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => SavedVideosPage(
                     tabController: _tabController,
                     onReelSelected: _handleReelSelected,
@@ -225,26 +250,17 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                     },
                   )));
                 }),
-                SizedBox(height: 20),
-                menuItem(icon: FontAwesomeIcons.list, title: "Categories", size: 20, givePadding: true, onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CategoriesPage()));
-                }),
-                SizedBox(height: 20),
-                menuItem(icon: Icons.history, title: "Watch History", size: 25, onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => WatchHistoryPage()));
-                }),
-                SizedBox(height: 30),
                 // GradientDivider(),
                 Expanded(
                   child: Align(
-                    alignment: Alignment.bottomLeft,
+                    alignment: Alignment.centerLeft,
                     child: Container(
-                      child: menuItem(title: "Settings", svgIcon: SvgPicture.asset(
+                      child: menuItem(title: "Settings", givePadding: true, svgIcon: SvgPicture.asset(
                         Assets.iconsSettings,
                         semanticsLabel: 'Settings Logo',
                         height: 24,
                         width: 24,
-                        colorFilter: ColorFilter.mode(Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, BlendMode.srcIn),
+                        colorFilter: ColorFilter.mode(Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack), BlendMode.srcIn),
                       ),
                           onPressed: () async {
                             var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage(
@@ -262,7 +278,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                           }),
                     ),
                   )),
-                SizedBox(height: 100,)
+                // SizedBox(height: 100,)
               ],
             ),
           ),
@@ -284,20 +300,8 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
           children: [
             Container(
               decoration: BoxDecoration(
-                color: HexColor.fromHex(AppConstants.primaryColor),
+                color: HexColor.fromHex(AppConstants.primaryBlack),
                 borderRadius: BorderRadius.all(Radius.circular(isCollapsed ? 0 : 40)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    offset: Offset(0, 8),
-                    blurRadius: 10,
-                  ),
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    offset: Offset(-7, 0),
-                    blurRadius: 10,
-                  ),
-                ],
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(isCollapsed ? 0 : 40)),
@@ -350,32 +354,39 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
       onTap: (){
         onPressed?.call();
       },
+
       child: Row(
         children: [
           icon != null
             ? Padding(
-              padding: EdgeInsets.only(left: givePadding ? 4.0 : 0.0),
+              padding: EdgeInsets.only(left: givePadding ? 2.0 : 0.0),
               child: Icon(icon, size: size),
             )
-            : svgIcon ?? Container(),
-          SizedBox(width: icon != null ? size <= 20 ? 20 : 15 : 15,),
+            : Padding(
+              padding: EdgeInsets.only(left: givePadding ? 5.0 : 0.0),
+              child: svgIcon ?? Container(),
+            ),
+          SizedBox(width: icon != null ? size <= 20 ? 25 : 15 : 15,),
           SizedBox(
-            width: givePadding ? 185 : 190,
+            width: givePadding ? title != "Settings" ? 194: 191 : 191,
             child: Text(title, style: TextStyle(
               fontSize: 16,
-              fontWeight: FontWeight.w500,
-              // color: Colors.white
+              fontWeight: FontWeight.w700,
+              // color: HexColor.fromHex(AppConstants.primaryWhite)
             )),
           ),
 
-          Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-              color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryColor),
-              borderRadius: BorderRadius.circular(100)
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Container(
+              height: 30,
+              width: 30,
+              decoration: BoxDecoration(
+                color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack),
+                borderRadius: BorderRadius.circular(100)
+              ),
+              child: Icon(Icons.navigate_next, color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite),),
             ),
-            child: Icon(Icons.navigate_next, color: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryWhite),),
           ),
         ],
       ),

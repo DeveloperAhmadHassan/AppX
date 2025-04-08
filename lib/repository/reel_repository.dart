@@ -10,8 +10,8 @@ class ReelRepository {
     return await dbHelper.insertLikedVideo(reel);
   }
 
-  Future<int> addSavedVideo(SavedCollection collection) async {
-    return await dbHelper.insertSavedVideo(collection.reel);
+  Future<int> addSavedVideo(Reel reel) async {
+    return await dbHelper.insertSavedVideo(reel);
   }
 
   Future<int> addWatchHistory(Reel reel) async {
@@ -24,6 +24,14 @@ class ReelRepository {
 
   Future<List<Reel>> getWatchHistory() async {
     return await dbHelper.getWatchHistory();
+  }
+
+  Future<List<Reel>> getSavedVideos() async {
+    return await dbHelper.getSavedVideos();
+  }
+
+  Future<List<SavedCollection>> getCollections() async {
+    return await dbHelper.getCollections();
   }
 
   Future<int> removeLikedVideo(int id) async {
@@ -48,5 +56,9 @@ class ReelRepository {
 
   Future<bool> isReelSaved(int dbId) async {
     return await dbHelper.isReelSaved(dbId);
+  }
+
+  Future<int> addCollection(String title, {bool isPublic = false, int? reelId, String? thumbnailUrl}) async {
+    return await dbHelper.insertCollection(title, isPublic: isPublic ? 1 : 0, reelId: reelId, thumbnailUrl: thumbnailUrl);
   }
 }

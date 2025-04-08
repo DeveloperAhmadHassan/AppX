@@ -54,7 +54,7 @@ class _SettingsItemState extends State<SettingsItem> {
                 ? Icon(
               widget.icon,
               size: widget.iconSize,
-              // color: Colors.white,
+              // color: HexColor.fromHex(AppConstants.primaryWhite),
             )
                 : Container(),
             SizedBox(
@@ -66,10 +66,10 @@ class _SettingsItemState extends State<SettingsItem> {
             ),
             Spacer(),
             widget.isSwitch ? FlutterSwitch(
-              height: 24,
-              width: 40,
+              height: 30,
+              width: 50,
               padding: 3,
-              toggleSize: 15,
+              toggleSize: 20,
               value: widget.isSwitched,
               onToggle: (val) {
                 setState(() {
@@ -78,16 +78,16 @@ class _SettingsItemState extends State<SettingsItem> {
 
                 widget.onToggle!(val);
               },
-              activeColor: Colors.transparent,
-              inactiveColor: Colors.transparent,
-              activeSwitchBorder: Border.all(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, width: 2),
+              activeColor: HexColor.fromHex(AppConstants.primaryBlack),
+              inactiveColor: HexColor.fromHex("#595555"),
+              activeSwitchBorder: Border.all(color: HexColor.fromHex(AppConstants.primaryBlack), width: 2),
               toggleColor: HexColor.fromHex(AppConstants.primaryColor),
               activeToggleColor: HexColor.fromHex(AppConstants.primaryColor),
               inactiveToggleColor: HexColor.fromHex(AppConstants.primaryWhite),
-              inactiveSwitchBorder: Border.all(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, width: 2),
+              inactiveSwitchBorder: Border.all(color: HexColor.fromHex("#595555"), width: 2),
             ) : Icon(
               Icons.navigate_next,
-              color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+              color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack),
               size: 28,
             ),
           ],

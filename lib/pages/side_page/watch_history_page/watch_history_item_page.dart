@@ -19,7 +19,7 @@ class _WatchHistoryItemPageState extends State<WatchHistoryItemPage> {
           fontSize: 18
         )),
       ),
-      // backgroundColor: Colors.black,
+      // backgroundColor: HexColor.fromHex(AppConstants.primaryBlack),
       body: SingleChildScrollView(
         child: Column(
           children: [

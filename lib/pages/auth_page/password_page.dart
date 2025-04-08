@@ -44,7 +44,7 @@ class _PasswordPageState extends State<PasswordPage> {
               TextFormField(
                 cursorColor: HexColor.fromHex(AppConstants.primaryColor),
                 controller: _passwordController,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: HexColor.fromHex(AppConstants.primaryWhite)),
                 keyboardType: TextInputType.emailAddress,
                 inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
                 onChanged: (String value) {
@@ -166,7 +166,7 @@ class _PasswordPageState extends State<PasswordPage> {
                   ),
                   child: Text(
                     "Continue",
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: HexColor.fromHex(AppConstants.primaryBlack), fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),

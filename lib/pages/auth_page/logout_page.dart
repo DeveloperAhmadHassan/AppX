@@ -34,22 +34,22 @@ class LogoutPage extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: 20,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Icon(Icons.arrow_back, color: Colors.black, size: 35,),
-                        Text("Logout", style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 24
-                        )),
-                        Container()
-                        // Spacer()
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Icon(Icons.arrow_back, color: HexColor.fromHex(AppConstants.primaryBlack), size: 35,),
+                    //     Text("Logout", style: TextStyle(
+                    //         color: HexColor.fromHex(AppConstants.primaryBlack),
+                    //         fontWeight: FontWeight.w500,
+                    //         fontSize: 24
+                    //     )),
+                    //     Container()
+                    //     // Spacer()
+                    //   ],
+                    // ),
                     SizedBox(height: 50,),
                     Text("Are you sure you want to logout?", style: TextStyle(
-                        color: Colors.black,
+                        color: HexColor.fromHex(AppConstants.primaryBlack),
                         fontSize: 20
                     ), textAlign: TextAlign.center,),
                     SizedBox(height: 50,),
@@ -73,7 +73,7 @@ class LogoutPage extends StatelessWidget {
                                 child: Text("Cancel", style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
-                                  color: Colors.black
+                                  color: HexColor.fromHex(AppConstants.primaryBlack)
                                 ))
                               ),
                             ),
@@ -88,13 +88,13 @@ class LogoutPage extends StatelessWidget {
                               height: 55,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                color: Colors.black
+                                color: HexColor.fromHex(AppConstants.primaryBlack)
                               ),
                               child: Center(
                                   child: Text("Logout", style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
-                                    color: Colors.white
+                                    color: HexColor.fromHex(AppConstants.primaryWhite)
                                   ))
                               ),
                             ),

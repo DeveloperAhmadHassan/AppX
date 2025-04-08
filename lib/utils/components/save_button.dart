@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animated_icon_button/tap_fill_icon.dart';
 import 'package:flutter_animated_icon_button/tap_particle.dart';
 
+import '../constants.dart';
+import '../extensions/color.dart';
+
 class SaveButton extends StatefulWidget {
   const SaveButton({Key? key}) : super(key: key);
 
@@ -41,7 +44,7 @@ class _SaveButtonState extends State<SaveButton> with SingleTickerProviderStateM
       size: 50,
       particleCount: 5,
       particleLength: 10,
-      color: Colors.white,
+      color: HexColor.fromHex(AppConstants.primaryWhite),
       syncAnimation: controller,
       duration: const Duration(milliseconds: 300),
       child: TapFillIcon(
@@ -51,12 +54,13 @@ class _SaveButtonState extends State<SaveButton> with SingleTickerProviderStateM
           color: Colors.grey,
           size: 50,
         ),
-        fillIcon: const Icon(
+        fillIcon: Icon(
           Icons.bookmark,
-          color: Colors.white,
+          color: HexColor.fromHex(AppConstants.primaryWhite),
           size: 50,
         ),
       ),
     );
   }
 }
+

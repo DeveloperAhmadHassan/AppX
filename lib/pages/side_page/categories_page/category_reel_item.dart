@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/constants.dart';
+import '../../../utils/extensions/color.dart';
 import 'category_reel_page.dart';
 import '../../../models/reel.dart';
 
@@ -29,7 +31,7 @@ class CategoryReelItem extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.black.withValues(alpha: 0.3),
+                  color: HexColor.fromHex(AppConstants.primaryBlack).withValues(alpha: 0.3),
                 ),
               ),
             ),
@@ -40,7 +42,7 @@ class CategoryReelItem extends StatelessWidget {
               child: Text(
                 "${reel.title} ${reel.id}",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: HexColor.fromHex(AppConstants.primaryWhite),
                   fontWeight: FontWeight.bold,
                 ),
                 overflow: TextOverflow.ellipsis,

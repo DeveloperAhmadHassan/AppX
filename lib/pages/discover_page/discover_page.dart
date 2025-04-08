@@ -132,7 +132,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     int crossAxisCount = 2;
     double spacing = screenWidth * 0.02;
-
     return SizedBox(
       child: GridView.builder(
         itemCount: _reels.length,
@@ -141,7 +140,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
         padding: EdgeInsets.only(top: 0),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           mainAxisSpacing: 20,
-          crossAxisSpacing: 20,
+          crossAxisSpacing: 10,
           crossAxisCount: 2,
           childAspectRatio: (MediaQuery.of(context).size.width) / (MediaQuery.of(context).size.height / 1.34),
         ),

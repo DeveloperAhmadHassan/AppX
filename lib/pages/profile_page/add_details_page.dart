@@ -47,7 +47,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryColor),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,size: 34, color: Colors.black,),
+          icon: Icon(Icons.arrow_back,size: 34, color: HexColor.fromHex(AppConstants.primaryBlack),),
           onPressed: () {
             Navigator.pop(context, true);
           },
@@ -59,38 +59,40 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(bottom: 30.0),
+              // padding: EdgeInsets.only(bottom: 20.0),
               color: HexColor.fromHex(AppConstants.primaryColor),
               child: Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: Text("profile", style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: Colors.black,
+                  color: HexColor.fromHex(AppConstants.primaryBlack),
                 ),),
               ),
             ),
             Container(
               width: MediaQuery.of(context).size.width,
               color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryColor),
-              padding: EdgeInsets.only(left: 25.0, bottom: 45.0),
+              padding: EdgeInsets.only(left: 25.0, bottom: 25.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Stack(
                     children: [
                       ProfileImagePicker(image: image, defaultImagePath: user?.imagePath ?? Assets.profilePA, onImagePicked: _updateImage,),
                       Positioned(
-                        bottom: 0,
-                        right: 0,
+                        bottom: 10,
+                        right: 10,
                         child: Container(
-                          padding: EdgeInsets.all(6),
+                          padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                               color: HexColor.fromHex(AppConstants.primaryWhite),
                               borderRadius: BorderRadius.circular(100),
                               border: Border.all(
-                                color: Colors.black,
+                                color: HexColor.fromHex(AppConstants.primaryBlack),
                                 width: 2
                               )
                           ),
-                          child: Icon(FontAwesomeIcons.penToSquare, size: 15, color: Colors.black,),
+                          child: Icon(FontAwesomeIcons.penToSquare, size: 20, color: HexColor.fromHex(AppConstants.primaryBlack),),
                         ),
                       )
                     ],
@@ -103,15 +105,15 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                       SizedBox(height: 35,),
                       Text(user?.name ?? "Username", style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.black
+                        fontSize: 22,
+                        color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryBlack)
                       ),),
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 210,
                         child: Text(user?.bio ?? "Bio", style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          color: Theme.of(context).brightness == Brightness.dark ? Colors.black.withValues(alpha: 0.6) : Colors.black.withValues(alpha: 0.6)
+                          fontSize: 18,
+                          color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack).withValues(alpha: 0.6) : HexColor.fromHex(AppConstants.primaryBlack).withValues(alpha: 0.6)
                         ),
                           textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,),
@@ -123,13 +125,13 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(left: 55.0, top: 20.0, right: 55.0),
+              padding: EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Text("Personal Details", style: TextStyle(
-                  //     color: Colors.white,
+                  //     color: HexColor.fromHex(AppConstants.primaryWhite),
                   //     fontWeight: FontWeight.bold,
                   //     fontSize: 18
                   // ),),
@@ -175,7 +177,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                           child: Text("Submit", style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: Colors.black
+                            color: HexColor.fromHex(AppConstants.primaryBlack)
                           ),)
                         ),
                       ),
@@ -204,7 +206,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
                                 border: Border.all(
-                                    color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                                    color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack),
                                     width: 2
                                 )
                             ),
@@ -212,7 +214,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                               child: Text("Cancel", style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
+                                color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack)
                               ))
                             ),
                           ),
@@ -233,7 +235,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                               child: Text("Login", style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Colors.black
+                                color: HexColor.fromHex(AppConstants.primaryBlack)
                               ))
                             ),
                           ),
@@ -244,7 +246,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
                 ],
               ),
             ),
-            Container(height: 200,)
+            Container(height: 100,)
           ],
         ),
       ),

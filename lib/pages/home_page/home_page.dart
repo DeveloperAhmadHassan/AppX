@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../utils/constants.dart';
+import '../../utils/extensions/color.dart';
 import '_components/home_reel_item.dart';
 import '../../utils/assets.dart';
 import '../../controllers/home_reel_controller.dart';
@@ -395,11 +397,11 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: Colors.black.withOpacity(0.5),
+              color: HexColor.fromHex(AppConstants.primaryBlack).withValues(alpha: 0.5),
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.4),
+                      color: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.4),
                       borderRadius: BorderRadius.circular(20)
                   ),
                   child: ClipRRect(

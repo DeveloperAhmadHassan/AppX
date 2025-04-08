@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/constants.dart';
+import '../../../utils/extensions/color.dart';
 import '../../../utils/extensions/string.dart';
 import '../../../models/reel.dart';
 
@@ -33,7 +35,7 @@ class ChunkIndicators extends StatelessWidget {
                   value: 1.0,
                   backgroundColor: Colors.grey,
                   minHeight: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(isActivated ? Colors.white : Colors.grey),
+                  valueColor: AlwaysStoppedAnimation<Color>(isActivated ? HexColor.fromHex(AppConstants.primaryWhite) : Colors.grey),
                 ),
               ),
             );

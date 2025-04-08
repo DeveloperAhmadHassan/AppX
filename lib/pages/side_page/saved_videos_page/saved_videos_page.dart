@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:loopyfeed/models/saved_collection.dart';
+import 'package:loopyfeed/utils/components/no_items_found.dart';
 
 import '../../../models/reel.dart';
 import '../../../repository/reel_repository.dart';
-import 'liked_item.dart';
+import 'saved_item.dart';
 
 class SavedVideosPage extends StatefulWidget {
   final TabController tabController;
@@ -16,31 +18,33 @@ class SavedVideosPage extends StatefulWidget {
 
 class _LikedVideosPageState extends State<SavedVideosPage> {
   final ReelRepository reelRepository = ReelRepository();
-  late Future<List<Reel>> likedVideos;
+  late Future<List<Reel>> savedVideos;
+  late Future<List<SavedCollection>> collections;
 
   @override
   void initState() {
     super.initState();
-    likedVideos = reelRepository.getLikedVideos();
+    savedVideos = reelRepository.getSavedVideos();
+    collections = reelRepository.getCollections();
   }
 
-  final collections = [
-    {
-      "collection_name": "Something new",
-      "is_public": false,
-      "thumbnail_url": "https://res.cloudinary.com/dqudeifns/image/upload/v1739424587/thumbnails/thumb1.jpg"
-    },
-    {
-      "collection_name": "ASMR Videos",
-      "is_public": false,
-      "thumbnail_url": "https://res.cloudinary.com/dqudeifns/image/upload/v1739424587/thumbnails/thumb2.jpg"
-    },
-    {
-      "collection_name": "Cool Videos",
-      "is_public": true,
-      "thumbnail_url": "https://res.cloudinary.com/dqudeifns/image/upload/v1739424587/thumbnails/thumb3.jpg"
-    },
-  ];
+  // final collections = [
+  //   {
+  //     "collection_name": "Something new",
+  //     "is_public": false,
+  //     "thumbnail_url": "https://res.cloudinary.com/dqudeifns/image/upload/v1739424587/thumbnails/thumb1.jpg"
+  //   },
+  //   {
+  //     "collection_name": "ASMR Videos",
+  //     "is_public": false,
+  //     "thumbnail_url": "https://res.cloudinary.com/dqudeifns/image/upload/v1739424587/thumbnails/thumb2.jpg"
+  //   },
+  //   {
+  //     "collection_name": "Cool Videos",
+  //     "is_public": true,
+  //     "thumbnail_url": "https://res.cloudinary.com/dqudeifns/image/upload/v1739424587/thumbnails/thumb3.jpg"
+  //   },
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -62,348 +66,137 @@ class _LikedVideosPageState extends State<SavedVideosPage> {
           )
         ],
       ),
-      body: FutureBuilder<List<Reel>>(
-        future: likedVideos,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else {
-            List<Reel> reels = snapshot.data!;
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            FutureBuilder<List<SavedCollection>>(
+              future: collections,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  List<SavedCollection> collections = snapshot.data!;
 
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Collections",
-                          style: Theme.of(context).textTheme.titleLarge
-                        ),
-                        Spacer(),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.chevron_right, size: 34,),
-                        ),
-                      ],
-                    ),
-                  ),
-                  GridView.builder(
-                    itemCount: collections.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    // padding: EdgeInsets.only(top: spacing),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      crossAxisCount: 2,
-                      childAspectRatio: 100 / 40,
-                    ),
-                    itemBuilder: (context, index) {
-                      final collection = collections[index];
-                      return Padding(
-                        padding: EdgeInsets.all(10),
+                  return collections.isNotEmpty ? Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Row(
                           children: [
-                            Image.network(collection["thumbnail_url"].toString()),
-                            SizedBox(width: 10,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("${collection["collection_name"]}"),
-                                collection['is_public'] as bool ? Row(
-                                  children: [
-                                    Icon(Icons.people, size: 15, color: Colors.white54,),
-                                    SizedBox(width: 10,),
-                                    Text("Public", style: TextStyle(
-                                        color: Colors.white54
-                                    ),)
-                                  ],
-                                ) : Row(
-                                  children: [
-                                    Icon(Icons.lock, size: 15, color: Colors.white54,),
-                                    SizedBox(width: 10,),
-                                    Text("Private", style: TextStyle(
-                                      color: Colors.white54
-                                    ),)
-                                  ],
-                                )
-                              ],
+                            Text(
+                                "Collections",
+                                style: Theme.of(context).textTheme.titleLarge
+                            ),
+                            Spacer(),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.chevron_right, size: 34,),
                             ),
                           ],
                         ),
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Reels",
-                          style: Theme.of(context).textTheme.titleLarge
+                      ),
+
+                      GridView.builder(
+                        itemCount: collections.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        // padding: EdgeInsets.only(top: spacing),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          crossAxisCount: 2,
+                          childAspectRatio: 100 / 40,
                         ),
-                        Spacer(),
-                        InkWell(
-                          onTap: () {},
-                          child: Text("Manage", style: TextStyle(
-                            color: Colors.blue
-                          ),),
-                        )
-                      ],
-                    ),
-                  ),
-                  GridView.builder(
-                    itemCount: collections.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    // padding: EdgeInsets.only(top: spacing),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      crossAxisCount: 2,
-                      childAspectRatio: 100 / 40,
-                    ),
-                    itemBuilder: (context, index) {
-                      final collection = collections[index];
-                      return Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Image.network(collection["thumbnail_url"].toString()),
-                            SizedBox(width: 10,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                        itemBuilder: (context, index) {
+                          final collection = collections[index];
+                          return Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Row(
                               children: [
-                                Text("${collection["collection_name"]}"),
-                                collection['is_public'] as bool ? Row(
+                                Container(
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(collection.thumbnailUrl.toString()),
+                                  ),
+                                ),
+                                SizedBox(width: 10,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.people, size: 15, color: Colors.white54,),
-                                    SizedBox(width: 10,),
-                                    Text("Public", style: TextStyle(
-                                        color: Colors.white54
-                                    ),)
+                                    Text(collection.collectionName),
+                                    collection.isPublic == 1 ? Row(
+                                      children: [
+                                        Icon(Icons.people, size: 15, color: Colors.white54,),
+                                        SizedBox(width: 10,),
+                                        Text("Public", style: TextStyle(
+                                            color: Colors.white54
+                                        ),)
+                                      ],
+                                    ) : Row(
+                                      children: [
+                                        Icon(Icons.lock, size: 15, color: Colors.white54,),
+                                        SizedBox(width: 10,),
+                                        Text("Private", style: TextStyle(
+                                            color: Colors.white54
+                                        ),)
+                                      ],
+                                    )
                                   ],
-                                ) : Row(
-                                  children: [
-                                    Icon(Icons.lock, size: 15, color: Colors.white54,),
-                                    SizedBox(width: 10,),
-                                    Text("Private", style: TextStyle(
-                                        color: Colors.white54
-                                    ),)
-                                  ],
-                                )
+                                ),
                               ],
                             ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  GridView.builder(
-                    itemCount: collections.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    // padding: EdgeInsets.only(top: spacing),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      crossAxisCount: 2,
-                      childAspectRatio: 100 / 40,
-                    ),
-                    itemBuilder: (context, index) {
-                      final collection = collections[index];
-                      return Padding(
-                        padding: EdgeInsets.all(10),
+                          );
+                        },
+                      ),
+                    ],
+                  ) : Container();
+                }
+              },
+            ),
+            FutureBuilder<List<Reel>>(
+              future: savedVideos,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  List<Reel> reels = snapshot.data!;
+
+                  return reels.isNotEmpty ? Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Row(
                           children: [
-                            Image.network(collection["thumbnail_url"].toString()),
-                            SizedBox(width: 10,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("${collection["collection_name"]}"),
-                                collection['is_public'] as bool ? Row(
-                                  children: [
-                                    Icon(Icons.people, size: 15, color: Colors.white54,),
-                                    SizedBox(width: 10,),
-                                    Text("Public", style: TextStyle(
-                                        color: Colors.white54
-                                    ),)
-                                  ],
-                                ) : Row(
-                                  children: [
-                                    Icon(Icons.lock, size: 15, color: Colors.white54,),
-                                    SizedBox(width: 10,),
-                                    Text("Private", style: TextStyle(
-                                        color: Colors.white54
-                                    ),)
-                                  ],
-                                )
-                              ],
+                            Text(
+                                "Reels",
+                                style: Theme.of(context).textTheme.titleLarge
                             ),
+                            Spacer(),
+                            InkWell(
+                              onTap: () {},
+                              child: Text("Manage", style: TextStyle(
+                                  color: Colors.blue
+                              ),),
+                            )
                           ],
                         ),
-                      );
-                    },
-                  ),
-                  GridView.builder(
-                    itemCount: collections.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    // padding: EdgeInsets.only(top: spacing),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      crossAxisCount: 2,
-                      childAspectRatio: 100 / 40,
-                    ),
-                    itemBuilder: (context, index) {
-                      final collection = collections[index];
-                      return Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Image.network(collection["thumbnail_url"].toString()),
-                            SizedBox(width: 10,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("${collection["collection_name"]}"),
-                                collection['is_public'] as bool ? Row(
-                                  children: [
-                                    Icon(Icons.people, size: 15, color: Colors.white54,),
-                                    SizedBox(width: 10,),
-                                    Text("Public", style: TextStyle(
-                                        color: Colors.white54
-                                    ),)
-                                  ],
-                                ) : Row(
-                                  children: [
-                                    Icon(Icons.lock, size: 15, color: Colors.white54,),
-                                    SizedBox(width: 10,),
-                                    Text("Private", style: TextStyle(
-                                        color: Colors.white54
-                                    ),)
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  GridView.builder(
-                    itemCount: collections.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    // padding: EdgeInsets.only(top: spacing),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      crossAxisCount: 2,
-                      childAspectRatio: 100 / 40,
-                    ),
-                    itemBuilder: (context, index) {
-                      final collection = collections[index];
-                      return Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Image.network(collection["thumbnail_url"].toString()),
-                            SizedBox(width: 10,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("${collection["collection_name"]}"),
-                                collection['is_public'] as bool ? Row(
-                                  children: [
-                                    Icon(Icons.people, size: 15, color: Colors.white54,),
-                                    SizedBox(width: 10,),
-                                    Text("Public", style: TextStyle(
-                                        color: Colors.white54
-                                    ),)
-                                  ],
-                                ) : Row(
-                                  children: [
-                                    Icon(Icons.lock, size: 15, color: Colors.white54,),
-                                    SizedBox(width: 10,),
-                                    Text("Private", style: TextStyle(
-                                        color: Colors.white54
-                                    ),)
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  GridView.builder(
-                    itemCount: collections.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    // padding: EdgeInsets.only(top: spacing),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      crossAxisCount: 2,
-                      childAspectRatio: 100 / 40,
-                    ),
-                    itemBuilder: (context, index) {
-                      final collection = collections[index];
-                      return Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Image.network(collection["thumbnail_url"].toString()),
-                            SizedBox(width: 10,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("${collection["collection_name"]}"),
-                                collection['is_public'] as bool ? Row(
-                                  children: [
-                                    Icon(Icons.people, size: 15, color: Colors.white54,),
-                                    SizedBox(width: 10,),
-                                    Text("Public", style: TextStyle(
-                                        color: Colors.white54
-                                    ),)
-                                  ],
-                                ) : Row(
-                                  children: [
-                                    Icon(Icons.lock, size: 15, color: Colors.white54,),
-                                    SizedBox(width: 10,),
-                                    Text("Private", style: TextStyle(
-                                        color: Colors.white54
-                                    ),)
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-                  //   child: itemGrid(reels),
-                  // ),
-                ],
-              ),
-            );
-          }
-        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+                        child: itemGrid(reels),
+                      ),
+                    ],
+                  ) : NoItemsFound(tabController: widget.tabController, onSideMenuClick: widget.onSideMenuClick, pageTitle: "", title: "No Saved Videos Found!");
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -424,7 +217,7 @@ class _LikedVideosPageState extends State<SavedVideosPage> {
         ),
         itemBuilder: (context, index) {
           return Center(
-            child: LikedItem(
+            child: SavedItem(
               reel: reels[index],
               onTap: () async {
                 await widget.onReelSelected(reels[index]);

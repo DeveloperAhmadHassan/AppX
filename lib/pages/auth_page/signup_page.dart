@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'dart:math' as math;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loopyfeed/pages/auth_page/email_page.dart';
@@ -8,6 +9,7 @@ import 'package:loopyfeed/pages/auth_page/otp_page.dart';
 
 import '../../pages/settings_page/privacy_policy_page.dart';
 import '../../pages/settings_page/terms_of_use_page.dart';
+import '../../utils/assets.dart';
 import '../../utils/components/full_logo.dart';
 import '../../utils/helper_functions.dart';
 import '../../utils/constants.dart';
@@ -40,8 +42,8 @@ class _SignupPageState extends State<SignupPage> {
         child: Column(
             children: [
               SizedBox(height: 10,),
-              FullLogo(size: 90,),
-              SizedBox(height: 30,),
+              FullLogo(size: 80,),
+              SizedBox(height: 10,),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +51,7 @@ class _SignupPageState extends State<SignupPage> {
                   Text("Sign up", style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
-                    color: HexColor.fromHex("#F8FFE0").withValues(alpha: 3.0)
+                      color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex("#F8FFE0").withValues(alpha: 3.0) : HexColor.fromHex(AppConstants.primaryBlack).withValues(alpha: 3.0)
                   )),
                   // SizedBox(width: 7,),
                   // Container(
@@ -85,11 +87,11 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                             child: Row(
                               children: [
-                                Text("PK +92", style: TextStyle(color: Colors.white)),
+                                Text("PK +92", style: TextStyle(color: HexColor.fromHex(AppConstants.primaryWhite))),
                                 SizedBox(width: 8),
                                 Transform.rotate(
                                   angle: math.pi / 2,
-                                  child: Icon(Icons.chevron_right, color: Colors.white),
+                                  child: Icon(Icons.chevron_right, color: HexColor.fromHex(AppConstants.primaryWhite)),
                                 ),
                                 SizedBox(width: 8),
                                 Container(
@@ -102,7 +104,7 @@ class _SignupPageState extends State<SignupPage> {
                                   child: TextFormField(
                                     cursorColor: HexColor.fromHex(AppConstants.primaryColor),
                                     controller: _phoneController,
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: HexColor.fromHex(AppConstants.primaryWhite)),
                                     keyboardType: TextInputType.number,
                                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                     validator: (value) {
@@ -158,7 +160,7 @@ class _SignupPageState extends State<SignupPage> {
                       Row(
                         children: [
                           Checkbox(
-                            checkColor: Colors.black,
+                            checkColor: HexColor.fromHex(AppConstants.primaryBlack),
                             fillColor: WidgetStateProperty.all(HexColor.fromHex(AppConstants.primaryColor)),
                             value: _isChecked,
                             shape: CircleBorder(),
@@ -170,8 +172,8 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           // SizedBox(width: 20,),
                           Text("Save login info to log in automatically next time.", style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white.withValues(alpha: 0.8)
+                            fontSize: 13,
+                            color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.8) : HexColor.fromHex(AppConstants.primaryBlack).withValues(alpha: 0.8)
                           ),),
                         ],
                       ),
@@ -192,7 +194,7 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           child: Text(
                             "Continue",
-                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                            style: TextStyle(color: HexColor.fromHex(AppConstants.primaryBlack), fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -202,12 +204,12 @@ class _SignupPageState extends State<SignupPage> {
                         child: RichText(
                           textAlign: TextAlign.center,
                           text: TextSpan(
-                            style: const TextStyle(color: Colors.white54, fontSize: 14, fontWeight: FontWeight.w600),
+                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white54 : Colors.black54, fontSize: 14, fontWeight: FontWeight.w600),
                             children: [
                               TextSpan(text: 'Your number may be used to connect you with others, improve ads and more, depending on your settings. '),
                               TextSpan(
-                                text: "\nLearn More",
-                                style: const TextStyle(color: Colors.white),
+                                text: "Learn More",
+                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ?  HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack)),
                                 // recognizer: TapGestureRecognizer()
                                 //   ..onTap = () {
                                 //     Navigator.push(
@@ -236,13 +238,13 @@ class _SignupPageState extends State<SignupPage> {
                           ]
                       ),
                       SizedBox(height: 20,),
-                      loginOption(Icons.person_outline_rounded, "Continue with Email", iconSize: 25, onTap: (){
+                      loginOption(Assets.iconsPerson, "Continue With Email", iconSize: 22, onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => EmailPage()));
                       }),
                       SizedBox(height: 20,),
-                      loginOption(FontAwesomeIcons.google, "Continue With Google"),
+                      loginOption(Assets.iconsGoogle, "Continue With Google"),
                       SizedBox(height: 20,),
-                      loginOption(FontAwesomeIcons.facebook, "Continue With Facebook"),
+                      loginOption(Assets.iconsFacebook, "Continue With Facebook"),
                       // SizedBox(height: 20,),
                       // loginOption(FontAwesomeIcons.instagram, "Continue With Instagram"),
                       // SizedBox(height: 20,),
@@ -264,12 +266,12 @@ class _SignupPageState extends State<SignupPage> {
                       return RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                          style: const TextStyle(color: Colors.white54, fontSize: 14, fontWeight: FontWeight.w600),
+                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white54 : Colors.black54, fontSize: 14, fontWeight: FontWeight.w600),
                           children: [
                             TextSpan(text: 'By continuing with an account located in '),
                             TextSpan(
                               text: country,
-                              style: const TextStyle(color: Colors.white),
+                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ?  HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack)),
                               // recognizer: TapGestureRecognizer()
                               //   ..onTap = () {
                               //     Navigator.push(
@@ -281,7 +283,7 @@ class _SignupPageState extends State<SignupPage> {
                             TextSpan(text: ', you agree to '),
                             TextSpan(
                               text: 'Terms of Service',
-                              style: const TextStyle(color: Colors.white),
+                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ?  HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack)),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.push(
@@ -293,7 +295,7 @@ class _SignupPageState extends State<SignupPage> {
                             const TextSpan(text: ' and acknowledge that you have read our '),
                             TextSpan(
                               text: 'Privacy Policy',
-                              style: const TextStyle(color: Colors.white),
+                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ?  HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack)),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.push(
@@ -315,7 +317,7 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.withValues(alpha: 0.2),
+        color: Theme.of(context).brightness == Brightness.dark ? Colors.grey.withValues(alpha: 0.2) : Colors.grey,
         elevation: 0,
         child: Padding(
           padding: const EdgeInsets.all(0.0),
@@ -343,24 +345,32 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  Widget loginOption(IconData icon, String title, {double iconSize = 23, double titleSize = 18, GestureTapCallback? onTap}) {
+  Widget loginOption(String icon, String title,  {double iconSize = 27, double titleSize = 20, GestureTapCallback? onTap}) {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 13.0, horizontal: 13.0),
+        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 13.0),
         decoration: BoxDecoration(
-          color: HexColor.fromHex("#E1FF8B"),
+          color: HexColor.fromHex(AppConstants.primaryColor),
           borderRadius: BorderRadius.circular(100),
         ),
         child: Row(
           children: [
-            Icon(icon, color: Colors.black, size: iconSize),
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0),
+              child: SvgPicture.asset(
+                icon,
+                semanticsLabel: 'Google Logo',
+                height: iconSize,
+                width: iconSize,
+              ),
+            ),
             Expanded(
               child: Center(
                 child: Text(
                   title,
                   style: TextStyle(
-                    color: Colors.black,
+                    color: HexColor.fromHex(AppConstants.primaryBlack),
                     fontWeight: FontWeight.w600,
                     fontSize: titleSize,
                   ),

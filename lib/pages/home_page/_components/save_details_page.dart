@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:loopyfeed/utils/extensions/color.dart';
 
+import '../../../repository/reel_repository.dart';
 import '../../../utils/constants.dart';
 
 class SaveDetailsPage extends StatefulWidget {
   final String thumbnailUrl;
-  const SaveDetailsPage({super.key, required this.thumbnailUrl});
+  final int reelId;
+  const SaveDetailsPage({super.key, required this.thumbnailUrl, required this.reelId});
 
   @override
   State<SaveDetailsPage> createState() => _SaveDetailsPageState();
@@ -37,6 +39,7 @@ class _SaveDetailsPageState extends State<SaveDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    ReelRepository reelRepository = ReelRepository();
     return Scaffold(
       body: Stack(
         children: [
@@ -50,7 +53,7 @@ class _SaveDetailsPageState extends State<SaveDetailsPage> {
           ),
 
           Container(
-            color: Colors.black.withValues(alpha: 0.6),
+            color: HexColor.fromHex(AppConstants.primaryBlack).withValues(alpha: 0.6),
           ),
 
           Padding(
@@ -73,11 +76,23 @@ class _SaveDetailsPageState extends State<SaveDetailsPage> {
                       fontWeight: FontWeight.bold,
                       fontSize: 18
                     ),),
-                    Text("Save", style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: canBeSaved ? HexColor.fromHex(AppConstants.primaryColor) : Colors.grey
-                    ),)
+                    GestureDetector(
+                      onTap: () async {
+                        var res = reelRepository.addCollection(_controller.text, isPublic: isPublic, reelId: widget.reelId, thumbnailUrl: widget.thumbnailUrl);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Reel Saved!'),
+                          )
+                        );
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      child: Text("Save", style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: canBeSaved ? HexColor.fromHex(AppConstants.primaryColor) : Colors.grey
+                      ),),
+                    )
                   ],
                 ),
                 Spacer(),
@@ -85,7 +100,7 @@ class _SaveDetailsPageState extends State<SaveDetailsPage> {
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.black
+                    color: HexColor.fromHex(AppConstants.primaryBlack)
                   ),
                   child: Form(
                     child: Column(

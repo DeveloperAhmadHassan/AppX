@@ -100,7 +100,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
     //   widget.videoPlayerController.play();
     // });
 
-    _controller = VideoPlayerController.asset(widget.reel.reelUrl)
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.reel.reelUrl))
       ..initialize().then((_) {
         if (mounted) {
           setState(() => _isVideoInitialized = true);

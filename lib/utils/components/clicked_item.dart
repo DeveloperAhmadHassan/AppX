@@ -9,6 +9,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../utils/extensions/string.dart';
 import '../../controllers/home_reel_controller.dart';
 import '../../models/reel.dart';
+import '../constants.dart';
+import '../extensions/color.dart';
 
 class ClickedItem extends StatefulWidget {
   const ClickedItem({super.key, required this.reel});
@@ -139,7 +141,7 @@ class _LikedClickedItemState extends State<ClickedItem> {
                           child: Text(
                               widget.reel.views!.formattedNumber,
                               style: TextStyle(
-                                // color: Colors.white,
+                                // color: HexColor.fromHex(AppConstants.primaryWhite),
                                   fontWeight: FontWeight.bold
                               )),
                         )
@@ -175,7 +177,7 @@ class _LikedClickedItemState extends State<ClickedItem> {
                         Padding(
                           padding: const EdgeInsets.only(top: 0.0),
                           child: Text(widget.reel.likes!.formattedNumber, style: TextStyle(
-                            // color: Colors.white,
+                            // color: HexColor.fromHex(AppConstants.primaryWhite),
                               fontWeight: FontWeight.bold
                           ),textAlign: TextAlign.center,),
                         )
@@ -197,7 +199,7 @@ class _LikedClickedItemState extends State<ClickedItem> {
                             semanticsLabel: 'Share Logo',
                             height: 30,
                             width: 30,
-                            colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                            colorFilter: ColorFilter.mode(HexColor.fromHex(AppConstants.primaryWhite), BlendMode.srcIn),
                           ),
                           SizedBox(height: 16,)
                         ],

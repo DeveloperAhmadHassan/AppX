@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import '../../../repository/reel_repository.dart';
 import '../../../models/reel.dart';
 
+import '../../../utils/components/no_items_found.dart';
 import 'watch_history_item.dart';
 
 //ignore: must_be_immutable
 class WatchHistoryPage extends StatefulWidget {
-  WatchHistoryPage({super.key});
+  final TabController tabController;
+  final Function() onSideMenuClick;
+  WatchHistoryPage({super.key, required this.tabController, required this.onSideMenuClick});
   late List<Reel> reels = [];
 
   @override
@@ -40,7 +43,12 @@ class _WatchHistoryPageState extends State<WatchHistoryPage> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No watch history available'));
+            return NoItemsFound(
+              tabController: widget.tabController,
+              onSideMenuClick: widget.onSideMenuClick,
+              pageTitle: "liked videos",
+              title: "No Liked Videos Found!",
+            );;
           } else {
             widget.reels = snapshot.data!;
             return SingleChildScrollView(

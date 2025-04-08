@@ -20,6 +20,7 @@ import '../../models/settings.dart';
 import '../../models/user.dart';
 import '../../utils/assets.dart';
 import '../../utils/constants.dart';
+import 'package:loopyfeed/utils/enums.dart';
 
 class SettingsPage extends StatefulWidget {
   final bool isDarkMode;
@@ -124,11 +125,11 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.black,
+      // backgroundColor: HexColor.fromHex(AppConstants.primaryBlack),
       appBar: AppBar(
         backgroundColor: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryColor),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,size: 34, color: Colors.black,),
+          icon: Icon(Icons.arrow_back,size: 34, color: HexColor.fromHex(AppConstants.primaryBlack),),
           onPressed: () {
             Navigator.pop(context, true);
           },
@@ -148,13 +149,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Text(
                   "settings",
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Colors.black,
+                    color: HexColor.fromHex(AppConstants.primaryBlack),
                   ),
                 ),
               ),
             ),
+
             Container(
-              padding: const EdgeInsets.only(left: 20.0, bottom: 30.0),
+              padding: const EdgeInsets.only(left: 0.0, bottom: 30.0),
               color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryColor),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -163,28 +165,28 @@ class _SettingsPageState extends State<SettingsPage> {
                   SizedBox(height: 20,),
                   !_isLoading
                       ? Container(
-                    width: 100.0,
-                    height: 100.0,
+                    width: 120.0,
+                    height: 120.0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: (user != null && user!.imagePath!.contains('assets/')) || user?.imagePath == null ? null : Border.all(
-                        color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.black,
+                        color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryBlack),
                         width: 4.0,
                       ),
                     ),
                     child: ClipOval(
                       child: (user != null && user!.imagePath!.contains('assets/')) || user?.imagePath == null
-                        ? Icon(Symbols.account_circle_filled_rounded, size: 100, weight: 300, color: Colors.black,) : Image.file (
+                        ? Icon(Symbols.account_circle_filled_rounded, size: 120, weight: 200, color: HexColor.fromHex(AppConstants.primaryBlack),) : Image.file (
                           File(user!.imagePath ?? ""),
-                          width: 100.0,
-                          height: 100.0,
+                          width: 120.0,
+                          height: 120.0,
                           fit: BoxFit.cover,
                       ),
                     ),
                   ) : CircularProgressIndicator(),
                   SizedBox(height: 10,),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10.0, top: 15),
+                    padding: const EdgeInsets.only(left: 0.0, top: 15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -193,8 +195,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           padding: const EdgeInsets.only(left: 13.0),
                           child: Text(user?.name ?? "User", style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.black
+                            fontSize: 24,
+                            color: HexColor.fromHex(AppConstants.primaryBlack)
                           )),
                         ),
                         SizedBox(height: 5,),
@@ -213,18 +215,18 @@ class _SettingsPageState extends State<SettingsPage> {
                               }
                             });
                           },
-                          icon: Icon(Icons.navigate_next, size: 25, color: HexColor.fromHex(AppConstants.primaryWhite),),
+                          icon: Icon(Icons.navigate_next, size: 30, color: HexColor.fromHex(AppConstants.primaryWhite),),
                           label: Padding(
                             padding: const EdgeInsets.only(left: 7.0),
                             child: Text('Edit Details', style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.w700,
                             ),textAlign: TextAlign.center,),
                           ),
                           iconAlignment: IconAlignment.end,
                           style: ButtonStyle(
                               minimumSize: WidgetStateProperty.all(Size(0, 45)),
-                              padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 7.0))
+                              padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 13.0))
                           ),
                         )
                       ],
@@ -239,8 +241,11 @@ class _SettingsPageState extends State<SettingsPage> {
               children: [
                 SizedBox(height: 35,),
                 SettingsItem(icon: Icons.contrast, title: "Display", iconSize: 23.0, onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ThemePage()));
-                }
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ThemePage(onToggle: (value) {
+                      onSwitchChanged("Dark Mode", value == THEME.dark ? true : false);
+                      widget.onSwitchChanged("Dark Mode", value == THEME.dark ? true : false);
+                    },)));
+                  },
                   // isSwitch: true,
                   // isSwitched: settings?.isDarkMode ?? widget.isDarkMode,
                   // onToggle: (value) {

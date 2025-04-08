@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:loopyfeed/utils/extensions/color.dart';
 
+import '../utils/constants.dart';
+
 class NavigationTabBar extends StatefulWidget {
   final Function() onSideMenuClick;
   final bool isCollapsed;
@@ -40,7 +42,7 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                   child: Container(
                     // width: MediaQuery.of(context).size.width - 160,
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.1),
+                      color: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: ClipRRect(
@@ -49,7 +51,7 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                         children: [
                           Positioned.fill(
                             child: Container(
-                              color: HexColor.fromHex("#F8FFE2").withValues(alpha: 0.2),
+                              color: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.2),
                             ),
                           ),
                           TabBar(
@@ -64,7 +66,7 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                                 fontSize: 18,
                                 fontFamily: 'Outfit'
                             ),
-                            // labelColor: Colors.white,
+                            // labelColor: HexColor.fromHex(AppConstants.primaryWhite),
                             labelStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,

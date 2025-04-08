@@ -102,15 +102,13 @@ class _ReelMetaDataState extends State<ReelMetaData> {
                     height: 20,
                     width: 40,
                     child: InkWell(
-                      child: Icon(!isCurrentlySaved ? Icons.bookmark_border_outlined : Icons.bookmark, size: 25, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : HexColor.fromHex(AppConstants.primaryColor),),
+                      child: Icon(!isCurrentlySaved ? Icons.bookmark_border_outlined : Icons.bookmark, size: 25, color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack),),
                       onTap: () {
                         if(!isCurrentlySaved) {
                           isCurrentlySaved = !isCurrentlySaved;
-                          SavedCollection collection = SavedCollection(reel: widget.reel);
-                          widget.homeReelController.saveVideo(collection);
+                          widget.homeReelController.saveVideo(widget.reel);
                         } else {
-                          SavedCollection collection = SavedCollection(reel: widget.reel);
-                          widget.homeReelController.unSaveVideo(collection);
+                          widget.homeReelController.unSaveVideo(widget.reel);
                         }
                         showModalBottomSheet(
                           context: context,
@@ -124,6 +122,7 @@ class _ReelMetaDataState extends State<ReelMetaData> {
                           builder: (BuildContext context) {
                             return BookmarkBottomSheet(
                               isSaved: isCurrentlySaved,
+                              reelId: int.parse(widget.reel.id != null ? widget.reel.id! : "1"),
                               thumbnailUrl: widget.reel.thumbnailUrl ?? "",
                               onToggleSave: () {
                                 setState(() {
@@ -170,10 +169,10 @@ class _ReelMetaDataState extends State<ReelMetaData> {
                             height: 20,
                             width: 20,
                             colorFilter: ColorFilter.mode(
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
-                                BlendMode.srcIn
+                            Theme.of(context).brightness == Brightness.dark
+                                ? HexColor.fromHex(AppConstants.primaryWhite)
+                                : HexColor.fromHex(AppConstants.primaryBlack),
+                            BlendMode.srcIn
                             ),
                           ),
                           // SizedBox(height: 16)

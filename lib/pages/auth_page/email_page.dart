@@ -45,7 +45,7 @@ class _EmailPageState extends State<EmailPage> {
               TextFormField(
                 cursorColor: HexColor.fromHex(AppConstants.primaryColor),
                 controller: _emailController,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: HexColor.fromHex(AppConstants.primaryWhite)),
                 keyboardType: TextInputType.emailAddress,
                 inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
                 onChanged: (String value) {
@@ -117,12 +117,12 @@ class _EmailPageState extends State<EmailPage> {
                 child: RichText(
                   textAlign: TextAlign.left,
                   text: TextSpan(
-                    style: const TextStyle(color: Colors.white54, fontSize: 14, fontWeight: FontWeight.w600),
+                    style: TextStyle(color: Colors.white54, fontSize: 14, fontWeight: FontWeight.w600),
                     children: [
                       TextSpan(text: 'Your number may be used to connect you with others, improve ads and more, depending on your settings. '),
                       TextSpan(
-                        text: "\nLearn More",
-                        style: const TextStyle(color: Colors.white),
+                        text: "Learn More",
+                        style: TextStyle(color: HexColor.fromHex(AppConstants.primaryWhite)),
                         // recognizer: TapGestureRecognizer()
                         //   ..onTap = () {
                         //     Navigator.push(
@@ -139,7 +139,7 @@ class _EmailPageState extends State<EmailPage> {
               Row(
                 children: [
                   Checkbox(
-                    checkColor: Colors.black,
+                    checkColor: HexColor.fromHex(AppConstants.primaryBlack),
                     fillColor: WidgetStateProperty.all(HexColor.fromHex(AppConstants.primaryColor)),
                     value: _isChecked,
                     shape: CircleBorder(),
@@ -151,8 +151,8 @@ class _EmailPageState extends State<EmailPage> {
                   ),
                   // SizedBox(width: 20,),
                   Text("Save login info to log in automatically next time.", style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white.withValues(alpha: 0.8)
+                      fontSize: 13,
+                      color: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.8)
                   ),),
                 ],
               ),
@@ -173,7 +173,7 @@ class _EmailPageState extends State<EmailPage> {
                   ),
                   child: Text(
                     "Continue",
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: HexColor.fromHex(AppConstants.primaryBlack), fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),

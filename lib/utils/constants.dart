@@ -9,7 +9,11 @@ class AppConstants {
 
   static const String primaryColor = "#E1FF8B";
   static const String primaryWhite = "#F8FFE2";
+  static const String primaryBlack = "#0C2A26";
 
-  static const String iconsPrimaryLogo = 'assets/icons/primary_logo.png';
-  static const String iconsSecondaryLogo = 'assets/icons/secondary_logo.png';
+  static const String backgroundLight = "#FEFEFE";
+  static const String backgroundDark = "#000000";
+
+  static const String graySwatch1 = "#595555";
+
 }

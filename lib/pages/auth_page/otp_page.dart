@@ -129,7 +129,7 @@ class _OtpPageState extends State<OtpPage> {
             RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-                style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+                style: TextStyle(color: HexColor.fromHex(AppConstants.primaryWhite), fontSize: 16, fontWeight: FontWeight.w600),
                 children: [
                   TextSpan(text: 'Didn\'t get a code? '),
                   TextSpan(

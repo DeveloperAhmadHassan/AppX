@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+import '../extensions/color.dart';
+
 class GradientDivider extends StatelessWidget {
   final double thickness;
   final double indent;
@@ -22,9 +25,9 @@ class GradientDivider extends StatelessWidget {
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            Theme.of(context).brightness == Brightness.dark ? Colors.white.withValues(alpha: 1) : Colors.black.withValues(alpha: 1),
-            Theme.of(context).brightness == Brightness.dark ? Colors.white.withValues(alpha: 1.3) : Colors.black.withValues(alpha: 1.3),
-            Theme.of(context).brightness == Brightness.dark ? Colors.white.withValues(alpha: 0) : Colors.black.withValues(alpha: 0),
+            Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 1) : HexColor.fromHex(AppConstants.primaryBlack).withValues(alpha: 1),
+            Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 1.3) : HexColor.fromHex(AppConstants.primaryBlack).withValues(alpha: 1.3),
+            Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0) : HexColor.fromHex(AppConstants.primaryBlack).withValues(alpha: 0),
           ],
         ),
       ),

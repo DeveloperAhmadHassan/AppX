@@ -38,8 +38,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
 
     final reelRepository = ReelRepository();
 

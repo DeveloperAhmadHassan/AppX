@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../utils/assets.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/extensions/color.dart';
 
 class ProfileImagePicker extends StatefulWidget {
   final File? image;
@@ -38,29 +40,29 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
     return GestureDetector(
       onTap: _pickImage,
       child: Container(
-        width: 100.0,
-        height: 100.0,
+        width: 120.0,
+        height: 120.0,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: widget.defaultImagePath.toString().contains("assets/") ? null : Border.all(
-            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+            color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack),
             width: 3.0,
           ),
         ),
         child: ClipOval(
           child: widget.image == null
               ? widget.defaultImagePath.toString().contains("assets/")
-              ? Icon(Symbols.account_circle_filled_rounded, size: 110, weight: 300, color: Colors.black,)
+              ? Icon(Symbols.account_circle_filled_rounded, size: 120, weight: 300, color: HexColor.fromHex(AppConstants.primaryBlack),)
               : Image.file(
             File(widget.defaultImagePath),
-            width: 100.0,
-            height: 100.0,
+            width: 120.0,
+            height: 120.0,
             fit: BoxFit.cover,
           )
               : Image.file(
             widget.image!,
-            width: 100.0,
-            height: 100.0,
+            width: 120.0,
+            height: 120.0,
             fit: BoxFit.cover,
           ),
         ),

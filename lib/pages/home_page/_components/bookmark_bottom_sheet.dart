@@ -8,9 +8,10 @@ import '../../../utils/extensions/color.dart';
 class BookmarkBottomSheet extends StatelessWidget {
   final bool isSaved;
   final String thumbnailUrl;
+  final int reelId;
   final VoidCallback onToggleSave;
 
-  const BookmarkBottomSheet({super.key, required this.isSaved, required this.thumbnailUrl, required this.onToggleSave});
+  const BookmarkBottomSheet({super.key, required this.isSaved, required this.thumbnailUrl, required this.onToggleSave, required this.reelId});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class BookmarkBottomSheet extends StatelessWidget {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            color: Colors.white10,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.white10 : Colors.black12,
             child: Column(
               children: [
                 SizedBox(height: 18,),
@@ -51,7 +52,7 @@ class BookmarkBottomSheet extends StatelessWidget {
                               fontSize: 19
                           ),),
                           Text("Private", style: TextStyle(
-                              color: Colors.white54
+                              color: Theme.of(context).brightness == Brightness.dark ? Colors.white54 : Colors.black54
                           ))
                         ],
                       ),
@@ -71,7 +72,7 @@ class BookmarkBottomSheet extends StatelessWidget {
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
-              border: Border.all(color: Colors.white, width: 2),
+              border: Border.all(color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack), width: 3),
             ),
             child: Column(
               children: [
@@ -98,17 +99,17 @@ class BookmarkBottomSheet extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 40),
               child: InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SaveDetailsPage(thumbnailUrl: thumbnailUrl)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SaveDetailsPage(thumbnailUrl: thumbnailUrl, reelId: reelId,)));
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      color: HexColor.fromHex(AppConstants.primaryColor)
+                      color: HexColor.fromHex(Theme.of(context).brightness == Brightness.dark ? AppConstants.primaryColor: AppConstants.primaryBlack)
                   ),
                   child: Text("Try It", style: TextStyle(
-                      color: Colors.black,
+                      color: HexColor.fromHex(Theme.of(context).brightness == Brightness.dark ? AppConstants.primaryBlack : AppConstants.primaryWhite),
                       fontWeight: FontWeight.bold
                   ),textAlign: TextAlign.center,),
                 ),

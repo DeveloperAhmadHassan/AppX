@@ -78,13 +78,13 @@ class BaseController {
     }
   }
 
-  Future<bool> saveVideo(SavedCollection collection) async {
+  Future<bool> saveVideo(Reel reel) async {
     try {
-      final response = await _dio.put('$baseUrl/reels/saves/${collection.reel.id}?collection_name=${collection.collectionName}&is_public=${collection.isPublic}');
+      final response = await _dio.put('$baseUrl/reels/saves/${reel.id}');
 
       if (response.statusCode == 200) {
-        collection.reel.isSaved = true;
-        await ReelRepository().addSavedVideo(collection);
+        reel.isSaved = true;
+        await ReelRepository().addSavedVideo(reel);
         if (kDebugMode) {
           print("saved");
         }
@@ -97,13 +97,13 @@ class BaseController {
     }
   }
 
-  Future<bool> unSaveVideo(SavedCollection collection) async {
+  Future<bool> unSaveVideo(Reel reel) async {
     try {
-      final response = await _dio.put('$baseUrl/reels/saves/${collection.reel.id}?increment=-1');
+      final response = await _dio.put('$baseUrl/reels/saves/${reel.id}?increment=-1');
 
       if (response.statusCode == 200) {
-        collection.reel.isSaved = false;
-        await ReelRepository().removeSavedVideo(int.parse(collection.reel.id ?? "1"));
+        reel.isSaved = false;
+        await ReelRepository().removeSavedVideo(int.parse(reel.id ?? "1"));
         if (kDebugMode) {
           print("unsaved");
         }

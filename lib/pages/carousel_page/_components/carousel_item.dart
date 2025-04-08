@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:like_button/like_button.dart';
+import 'package:loopyfeed/utils/extensions/color.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../utils/assets.dart';
 import 'functions.dart';
 import 'globals.dart';
 import '../../../pages/carousel_page/_components/carousel_thumbnail.dart';
@@ -56,7 +59,7 @@ class _CarousalItemState extends State<CarousalItem> {
         width: AppConstants.WIDTH + 30,
         decoration: BoxDecoration(
             // borderRadius: BorderRadius.circular(30),
-            // border: Border.all(color: Colors.white, width: 2.0)
+            // border: Border.all(color: HexColor.fromHex(AppConstants.primaryWhite), width: 2.0)
         ),
         child: VisibilityDetector(
           key: Key('item-${widget.xIndex}${widget.yIndex}-key'),
@@ -110,7 +113,7 @@ class _CarousalItemState extends State<CarousalItem> {
                 width: _opacity == 1.0 ? 330 : _width,
                 decoration: BoxDecoration(
                   // borderRadius: BorderRadius.circular(30),
-                  // border: Border.all(color: Colors.white, width: 2.0)
+                  // border: Border.all(color: HexColor.fromHex(AppConstants.primaryWhite), width: 2.0)
                 ),
                 duration: Duration(milliseconds: 600, ),
                 curve: Curves.fastEaseInToSlowEaseOut,
@@ -147,16 +150,18 @@ class _CarousalItemState extends State<CarousalItem> {
                                         child: Row(
                                           crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
-                                            SizedBox(
-                                              width: 180,
-                                              child: Text(
-                                                "${widget.reel.title} ${widget.reel.id}",
-                                                style: Theme.of(context).textTheme.titleMedium,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                softWrap: false,
-                                              ),
-                                            ),
+                                            // SizedBox(
+                                            //   width: 180,
+                                            //   child: Text(
+                                            //     "${widget.reel.title} ${widget.reel.id}",
+                                            //     style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                            //       color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite),
+                                            //     ),
+                                            //     overflow: TextOverflow.ellipsis,
+                                            //     maxLines: 1,
+                                            //     softWrap: false,
+                                            //   ),
+                                            // ),
                                           ],
                                         ),
                                       ),
@@ -167,28 +172,6 @@ class _CarousalItemState extends State<CarousalItem> {
                                           mainAxisAlignment: MainAxisAlignment.end,
                                           crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  height: 20,
-                                                  width: 40,
-                                                  child: IconButton(
-                                                    icon: Icon(Icons.remove_red_eye_outlined, size: 20),
-                                                    onPressed: () => {},
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(top: 9.0),
-                                                  child: Text(
-                                                    widget.reel.views!.formattedNumber,
-                                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(width: 5),
                                             Column(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -210,7 +193,7 @@ class _CarousalItemState extends State<CarousalItem> {
                                                   likeBuilder: (isLiked) {
                                                     return Icon(
                                                       isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                                                      color: isLiked ? Colors.red : Theme.of(context).iconTheme.color,
+                                                      color: isLiked ? Colors.red : Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite),
                                                       size: 20,
                                                     );
                                                   },
@@ -220,10 +203,48 @@ class _CarousalItemState extends State<CarousalItem> {
                                                   const EdgeInsets.only(top: 0.0),
                                                   child: Text(
                                                     widget.reel.likes!.formattedNumber,
-                                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 13,
+                                                      color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite)
+                                                    ),
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
+                                              ],
+                                            ),
+                                            SizedBox(width: 5),
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                SizedBox(height: 12,),
+                                                SvgPicture.asset(
+                                                  Assets.iconsShare,
+                                                  semanticsLabel: 'Share Logo',
+                                                  height: 20,
+                                                  width: 20,
+                                                  colorFilter: ColorFilter.mode(
+                                                      Theme.of(context).brightness == Brightness.dark
+                                                          ? HexColor.fromHex(AppConstants.primaryBlack)
+                                                          : HexColor.fromHex(AppConstants.primaryWhite),
+                                                      BlendMode.srcIn
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets.only(top: 0.0),
+                                                  child: Text(
+                                                    widget.reel.likes!.formattedNumber,
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 13,
+                                                      color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite)
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                                // SizedBox(height: 16)
                                               ],
                                             ),
                                           ],

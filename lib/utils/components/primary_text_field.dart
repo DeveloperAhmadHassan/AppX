@@ -16,7 +16,7 @@
 //     return TextFormField(
 //       cursorColor: HexColor.fromHex(AppConstants.primaryColor),
 //       controller: _phoneController,
-//       style: TextStyle(color: Colors.white),
+//       style: TextStyle(color: HexColor.fromHex(AppConstants.primaryWhite)),
 //       keyboardType: TextInputType.number,
 //       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
 //       validator: (value) {
