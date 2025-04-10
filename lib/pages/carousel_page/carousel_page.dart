@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:loopyfeed/utils/extensions/color.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 import '_components/carousel_item.dart';
 import '_components/two_dimensional_grid_view.dart';
@@ -114,8 +115,8 @@ class _CarouselPageState extends State<CarouselPage> {
                 ),
               ),
               Positioned(
-                  right: 60,
-                  bottom: 100,
+                  right: 50,
+                  bottom: 80,
                   child: InkWell(
                     onTap: (){
                       setState(() {
@@ -123,12 +124,19 @@ class _CarouselPageState extends State<CarouselPage> {
                       });
                     },
                     child: Container(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(4.0),
                       decoration: BoxDecoration(
-                        color: HexColor.fromHex(AppConstants.primaryBlack),
-                        borderRadius: BorderRadius.circular(100)
+                        color: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(100),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha:0.8),
+                            blurRadius: 25,
+                            offset: Offset(0, 7),
+                          ),
+                        ],
                       ),
-                      child: Icon(Icons.chevron_right, size: 25, color: HexColor.fromHex(AppConstants.primaryWhite),),
+                      child: Icon(Symbols.chevron_right, size: 30, weight: 800, color: HexColor.fromHex(AppConstants.primaryWhite),),
                     ),
                   )
               ),

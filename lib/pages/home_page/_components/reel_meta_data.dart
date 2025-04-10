@@ -10,6 +10,7 @@ import '../../../utils/extensions/color.dart';
 import '../../../utils/extensions/string.dart';
 import '../../../utils/assets.dart';
 
+import '../../side_page/saved_videos_page/saved_videos_by_collection_page.dart';
 import 'bookmark_bottom_sheet.dart';
 
 class ReelMetaData extends StatefulWidget {
@@ -103,14 +104,14 @@ class _ReelMetaDataState extends State<ReelMetaData> {
                     width: 40,
                     child: InkWell(
                       child: Icon(!isCurrentlySaved ? Icons.bookmark_border_outlined : Icons.bookmark, size: 25, color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack),),
-                      onTap: () {
+                      onTap: () async {
                         if(!isCurrentlySaved) {
                           isCurrentlySaved = !isCurrentlySaved;
                           widget.homeReelController.saveVideo(widget.reel);
                         } else {
                           widget.homeReelController.unSaveVideo(widget.reel);
                         }
-                        showModalBottomSheet(
+                        final res = await showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
                           constraints: BoxConstraints(
@@ -130,9 +131,34 @@ class _ReelMetaDataState extends State<ReelMetaData> {
                                 });
                                 Navigator.pop(context);
                               },
+                              parentContext: context,
                             );
                           },
                         );
+
+                        if(res is SavedCollection) {
+                          final snackBar = SnackBar(
+                            content: RichText(text: TextSpan(
+                                style: Theme.of(context).textTheme.titleLarge,
+                                children: [
+                                  TextSpan(text: 'Reel Added to '),
+                                  TextSpan(text: res.collectionName, style: TextStyle(color: HexColor.fromHex(AppConstants.primaryColor))),
+                                ]
+                            )),
+                            backgroundColor: HexColor.fromHex(AppConstants.primaryBlack),
+                            behavior: SnackBarBehavior.floating,
+                            action: SnackBarAction(
+                              label: "View",
+                              textColor: HexColor.fromHex(AppConstants.primaryColor),
+                              onPressed: () {
+                                Navigator.of(context, rootNavigator: true).push(
+                                  MaterialPageRoute(builder: (_) => SavedVideosByCollectionPage(collection: res,)),
+                                );
+                              },
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                       },
 
                     ),

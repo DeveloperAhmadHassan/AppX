@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loopyfeed/models/saved_collection.dart';
-import 'package:loopyfeed/pages/side_page/saved_videos_page/collections_page.dart';
-import 'package:loopyfeed/utils/components/no_items_found.dart';
+import 'package:loopyfeed/pages/side_page/saved_videos_page/edit_collection_page.dart';
 
 import '../../../models/reel.dart';
 import '../../../repository/reel_repository.dart';
@@ -9,8 +8,8 @@ import 'saved_item.dart';
 
 class SavedVideosByCollectionPage extends StatefulWidget {
 
-  final int collectionId;
-  const SavedVideosByCollectionPage({super.key, required this.collectionId});
+  final SavedCollection collection;
+  const SavedVideosByCollectionPage({super.key, required this.collection});
 
   @override
   State<SavedVideosByCollectionPage> createState() => _LikedVideosPageState();
@@ -23,8 +22,7 @@ class _LikedVideosPageState extends State<SavedVideosByCollectionPage> {
   @override
   void initState() {
     super.initState();
-    savedVideos = reelRepository.getSavedVideosByCollection(widget.collectionId);
-    print("collection: ${widget.collectionId}");
+    savedVideos = reelRepository.getSavedVideosByCollection(widget.collection.id);
   }
 
   @override
@@ -32,7 +30,7 @@ class _LikedVideosPageState extends State<SavedVideosByCollectionPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,size: 34,),
+          icon: Icon(Icons.arrow_back, size: 34),
           onPressed: () {
             Navigator.pop(context, true);
           },
@@ -40,13 +38,38 @@ class _LikedVideosPageState extends State<SavedVideosByCollectionPage> {
         actions: [
           Padding(
             padding: EdgeInsets.all(10.0),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.add, size: 34,),
+            child: PopupMenuButton<String>(
+              icon: Icon(Icons.more_vert_rounded, size: 34),
+              onSelected: (value) {
+                // Handle your menu actions here
+                if (value == 'option1') {
+                } else if (value == 'option2') {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => EditCollectionPage(collection: widget.collection,)));
+                }
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: 'option1',
+                  child: Text('Manage Reels'),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'option2',
+                  child: Text('Edit Collection'),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'option3',
+                  child: Text('Delete Collection'),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'option4',
+                  child: Text('Select...'),
+                ),
+              ],
             ),
-          )
+          ),
         ],
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -58,28 +81,8 @@ class _LikedVideosPageState extends State<SavedVideosByCollectionPage> {
                 } else {
                   List<Reel> reels = snapshot.data!;
 
-                  print(reels);
-
                   return  Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Row(
-                          children: [
-                            Text(
-                                "Reels",
-                                style: Theme.of(context).textTheme.titleLarge
-                            ),
-                            Spacer(),
-                            InkWell(
-                              onTap: () {},
-                              child: Text("Manage", style: TextStyle(
-                                  color: Colors.blue
-                              ),),
-                            )
-                          ],
-                        ),
-                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
                         child: itemGrid(reels),

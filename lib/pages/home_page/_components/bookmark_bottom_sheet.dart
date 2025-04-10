@@ -6,6 +6,7 @@ import '../../../models/saved_collection.dart';
 import '../../../repository/reel_repository.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/extensions/color.dart';
+import '../../side_page/saved_videos_page/saved_videos_by_collection_page.dart';
 
 class BookmarkBottomSheet extends StatefulWidget {
   final bool isSaved;
@@ -13,7 +14,9 @@ class BookmarkBottomSheet extends StatefulWidget {
   final int reelId;
   final VoidCallback onToggleSave;
 
-  const BookmarkBottomSheet({super.key, required this.isSaved, required this.thumbnailUrl, required this.onToggleSave, required this.reelId});
+  final BuildContext parentContext;
+
+  const BookmarkBottomSheet({super.key, required this.isSaved, required this.thumbnailUrl, required this.onToggleSave, required this.reelId, required this.parentContext});
 
   @override
   State<BookmarkBottomSheet> createState() => _BookmarkBottomSheetState();
@@ -114,7 +117,7 @@ class _BookmarkBottomSheetState extends State<BookmarkBottomSheet> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) => SaveDetailsPage(
-                                                  thumbnailUrl: widget.thumbnailUrl, reelId: widget.reelId,
+                                                  thumbnailUrl: widget.thumbnailUrl, reelId: widget.reelId, parentContext: widget.parentContext,
                                                 )));
                                       },
                                       child: Text(
@@ -135,7 +138,8 @@ class _BookmarkBottomSheetState extends State<BookmarkBottomSheet> {
                                   return InkWell(
                                     onTap: () async {
                                       await reelRepository.addToCollection(collection.id, widget.reelId);
-                                      print("Added to ${collection.collectionName}");
+
+                                      Navigator.pop(context, collection);
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.all(10),
@@ -227,7 +231,7 @@ class _BookmarkBottomSheetState extends State<BookmarkBottomSheet> {
                               MaterialPageRoute(
                                 builder: (context) => SaveDetailsPage(
                                   thumbnailUrl: widget.thumbnailUrl,
-                                  reelId: widget.reelId,
+                                  reelId: widget.reelId, parentContext: widget.parentContext,
                                 ),
                               ),
                             );
@@ -239,7 +243,7 @@ class _BookmarkBottomSheetState extends State<BookmarkBottomSheet> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => SaveDetailsPage(
-                                        thumbnailUrl: widget.thumbnailUrl, reelId: widget.reelId, isPublic: true,
+                                        thumbnailUrl: widget.thumbnailUrl, reelId: widget.reelId, isPublic: true, parentContext: widget.parentContext,
                                   )));
                                 },
                                 child: Row(
@@ -300,7 +304,6 @@ class _BookmarkBottomSheetState extends State<BookmarkBottomSheet> {
               }
             },
           )
-
         ],
       ),
     );

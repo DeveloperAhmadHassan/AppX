@@ -23,9 +23,9 @@ class CategoryItem extends StatelessWidget {
             width: width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.blue,
+              color: HexColor.fromHex(AppConstants.graySwatch1),
               image: DecorationImage(
-                image: AssetImage(category.thumbnailUrl ?? "https://example.com/your-image-url.jpg"),
+                image: NetworkImage(category.thumbnailUrl ?? "https://example.com/your-image-url.jpg"),
                 fit: BoxFit.cover,
               ),
             ),

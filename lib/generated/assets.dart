@@ -10,7 +10,6 @@ class Assets {
   static const String iconsAppIconLight = 'assets/icons/app_icon_light.png';
   static const String iconsBranding2 = 'assets/icons/branding_2.png';
   static const String iconsBrandingDark = 'assets/icons/branding_dark.png';
-  static const String iconsBrandingHd = 'assets/icons/branding_hd.png';
   static const String iconsFacebook = 'assets/icons/facebook.svg';
   static const String iconsGoogle = 'assets/icons/google.svg';
   static const String iconsInstagram = 'assets/icons/instagram.svg';
@@ -18,9 +17,8 @@ class Assets {
   static const String iconsPrimaryLogo = 'assets/icons/primary_logo.png';
   static const String iconsSecondaryLogo = 'assets/icons/secondary_logo.png';
   static const String iconsSettings = 'assets/icons/settings.svg';
+  static const String iconsSettingsUser = 'assets/icons/settings_user.svg';
   static const String iconsShare = 'assets/icons/share.svg';
-  static const String iconsSplashBrandingLogo = 'assets/icons/splash_branding_logo.png';
-  static const String iconsSplashLogo = 'assets/icons/splash_logo.png';
   static const String iconsSplashLogo2 = 'assets/icons/splash_logo_2.png';
   static const String iconsSplashLogoLight = 'assets/icons/splash_logo_light.png';
   static const String iconsX = 'assets/icons/x.svg';
@@ -29,22 +27,5 @@ class Assets {
   static const String profileLikedVideosIllustration = 'assets/profile/liked_videos_illustration.png';
   static const String profilePA = 'assets/profile/p_a.jpg';
   static const String profileTutorialScreen = 'assets/profile/tutorial_screen.png';
-  static const String thumbnailsASMR = 'assets/thumbnails/ASMR.jpg';
-  static const String thumbnailsArtsy = 'assets/thumbnails/Artsy.jpg';
-  static const String thumbnailsBeauty = 'assets/thumbnails/Beauty.jpg';
-  static const String thumbnailsCrafty = 'assets/thumbnails/Crafty.jpg';
-  static const String thumbnailsFashion = 'assets/thumbnails/Fashion.jpg';
-  static const String thumbnailsFun = 'assets/thumbnails/Fun.jpg';
-  static const String videosA = 'assets/videos/a.mp4';
-  static const String videosB = 'assets/videos/b.mp4';
-  static const String videosC = 'assets/videos/c.mp4';
-  static const String videosD = 'assets/videos/d.mp4';
-  static const String videosE = 'assets/videos/e.mp4';
-  static const String videosF = 'assets/videos/f.mp4';
-  static const String videosG = 'assets/videos/g.mp4';
-  static const String videosH = 'assets/videos/h.mp4';
-  static const String videosI = 'assets/videos/i.mp4';
-  static const String videosJ = 'assets/videos/j.mp4';
-  static const String videosK = 'assets/videos/k.mp4';
 
 }

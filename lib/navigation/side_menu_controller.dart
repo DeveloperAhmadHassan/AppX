@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loopyfeed/pages/auth_page/login_signup_page.dart';
@@ -20,15 +21,16 @@ import '../models/reel.dart';
 import '../models/user.dart';
 import '../utils/assets.dart';
 import '../utils/constants.dart';
+import '../utils/enums.dart';
 import '../utils/extensions/color.dart';
 
 import 'navigation_tab_controller.dart';
 
 class MenuDashboardPage extends StatefulWidget {
-  final bool isDarkMode;
-  final Function(String, bool) onSwitchChanged;
+  final THEME theme;
+  final Function(String, THEME) onSwitchChanged;
 
-  const MenuDashboardPage({super.key, required this.isDarkMode, required this.onSwitchChanged});
+  const MenuDashboardPage({super.key, required this.theme, required this.onSwitchChanged});
 
 
   @override
@@ -66,6 +68,13 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
       });
       print("Selected Index: ${_tabController.index}");
     });
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.black,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.black,
+        systemNavigationBarIconBrightness: Brightness.light
+    ));
   }
 
   void _handleReelSelected(Reel? reel) {
@@ -110,6 +119,9 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
     screenWidth = size.width;
 
     return Scaffold(
+        // appBar: AppBar(
+        //   toolbarHeight: 0,
+        // ),
         backgroundColor: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite),
         body: Stack(
           clipBehavior: Clip.hardEdge,
@@ -122,6 +134,12 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
   }
 
   Widget menu(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.black,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.black,
+        systemNavigationBarIconBrightness: Brightness.light
+    ));
     return SlideTransition(
       position: _slideAnimation,
       child: ScaleTransition(
@@ -273,7 +291,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                       ),
                           onPressed: () async {
                             var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage(
-                              isDarkMode: widget.isDarkMode,
+                              theme: widget.theme,
                               onSwitchChanged: widget.onSwitchChanged,
                             )));
 
@@ -311,6 +329,13 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
               decoration: BoxDecoration(
                 color: HexColor.fromHex(AppConstants.primaryBlack),
                 borderRadius: BorderRadius.all(Radius.circular(isCollapsed ? 0 : 40)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha:0.8),
+                    blurRadius: Theme.of(context).brightness == Brightness.light ? 35 : 6,
+                    offset: Offset(0, 7),
+                  ),
+                ],
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(isCollapsed ? 0 : 40)),
@@ -359,45 +384,48 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
   }
 
   Widget menuItem({IconData? icon, required String title, GestureTapCallback? onPressed, SvgPicture? svgIcon, double size = 20, bool givePadding = false}){
-    return InkWell(
-      onTap: (){
-        onPressed?.call();
-      },
+    return Container(
+      width: 300,
+      child: InkWell(
+        onTap: (){
+          onPressed?.call();
+        },
 
-      child: Row(
-        children: [
-          icon != null
-            ? Padding(
-              padding: EdgeInsets.only(left: givePadding ? 2.0 : 0.0),
-              child: Icon(icon, size: size),
-            )
-            : Padding(
-              padding: EdgeInsets.only(left: givePadding ? 5.0 : 0.0),
-              child: svgIcon ?? Container(),
-            ),
-          SizedBox(width: icon != null ? size <= 20 ? 25 : 15 : 15,),
-          SizedBox(
-            width: givePadding ? title != "Settings" ? 194: 191 : 191,
-            child: Text(title, style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              // color: HexColor.fromHex(AppConstants.primaryWhite)
-            )),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack),
-                borderRadius: BorderRadius.circular(100)
+        child: Row(
+          children: [
+            icon != null
+              ? Padding(
+                padding: EdgeInsets.only(left: givePadding ? 2.0 : 0.0),
+                child: Icon(icon, size: size),
+              )
+              : Padding(
+                padding: EdgeInsets.only(left: givePadding ? 5.0 : 0.0),
+                child: svgIcon ?? Container(),
               ),
-              child: Icon(Icons.navigate_next, color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite),),
+            SizedBox(width: icon != null ? size <= 20 ? 25 : 15 : 15,),
+            SizedBox(
+              width: givePadding ? title != "Settings" ? 174: 171 : 171,
+              child: Text(title, style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                // color: HexColor.fromHex(AppConstants.primaryWhite)
+              )),
             ),
-          ),
-        ],
+
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Container(
+                height: 30,
+                width: 30,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack),
+                  borderRadius: BorderRadius.circular(100)
+                ),
+                child: Icon(Icons.navigate_next, color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite),),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

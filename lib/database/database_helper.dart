@@ -84,7 +84,7 @@ class DatabaseHelper {
         BEGIN
           UPDATE reels
           SET collections_count = collections_count + 1
-          WHERE id = NEW.reel_id;
+          WHERE db_id = NEW.reel_id;
         END;
     ''');
 
@@ -95,7 +95,7 @@ class DatabaseHelper {
         BEGIN
           UPDATE reels
           SET collections_count = collections_count - 1
-          WHERE id = OLD.reel_id;
+          WHERE db_id = OLD.reel_id;
         END;
     ''');
 
@@ -116,6 +116,17 @@ class DatabaseHelper {
           UPDATE collections
           SET total_reels = total_reels - 1
           WHERE id = OLD.collection_id;
+        END;
+    ''');
+
+    await db.execute('''
+      CREATE TRIGGER delete_from_reels_collections_when_is_saved_zero
+        AFTER UPDATE ON reels
+        FOR EACH ROW
+        WHEN NEW.is_saved = 0 AND OLD.is_saved != 0
+        BEGIN
+          DELETE FROM reels_collections
+          WHERE reel_id = NEW.id;
         END;
     ''');
   }
@@ -223,6 +234,18 @@ class DatabaseHelper {
       whereArgs: [id],
     );
   }
+  Future<int> deleteFromCollection(int reelId, int collectionId) async {
+    Database db = await instance.database;
+    return await db.delete("reels_collections", where: "collection_id = ?, reel_id = ?", whereArgs: [collectionId, reelId]);
+  }
+  Future<int> deleteCollection(int id) async {
+    Database db = await instance.database;
+    return await db.delete(
+      'collections',
+      where: 'db_id = ?',
+      whereArgs: [id],
+    );
+  }
   Future<List<Reel>> getSavedVideos() async {
     Database db = await instance.database;
     var result = await db.query('reels', where: 'is_saved = ?', whereArgs: [1]);
@@ -230,7 +253,6 @@ class DatabaseHelper {
     print(result);
     return result.map((map) => Reel.fromMap(map)).toList();
   }
-
   Future<List<Reel>> getSavedVideosByCollection(int collectionId) async {
     Database db = await instance.database;
     var result =  await db.rawQuery('''

@@ -80,11 +80,14 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back,size: 34,),
-          onPressed: () {
-            Navigator.pop(context, true);
-          },
+        leading: Container(
+          margin: EdgeInsets.only(left: 5),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back,size: 34,),
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+          ),
         ),
       ),
       body: CustomScrollView(
@@ -92,7 +95,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
         slivers: [
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.only(left: 30.0, bottom: 0.0),
+              padding: const EdgeInsets.only(left: 13.0, bottom: 0.0),
               child: Text(
                 "categories",
                 style: Theme.of(context).textTheme.headlineMedium,
@@ -100,7 +103,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 30.0),
+            padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 30.0),
             sliver: SliverGrid(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,

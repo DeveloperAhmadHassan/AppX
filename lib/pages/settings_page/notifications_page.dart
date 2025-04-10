@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:loopyfeed/utils/enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '_components/settings_item.dart';
@@ -45,7 +46,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           postAndStories: true,
           pauseAll: false,
           emailNotifications: true,
-          isDarkMode: false,
+          theme: THEME.dark,
         );
         _isLoading = false;
       });
@@ -68,8 +69,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
         settings?.pauseAll = value;
       } else if (settingName == "Email Notifications") {
         settings?.emailNotifications = value;
-      } else if (settingName == "Dark Mode") {
-        settings?.isDarkMode = value;
       }
     });
 

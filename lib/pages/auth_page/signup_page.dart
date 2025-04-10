@@ -72,7 +72,7 @@ class _SignupPageState extends State<SignupPage> {
                         width: MediaQuery.of(context).size.width,
                         padding: EdgeInsets.symmetric(vertical: 3.0, horizontal: 13.0),
                         decoration: BoxDecoration(
-                          color: HexColor.fromHex("#595555"),
+                          color: Theme.of(context).brightness == Brightness.light ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.graySwatch1),
                           borderRadius: BorderRadius.circular(100),
                           border: _phoneError ? Border.all(color: Colors.red, width: 2) : null,
                         ),
@@ -82,7 +82,7 @@ class _SignupPageState extends State<SignupPage> {
                             width: MediaQuery.of(context).size.width,
                             padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 13.0),
                             decoration: BoxDecoration(
-                              color: HexColor.fromHex("#595555"),
+                              color: Theme.of(context).brightness == Brightness.light ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.graySwatch1),
                               borderRadius: BorderRadius.circular(100),
                             ),
                             child: Row(
@@ -130,7 +130,7 @@ class _SignupPageState extends State<SignupPage> {
                                       contentPadding: EdgeInsets.symmetric(horizontal: 2),
                                       hintText: "Phone number",
                                       hintStyle: TextStyle(color: Colors.white70),
-                                      fillColor: HexColor.fromHex("#595555"),
+                                      fillColor : Theme.of(context).brightness == Brightness.light ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.graySwatch1),
                                       filled: true,
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(100),

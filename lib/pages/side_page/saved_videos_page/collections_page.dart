@@ -5,6 +5,7 @@ import 'package:loopyfeed/utils/components/no_items_found.dart';
 
 import '../../../models/reel.dart';
 import '../../../repository/reel_repository.dart';
+import 'add_collection_page.dart';
 import 'saved_item.dart';
 
 class CollectionsPage extends StatefulWidget {
@@ -41,7 +42,9 @@ class _LikedVideosPageState extends State<CollectionsPage> {
           Padding(
             padding: EdgeInsets.all(10.0),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddCollectionPage()));
+              },
               icon: Icon(Icons.add, size: 34,),
             ),
           )

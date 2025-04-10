@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'navigation_tab_bar.dart';
 import '../pages/carousel_page/carousel_page.dart';
 import '../pages/carousel_page/_components/globals.dart';
 import '../pages/home_page/home_page.dart';
 import '../pages/discover_page/discover_page.dart';
 import '../models/reel.dart';
+
+import 'navigation_tab_bar.dart';
 
 class NavigationTabController extends StatefulWidget {
   final Function() onSideMenuClick;

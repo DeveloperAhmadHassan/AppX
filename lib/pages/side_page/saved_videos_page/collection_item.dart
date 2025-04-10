@@ -19,7 +19,7 @@ class _CollectionItemState extends State<CollectionItem> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>SavedVideosByCollectionPage(collectionId: widget.collection.id,)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>SavedVideosByCollectionPage(collection: widget.collection,)));
       },
       child: Container(
         decoration: BoxDecoration(

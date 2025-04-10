@@ -46,9 +46,9 @@ class _WatchHistoryPageState extends State<WatchHistoryPage> {
             return NoItemsFound(
               tabController: widget.tabController,
               onSideMenuClick: widget.onSideMenuClick,
-              pageTitle: "liked videos",
-              title: "No Liked Videos Found!",
-            );;
+              pageTitle: "watch history",
+              title: "No Watch History Found!",
+            );
           } else {
             widget.reels = snapshot.data!;
             return SingleChildScrollView(

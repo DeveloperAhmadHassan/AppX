@@ -25,8 +25,8 @@ class _OtpPageState extends State<OtpPage> {
   void _onSubmit() {
     String otp = getOtpCode();
     if (otp.length == 6) {
-      print("Entered OTP: $otp");
-      // Proceed with verification logic here
+      // print("Entered OTP: $otp");
+      // TODO: Proceed with verification logic here
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Please enter all 6 digits")),
@@ -67,7 +67,7 @@ class _OtpPageState extends State<OtpPage> {
             )),
             SizedBox(height: 6),
             Text("Your Code was sent to +92 ${widget.phoneNumber}", style: TextStyle(
-              color: Colors.white54,
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.white54 : HexColor.fromHex(AppConstants.primaryBlack).withValues(alpha: 0.8),
               fontSize: 16
             )),
             SizedBox(height: 32),
@@ -85,7 +85,7 @@ class _OtpPageState extends State<OtpPage> {
                     style: TextStyle(fontSize: 22),
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 2),
-                      fillColor: HexColor.fromHex("#595555"),
+                      fillColor: Theme.of(context).brightness == Brightness.light ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.graySwatch1),
                       filled: true,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -122,20 +122,20 @@ class _OtpPageState extends State<OtpPage> {
             GestureDetector(
               onTap: (){},
               child: Text("Resend Code", style: TextStyle(
-                  color: HexColor.fromHex(AppConstants.primaryColor)
+                  color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryBlack)
               ),),
             ),
             SizedBox(height: 40),
             RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-                style: TextStyle(color: HexColor.fromHex(AppConstants.primaryWhite), fontSize: 16, fontWeight: FontWeight.w600),
+                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.graySwatch1), fontSize: 16, fontWeight: FontWeight.w600),
                 children: [
                   TextSpan(text: 'Didn\'t get a code? '),
                   TextSpan(
                     text: "Request a phone call",
                     style: TextStyle(
-                        color: HexColor.fromHex(AppConstants.primaryColor),
+                        color: HexColor.fromHex(AppConstants.primaryBlack),
                         fontSize: 16
                     ),
                   )

@@ -144,6 +144,22 @@ class _CarousalItemState extends State<CarousalItem> {
                                           key: Key("reel-${widget.reel.id}-coordinates-${widget.xIndex}${widget.yIndex}-key"),
                                         ),
                                       ),
+                                      // Positioned.fill(
+                                      //   child: Container(
+                                      //     decoration: BoxDecoration(
+                                      //       borderRadius: BorderRadius.circular(20),
+                                      //       gradient: LinearGradient(
+                                      //         begin: Alignment.topCenter,
+                                      //         end: Alignment.bottomCenter,
+                                      //         colors: [
+                                      //           Colors.transparent,
+                                      //           Colors.transparent,
+                                      //           Colors.black.withValues(alpha: 0.75),
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       Positioned(
                                         bottom: 20,
                                         left: 15,
@@ -193,7 +209,7 @@ class _CarousalItemState extends State<CarousalItem> {
                                                   likeBuilder: (isLiked) {
                                                     return Icon(
                                                       isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                                                      color: isLiked ? Colors.red : Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite),
+                                                      color: isLiked ? Colors.red : Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryWhite),
                                                       size: 20,
                                                     );
                                                   },
@@ -206,7 +222,7 @@ class _CarousalItemState extends State<CarousalItem> {
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 13,
-                                                      color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite)
+                                                      color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryWhite)
                                                     ),
                                                     textAlign: TextAlign.center,
                                                   ),
@@ -226,7 +242,7 @@ class _CarousalItemState extends State<CarousalItem> {
                                                   width: 20,
                                                   colorFilter: ColorFilter.mode(
                                                       Theme.of(context).brightness == Brightness.dark
-                                                          ? HexColor.fromHex(AppConstants.primaryBlack)
+                                                          ? HexColor.fromHex(AppConstants.primaryWhite)
                                                           : HexColor.fromHex(AppConstants.primaryWhite),
                                                       BlendMode.srcIn
                                                   ),
@@ -239,7 +255,7 @@ class _CarousalItemState extends State<CarousalItem> {
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 13,
-                                                      color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite)
+                                                      color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryWhite)
                                                     ),
                                                     textAlign: TextAlign.center,
                                                   ),

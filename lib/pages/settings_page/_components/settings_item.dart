@@ -79,12 +79,12 @@ class _SettingsItemState extends State<SettingsItem> {
                 widget.onToggle!(val);
               },
               activeColor: HexColor.fromHex(AppConstants.primaryBlack),
-              inactiveColor: HexColor.fromHex("#595555"),
+              inactiveColor: HexColor.fromHex(AppConstants.graySwatch1),
               activeSwitchBorder: Border.all(color: HexColor.fromHex(AppConstants.primaryBlack), width: 2),
               toggleColor: HexColor.fromHex(AppConstants.primaryColor),
               activeToggleColor: HexColor.fromHex(AppConstants.primaryColor),
               inactiveToggleColor: HexColor.fromHex(AppConstants.primaryWhite),
-              inactiveSwitchBorder: Border.all(color: HexColor.fromHex("#595555"), width: 2),
+              inactiveSwitchBorder: Border.all(color: HexColor.fromHex(AppConstants.graySwatch1), width: 2),
             ) : Icon(
               Icons.navigate_next,
               color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack),

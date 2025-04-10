@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:loopyfeed/pages/auth_page/login_phone_email_page.dart';
 
 import '../../pages/settings_page/privacy_policy_page.dart';
 import '../../pages/settings_page/terms_of_use_page.dart';
@@ -48,7 +49,9 @@ class LoginPage extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(height: 20,),
-                      loginOption(Assets.iconsPerson, "Use phone/email/username", iconSize: 22),
+                      loginOption(Assets.iconsPerson, "Use phone/email/username", iconSize: 22, onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPhoneEmailPage()));
+                      }),
                       SizedBox(height: 20,),
                       loginOption(Assets.iconsGoogle, "Continue With Google"),
                       SizedBox(height: 20,),
@@ -153,38 +156,41 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget loginOption(String icon, String title,  {double iconSize = 27, double titleSize = 18}) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 13.0),
-      decoration: BoxDecoration(
-        color: HexColor.fromHex(AppConstants.primaryColor),
-        borderRadius: BorderRadius.circular(100),
-      ),
-      child: Row(
-        children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 12.0),
-          child: SvgPicture.asset(
-            icon,
-            semanticsLabel: 'Login Logo',
-            height: iconSize,
-            width: iconSize,
-          ),
+  Widget loginOption(String icon, String title,  {double iconSize = 27, double titleSize = 18, GestureTapCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 13.0),
+        decoration: BoxDecoration(
+          color: HexColor.fromHex(AppConstants.primaryColor),
+          borderRadius: BorderRadius.circular(100),
         ),
-          Expanded(
-            child: Center(
-              child: Text(
-                title,
-                style: TextStyle(
-                  color: HexColor.fromHex(AppConstants.primaryBlack),
-                  fontWeight: FontWeight.w600,
-                  fontSize: titleSize,
-                ),
-                textAlign: TextAlign.center,
-              ),
+        child: Row(
+          children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0),
+            child: SvgPicture.asset(
+              icon,
+              semanticsLabel: 'Login Logo',
+              height: iconSize,
+              width: iconSize,
             ),
           ),
-        ],
+            Expanded(
+              child: Center(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: HexColor.fromHex(AppConstants.primaryBlack),
+                    fontWeight: FontWeight.w600,
+                    fontSize: titleSize,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

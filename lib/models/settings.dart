@@ -1,12 +1,14 @@
+import 'package:loopyfeed/utils/enums.dart';
+
 class Settings {
-  bool? isDarkMode;
+  THEME? theme;
   bool? followingShows;
   bool? postAndStories;
   bool? pauseAll;
   bool? emailNotifications;
 
   Settings({
-    this.isDarkMode,
+    this.theme,
     this.followingShows,
     this.postAndStories,
     this.pauseAll,
@@ -15,7 +17,7 @@ class Settings {
 
   Map<String, dynamic> toJson() {
     return {
-      'isDarkMode': isDarkMode,
+      'theme': theme,
       'followingShows': followingShows,
       'postAndStories': postAndStories,
       'pauseAll': pauseAll,
@@ -25,7 +27,7 @@ class Settings {
 
   factory Settings.fromJson(Map<String, dynamic> json) {
     return Settings(
-      isDarkMode: json['isDarkMode'],
+      theme: json['theme'],
       followingShows: json['followingShows'],
       postAndStories: json['postAndStories'],
       pauseAll: json['pauseAll'],

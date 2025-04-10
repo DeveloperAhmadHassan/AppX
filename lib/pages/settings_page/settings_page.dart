@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loopyfeed/pages/settings_page/theme_page.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
@@ -23,9 +25,9 @@ import '../../utils/constants.dart';
 import 'package:loopyfeed/utils/enums.dart';
 
 class SettingsPage extends StatefulWidget {
-  final bool isDarkMode;
-  final Function(String, bool) onSwitchChanged;
-  const SettingsPage({super.key, required this.isDarkMode, required this.onSwitchChanged});
+  final THEME theme;
+  final Function(String, THEME) onSwitchChanged;
+  const SettingsPage({super.key, required this.theme, required this.onSwitchChanged});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -87,7 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
           postAndStories: true,
           pauseAll: false,
           emailNotifications: true,
-          isDarkMode: true,
+          theme: THEME.dark,
         );
         _isSettingsLoading = false;
       });
@@ -114,26 +116,33 @@ class _SettingsPageState extends State<SettingsPage> {
         settings?.pauseAll = value;
       } else if (settingName == "Email Notifications") {
         settings?.emailNotifications = value;
-      } else if (settingName == "Dark Mode") {
-        settings?.isDarkMode = value;
       }
     });
 
     saveSettingsToLocal();
   }
 
+  void changeTheme(THEME value) {
+    setState(() {
+     settings?.theme = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: HexColor.fromHex(AppConstants.primaryBlack),
       appBar: AppBar(
         backgroundColor: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryColor),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back,size: 34, color: HexColor.fromHex(AppConstants.primaryBlack),),
-          onPressed: () {
-            Navigator.pop(context, true);
-          },
+        leading: Container(
+          margin: EdgeInsets.only(left: 3),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back,size: 34, color: HexColor.fromHex(AppConstants.primaryBlack),),
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+          ),
         ),
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -176,7 +185,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     child: ClipOval(
                       child: (user != null && user!.imagePath!.contains('assets/')) || user?.imagePath == null
-                        ? Icon(Symbols.account_circle_filled_rounded, size: 120, weight: 200, color: HexColor.fromHex(AppConstants.primaryBlack),) : Image.file (
+                        ? Container(
+                          height: 100,
+                          padding: EdgeInsets.all(8),
+                          margin: EdgeInsets.all(4),
+                          width: 100,
+                          // color: Colors.black,
+                          child: SvgPicture.asset(Assets.iconsSettingsUser, height: 10, width: 10,)
+                        ) : Image.file (
                           File(user!.imagePath ?? ""),
                           width: 120.0,
                           height: 120.0,
@@ -194,7 +210,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         Padding(
                           padding: const EdgeInsets.only(left: 13.0),
                           child: Text(user?.name ?? "User", style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            // fontWeight: FontWeight.bold,
                             fontSize: 24,
                             color: HexColor.fromHex(AppConstants.primaryBlack)
                           )),
@@ -225,7 +241,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                           iconAlignment: IconAlignment.end,
                           style: ButtonStyle(
-                              minimumSize: WidgetStateProperty.all(Size(0, 45)),
+                              minimumSize: WidgetStateProperty.all(Size(0, 50)),
                               padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 13.0))
                           ),
                         )
@@ -236,22 +252,16 @@ class _SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ),
-            // SizedBox(height: 35,),
             _isSettingsLoading ? CircularProgressIndicator() : Column(
               children: [
                 SizedBox(height: 35,),
                 SettingsItem(icon: Icons.contrast, title: "Display", iconSize: 23.0, onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ThemePage(onToggle: (value) {
-                      onSwitchChanged("Dark Mode", value == THEME.dark ? true : false);
-                      widget.onSwitchChanged("Dark Mode", value == THEME.dark ? true : false);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ThemePage(theme: widget.theme, onToggle: (value) {
+                      // onSwitchChanged("Theme", value == THEME.dark ? true : false);
+                      widget.onSwitchChanged("Theme", value);
+                      changeTheme(value);
                     },)));
                   },
-                  // isSwitch: true,
-                  // isSwitched: settings?.isDarkMode ?? widget.isDarkMode,
-                  // onToggle: (value) {
-                  //   onSwitchChanged("Dark Mode", value);
-                  //   widget.onSwitchChanged("Dark Mode", value);
-                  // }
                 ),
                 SizedBox(height: 10,),
                 SettingsItem(icon: FontAwesomeIcons.bell, title: "Notifications",iconSize: 21.0, onTap: (){

@@ -78,7 +78,7 @@ class _EmailPageState extends State<EmailPage> {
                   contentPadding: EdgeInsets.symmetric(horizontal: 10),
                   hintText: "Enter email address",
                   hintStyle: TextStyle(color: Colors.white70),
-                  fillColor: HexColor.fromHex("#595555"),
+                  fillColor: Theme.of(context).brightness == Brightness.light ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.graySwatch1),
                   filled: true,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(100),
@@ -117,12 +117,12 @@ class _EmailPageState extends State<EmailPage> {
                 child: RichText(
                   textAlign: TextAlign.left,
                   text: TextSpan(
-                    style: TextStyle(color: Colors.white54, fontSize: 14, fontWeight: FontWeight.w600),
+                    style: TextStyle(color: HexColor.fromHex(AppConstants.graySwatch1), fontSize: 14, fontWeight: FontWeight.w600),
                     children: [
                       TextSpan(text: 'Your number may be used to connect you with others, improve ads and more, depending on your settings. '),
                       TextSpan(
                         text: "Learn More",
-                        style: TextStyle(color: HexColor.fromHex(AppConstants.primaryWhite)),
+                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite) : HexColor.fromHex(AppConstants.primaryBlack)),
                         // recognizer: TapGestureRecognizer()
                         //   ..onTap = () {
                         //     Navigator.push(
@@ -152,7 +152,7 @@ class _EmailPageState extends State<EmailPage> {
                   // SizedBox(width: 20,),
                   Text("Save login info to log in automatically next time.", style: TextStyle(
                       fontSize: 13,
-                      color: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.8)
+                      color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.8) : HexColor.fromHex(AppConstants.primaryBlack).withValues(alpha: 0.8)
                   ),),
                 ],
               ),
@@ -168,7 +168,7 @@ class _EmailPageState extends State<EmailPage> {
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.symmetric(vertical: 13.0, horizontal: 13.0),
                   decoration: BoxDecoration(
-                    color: _isDisabled ? HexColor.fromHex("#E1FF8B").withValues(alpha: 0.3) : HexColor.fromHex("#E1FF8B"),
+                    color: _isDisabled ? HexColor.fromHex(AppConstants.primaryColor).withValues(alpha: 0.3) : HexColor.fromHex(AppConstants.primaryColor),
                     borderRadius: BorderRadius.circular(100),
                   ),
                   child: Text(

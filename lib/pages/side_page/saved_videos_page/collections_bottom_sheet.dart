@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loopyfeed/pages/home_page/_components/save_details_page.dart';
+import 'package:loopyfeed/pages/side_page/saved_videos_page/globals.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 import '../../../models/saved_collection.dart';
@@ -68,6 +69,7 @@ class _CollectionsBottomSheetState extends State<CollectionsBottomSheet> {
                 return SingleChildScrollView(
                   child: Column(
                     children: [
+                      SizedBox(height: 20,),
                       GridView.builder(
                         itemCount: collections.length,
                         shrinkWrap: true,
@@ -80,7 +82,7 @@ class _CollectionsBottomSheetState extends State<CollectionsBottomSheet> {
                           final collection = collections[index];
                           return InkWell(
                             onTap: () async {
-                              await reelRepository.addToCollection(collection.id, widget.reelId);
+                              await reelRepository.addManyToCollection(collection.id, reelIds.value);
                             },
                             child: Padding(
                               padding: EdgeInsets.all(0),

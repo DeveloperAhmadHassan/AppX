@@ -8,15 +8,27 @@ import '../../utils/extensions/color.dart';
 
 class ThemePage extends StatefulWidget {
   final Function(THEME) onToggle;
-  const ThemePage({super.key, required this.onToggle});
+  final THEME theme;
+  const ThemePage({super.key, required this.onToggle, required this.theme});
 
   @override
   State<ThemePage> createState() => _ThemePageState();
 }
 
 class _ThemePageState extends State<ThemePage> {
-  THEME? _theme = THEME.light;
+  THEME? _theme = THEME.dark;
   bool isSwitched = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _theme = widget.theme;
+
+    if(_theme == THEME.system) {
+      isSwitched = true;
+      _theme = THEME.dark;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +41,15 @@ class _ThemePageState extends State<ThemePage> {
         ),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, bottom: 0.0),
+            child: Text(
+              "appearance",
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+          ),
           Center(
             child: Container(
               padding: EdgeInsets.all(13.0),
@@ -64,11 +84,14 @@ class _ThemePageState extends State<ThemePage> {
                             value: THEME.light,
                             groupValue: _theme,
                             onChanged: (THEME? value) {
-                              setState(() {
-                                _theme = value;
-                              });
-                              if(value != null) {
-                                widget.onToggle(value);
+                              print("Theme: $_theme");
+                              if(!isSwitched) {
+                                setState(() {
+                                  _theme = value;
+                                });
+                                if(value != null) {
+                                  widget.onToggle(value);
+                                }
                               }
                             },
                             activeColor: HexColor.fromHex(AppConstants.primaryBlack),
@@ -91,11 +114,14 @@ class _ThemePageState extends State<ThemePage> {
                             value: THEME.dark,
                             groupValue: _theme,
                             onChanged: (THEME? value) {
-                              setState(() {
-                                _theme = value;
-                              });
-                              if(value != null) {
-                                widget.onToggle(value);
+                              print("Theme: $_theme");
+                              if(!isSwitched) {
+                                setState(() {
+                                  _theme = value;
+                                });
+                                if(value != null) {
+                                  widget.onToggle(value);
+                                }
                               }
                             },
                             activeColor: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryBlack),
@@ -124,16 +150,15 @@ class _ThemePageState extends State<ThemePage> {
                             setState(() {
                               isSwitched = val;
                             });
-
-                            // widget.onToggle!(val);
+                            widget.onToggle(val ? THEME.system : _theme != null ? _theme! : THEME.dark);
                           },
                           activeColor: HexColor.fromHex(AppConstants.primaryBlack),
-                          inactiveColor: HexColor.fromHex("#595555"),
+                          inactiveColor: HexColor.fromHex(AppConstants.graySwatch1),
                           activeSwitchBorder: Border.all(color: HexColor.fromHex(AppConstants.primaryBlack), width: 2),
                           toggleColor: HexColor.fromHex(AppConstants.primaryColor),
                           activeToggleColor: HexColor.fromHex(AppConstants.primaryColor),
                           inactiveToggleColor: HexColor.fromHex(AppConstants.primaryWhite),
-                          inactiveSwitchBorder: Border.all(color: HexColor.fromHex("#595555"), width: 2),
+                          inactiveSwitchBorder: Border.all(color: HexColor.fromHex(AppConstants.graySwatch1), width: 2),
                         )
                       ],
                     ),

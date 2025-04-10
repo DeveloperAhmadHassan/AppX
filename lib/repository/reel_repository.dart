@@ -33,6 +33,7 @@ class ReelRepository {
   Future<List<Reel>> getSavedVideosByCollection(int collectionId) async {
     return await dbHelper.getSavedVideosByCollection(collectionId);
   }
+
   Future<List<SavedCollection>> getCollections() async {
     return await dbHelper.getCollections();
   }
@@ -69,7 +70,44 @@ class ReelRepository {
     return await dbHelper.insertToCollection(reelId, collectionId);
   }
 
-  Future<int> ge(int collectionId, int reelId) async {
-    return await dbHelper.insertToCollection(reelId, collectionId);
+  Future<List<int>> addManyToCollection(int collectionId, List<String> reelIds) async {
+    List<int> results = [];
+
+    for (String reelId in reelIds) {
+      int result = await dbHelper.insertToCollection(int.parse(reelId), collectionId);
+      results.add(result);
+    }
+
+    return results;
+  }
+
+  Future<int> removeSavedVideoFromCollection(int collectionId, int reelId) async {
+    return await dbHelper.deleteFromCollection(reelId, collectionId);
+  }
+
+  Future<List<int>> deleteManyFromCollection(int collectionId, List<String> reelIds) async {
+    List<int> results = [];
+
+    for (String reelId in reelIds) {
+      int result = await dbHelper.deleteFromCollection(int.parse(reelId), collectionId);
+      results.add(result);
+    }
+
+    return results;
+  }
+
+  Future<List<int>> removeManySavedVideo(int collectionId, List<String> reelIds) async {
+    List<int> results = [];
+
+    for (String reelId in reelIds) {
+      int result = await dbHelper.deleteFromCollection(int.parse(reelId), collectionId);
+      results.add(result);
+    }
+
+    return results;
+  }
+
+  Future<int> removeCollection(int id) async {
+    return await dbHelper.deleteCollection(id);
   }
 }
