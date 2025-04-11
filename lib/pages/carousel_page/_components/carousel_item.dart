@@ -58,6 +58,7 @@ class _CarousalItemState extends State<CarousalItem> {
         height: AppConstants.HEIGHT + 30,
         width: AppConstants.WIDTH + 30,
         decoration: BoxDecoration(
+          // color: HexColor.fromHex(AppConstants.graySwatch1),
             // borderRadius: BorderRadius.circular(30),
             // border: Border.all(color: HexColor.fromHex(AppConstants.primaryWhite), width: 2.0)
         ),
@@ -112,6 +113,7 @@ class _CarousalItemState extends State<CarousalItem> {
                 height: _opacity == 1.0 ? 630 : _height,
                 width: _opacity == 1.0 ? 330 : _width,
                 decoration: BoxDecoration(
+                  // color: HexColor.fromHex(AppConstants.graySwatch1),
                   // borderRadius: BorderRadius.circular(30),
                   // border: Border.all(color: HexColor.fromHex(AppConstants.primaryWhite), width: 2.0)
                 ),
@@ -133,6 +135,7 @@ class _CarousalItemState extends State<CarousalItem> {
                                   height: AppConstants.HEIGHT,
                                   width: AppConstants.WIDTH,
                                   decoration: BoxDecoration(
+                                    color: HexColor.fromHex(AppConstants.graySwatch1),
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   child: Stack(

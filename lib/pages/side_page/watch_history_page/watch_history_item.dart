@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:loopyfeed/utils/components/dialogs.dart';
+import 'package:loopyfeed/utils/constants.dart';
+import 'package:loopyfeed/utils/extensions/color.dart';
 
 import '../../../controllers/home_reel_controller.dart';
 import '../../../utils/extensions/string.dart';
@@ -69,8 +72,28 @@ class WatchHistoryItem extends StatelessWidget {
           InkWell(
             borderRadius: BorderRadius.circular(10),
             onTap: () async {
-              await homeReelController.deleteFromWatchHistory(reel);
-              removeFromWatchHistoryList(reel);
+              showDeleteDialog(
+                  context,
+                  "Delete Item",
+                 Text('This reel will be deleted from your watch history'),
+                 <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.of(context, rootNavigator: true).pop('Cancel'),
+                    child: const Text('Cancel', style: TextStyle(
+                      color: Colors.red
+                    ),),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      await homeReelController.deleteFromWatchHistory(reel);
+                      removeFromWatchHistoryList(reel);
+                    },
+                    child: Text('OK', style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryBlack)
+                    ),),
+                  ),
+                ],
+              );
             },
             child: Padding(
               padding: const EdgeInsets.all(2.0),

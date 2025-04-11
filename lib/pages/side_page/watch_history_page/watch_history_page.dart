@@ -48,6 +48,7 @@ class _WatchHistoryPageState extends State<WatchHistoryPage> {
               onSideMenuClick: widget.onSideMenuClick,
               pageTitle: "watch history",
               title: "No Watch History Found!",
+              smallTitle: true,
             );
           } else {
             widget.reels = snapshot.data!;
@@ -57,7 +58,9 @@ class _WatchHistoryPageState extends State<WatchHistoryPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 13.0, bottom: 10.0),
-                    child: Text("watch history", style: Theme.of(context).textTheme.headlineMedium),
+                    child: Text("watch history", style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontSize: 54
+                    )),
                   ),
                   ListView.builder(
                     shrinkWrap: true,

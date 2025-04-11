@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loopyfeed/utils/assets.dart';
 import 'package:loopyfeed/utils/constants.dart';
 import 'package:loopyfeed/utils/enums.dart';
@@ -17,20 +19,28 @@ class ThemePage extends StatefulWidget {
 
 class _ThemePageState extends State<ThemePage> {
   THEME? _theme = THEME.dark;
+  THEME? _themeRadioStatus = THEME.dark;
   bool isSwitched = false;
+  late FToast fToast;
 
   @override
   void initState() {
     super.initState();
     _theme = widget.theme;
+    _themeRadioStatus = widget.theme;
 
     if(_theme == THEME.system) {
       isSwitched = true;
-      _theme = THEME.dark;
+      _themeRadioStatus = THEME.dark;
+      // _theme = THEME.dark;
     }
+
+    fToast = FToast();
+    fToast.init(context);
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -39,6 +49,7 @@ class _ThemePageState extends State<ThemePage> {
             Navigator.pop(context, true);
           },
         ),
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,16 +93,54 @@ class _ThemePageState extends State<ThemePage> {
                           ),),
                           Radio<THEME>(
                             value: THEME.light,
-                            groupValue: _theme,
+                            groupValue: _themeRadioStatus,
                             onChanged: (THEME? value) {
                               print("Theme: $_theme");
+                              print(isSwitched);
                               if(!isSwitched) {
                                 setState(() {
                                   _theme = value;
+                                  _themeRadioStatus = value;
                                 });
                                 if(value != null) {
                                   widget.onToggle(value);
                                 }
+                              } else {
+                                setState(() {
+                                  _themeRadioStatus = value;
+                                });
+                                fToast.removeCustomToast();
+                                fToast.showToast(
+                                  gravity: ToastGravity.BOTTOM,
+                                  toastDuration: Duration(seconds: 3),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: Theme.of(context).brightness == Brightness.dark ? 5.0 : 10.0),
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryBlack),
+                                        borderRadius: BorderRadius.circular(100)
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: Theme.of(context).brightness == Brightness.dark ? Image.asset(Assets.iconsPrimaryLogoLight) : Image.asset(Assets.iconsPrimaryLogo),
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Text(
+                                          "Turn Off Device Settings to switch theme!",
+                                          style: TextStyle(
+                                              color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryColor),
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                        SizedBox(width: Theme.of(context).brightness == Brightness.dark ? 5 : 0,),
+                                      ],
+                                    ),
+                                  ),
+                                );
                               }
                             },
                             activeColor: HexColor.fromHex(AppConstants.primaryBlack),
@@ -112,16 +161,54 @@ class _ThemePageState extends State<ThemePage> {
                           ),),
                           Radio<THEME>(
                             value: THEME.dark,
-                            groupValue: _theme,
+                            groupValue: _themeRadioStatus,
                             onChanged: (THEME? value) {
                               print("Theme: $_theme");
+                              print(isSwitched);
                               if(!isSwitched) {
                                 setState(() {
                                   _theme = value;
+                                  _themeRadioStatus = value;
                                 });
                                 if(value != null) {
                                   widget.onToggle(value);
                                 }
+                              } else {
+                                setState(() {
+                                  _themeRadioStatus = value;
+                                });
+                                fToast.removeCustomToast();
+                                fToast.showToast(
+                                  gravity: ToastGravity.BOTTOM,
+                                  toastDuration: Duration(seconds: 3),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: Theme.of(context).brightness == Brightness.dark ? 5.0 : 10.0),
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryBlack),
+                                        borderRadius: BorderRadius.circular(100)
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: Theme.of(context).brightness == Brightness.dark ? Image.asset(Assets.iconsPrimaryLogoLight) : Image.asset(Assets.iconsPrimaryLogo),
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Text(
+                                          "Turn Off Device Settings to switch theme!",
+                                          style: TextStyle(
+                                              color: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryColor),
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                        SizedBox(width: Theme.of(context).brightness == Brightness.dark ? 5 : 0,),
+                                      ],
+                                    ),
+                                  ),
+                                );
                               }
                             },
                             activeColor: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryColor) : HexColor.fromHex(AppConstants.primaryBlack),
@@ -149,6 +236,7 @@ class _ThemePageState extends State<ThemePage> {
                           onToggle: (val) {
                             setState(() {
                               isSwitched = val;
+                              _theme = val ? THEME.system : _themeRadioStatus;
                             });
                             widget.onToggle(val ? THEME.system : _theme != null ? _theme! : THEME.dark);
                           },

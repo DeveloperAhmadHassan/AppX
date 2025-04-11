@@ -62,7 +62,7 @@ class _AddDetailsPageState extends State<AddDetailsPage> {
               // padding: EdgeInsets.only(bottom: 20.0),
               color: HexColor.fromHex(AppConstants.primaryColor),
               child: Padding(
-                padding: const EdgeInsets.only(left: 25.0),
+                padding: const EdgeInsets.only(left: 15.0),
                 child: Text("profile", style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: HexColor.fromHex(AppConstants.primaryBlack),
                 ),),

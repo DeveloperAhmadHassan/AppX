@@ -42,18 +42,18 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 10.0),
+              padding: const EdgeInsets.only(left: 0.0),
               child: IconButton(
                 onPressed: widget.onSideMenuClick,
                 icon: widget.isCollapsed
-                    ? Icon(Icons.menu, size: 30)
-                    : Icon(Icons.arrow_back, size: 30),
+                    ? Icon(Icons.menu, size: 34)
+                    : Icon(Icons.arrow_back, size: 34),
               ),
             ),
             Expanded(
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 40.0),
+                  padding: const EdgeInsets.only(right: 35.0),
                   child: Container(
                     decoration: BoxDecoration(
                       color: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.1),
@@ -65,7 +65,16 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                         children: [
                           Positioned.fill(
                             child: Container(
-                              color: HexColor.fromHex(AppConstants.primaryWhite).withValues(alpha: 0.2),
+                              decoration: BoxDecoration(
+                                color: HexColor.fromHex(AppConstants.graySwatch1).withValues(alpha: 0.7),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    blurRadius: 25,
+                                    offset: Offset(0, 7),
+                                  )
+                                ]
+                              ),
                             ),
                           ),
                           TabBar(

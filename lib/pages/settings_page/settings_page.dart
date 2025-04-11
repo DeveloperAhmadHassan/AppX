@@ -142,7 +142,6 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
         ),
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: SingleChildScrollView(
         child: Column(

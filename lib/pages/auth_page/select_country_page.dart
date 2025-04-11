@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../models/country.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
 
 class SelectCountryPage extends StatefulWidget {
   const SelectCountryPage({super.key});
@@ -11,25 +13,9 @@ class SelectCountryPage extends StatefulWidget {
 }
 
 class _SelectCountryPageState extends State<SelectCountryPage> {
-  final ScrollController _scrollController = ScrollController();
-  final Map<String, GlobalKey> _headerKeys = {};
-
-  void scrollToLetter(String letter) {
-    final key = _headerKeys[letter];
-    if (key != null && key.currentContext != null) {
-      Scrollable.ensureVisible(
-        key.currentContext!,
-        duration: const Duration(seconds: 1),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
+  final ItemScrollController _itemScrollController = ItemScrollController();
+  final ItemPositionsListener _itemPositionsListener = ItemPositionsListener.create();
+  final Map<String, int> _letterIndexMap = {};
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +34,13 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
           final grouped = groupCountriesByAlphabet(snapshot.data!);
           final letters = grouped.keys.toList()..sort();
           final items = <Widget>[];
-          _headerKeys.clear();
+          _letterIndexMap.clear();
 
+          int currentIndex = 0;
           grouped.forEach((letter, countries) {
-            _headerKeys[letter] = GlobalKey();
+            _letterIndexMap[letter] = currentIndex;
             items.add(
               Padding(
-                key: _headerKeys[letter],
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                 child: Text(
                   letter,
@@ -65,6 +51,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                 ),
               ),
             );
+            currentIndex++;
 
             for (var country in countries) {
               items.add(
@@ -95,8 +82,22 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                   ],
                 ),
               );
+              currentIndex++;
             }
           });
+
+          void scrollToLetter(String letter) {
+            final index = _letterIndexMap[letter];
+            if (index != null) {
+              _itemScrollController.scrollTo(
+                index: index,
+                duration: const Duration(seconds: 1),
+                curve: Curves.easeInOut,
+              );
+            } else {
+              print("Index not found for $letter");
+            }
+          }
 
           return Stack(
             children: [
@@ -119,9 +120,11 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 10),
-                child: ListView(
-                  controller: _scrollController,
-                  children: items,
+                child: ScrollablePositionedList.builder(
+                  itemScrollController: _itemScrollController,
+                  itemPositionsListener: _itemPositionsListener,
+                  itemCount: items.length,
+                  itemBuilder: (context, index) => items[index],
                 ),
               ),
             ],
@@ -131,6 +134,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
     );
   }
 }
+
 
 Future<List<Country>> loadCountriesFromAssets() async {
   final String jsonString = await rootBundle.loadString('assets/files/country_codes.json');

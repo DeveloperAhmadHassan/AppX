@@ -122,7 +122,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
         // appBar: AppBar(
         //   toolbarHeight: 0,
         // ),
-        backgroundColor: Theme.of(context).brightness == Brightness.dark ? HexColor.fromHex(AppConstants.primaryBlack) : HexColor.fromHex(AppConstants.primaryWhite),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryWhite),
         body: Stack(
           clipBehavior: Clip.hardEdge,
           children: <Widget>[
@@ -359,10 +359,15 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
                 ),
               ),
             ),
-            !isCollapsed ? SizedBox(
+            !isCollapsed ? Container(
               width: screenWidth,
               height: screenHeight,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.all(Radius.circular(40)),
+              ),
               child: InkWell(
+                borderRadius: BorderRadius.all(Radius.circular(40)),
                 onTap: () {
                   setState(() {
                     if (isCollapsed) {

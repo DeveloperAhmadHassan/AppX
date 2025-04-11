@@ -25,3 +25,4 @@ class CarouselThumbnail extends StatelessWidget {
     );
   }
 }
+

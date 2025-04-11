@@ -8,7 +8,9 @@ class NoItemsFound extends StatelessWidget {
   final Function() onSideMenuClick;
   final String pageTitle;
   final String title;
-  const NoItemsFound({super.key, required this.tabController, required this.onSideMenuClick, required this.pageTitle, required this.title});
+
+  final bool smallTitle;
+  const NoItemsFound({super.key, required this.tabController, required this.onSideMenuClick, required this.pageTitle, required this.title, this.smallTitle = false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +23,12 @@ class NoItemsFound extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           pageTitle.isNotEmpty ? Padding(
-            padding: const EdgeInsets.only(left: 25.0, bottom: 0.0),
+            padding: const EdgeInsets.only(left: 15.0, bottom: 0.0),
             child: Text(
               pageTitle,
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontSize: smallTitle ? 54 : 58
+              ),
             ),
           ): Container(),
           Spacer(),
