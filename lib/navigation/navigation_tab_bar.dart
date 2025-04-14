@@ -36,8 +36,9 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
   Widget build(BuildContext context) {
     return Positioned(
       top: 40,
-      child: SizedBox(
+      child: Container(
         width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.only(bottom: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -87,13 +88,15 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                             },
                             labelPadding: EdgeInsets.only(right: 15),
                             unselectedLabelStyle: TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'Outfit'
+                              fontSize: 18,
+                              fontFamily: 'Outfit',
+                              // color: Colors.red,
                             ),
                             labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                fontFamily: 'Outfit'
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              fontFamily: 'Outfit',
+                              // color: Colors.red,
                             ),
                             indicatorPadding: EdgeInsets.only(bottom: 10.0),
                             tabs: const [

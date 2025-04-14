@@ -17,7 +17,7 @@ class Settings {
 
   Map<String, dynamic> toJson() {
     return {
-      'theme': theme,
+      'theme': theme?.toString(), // convert enum to string
       'followingShows': followingShows,
       'postAndStories': postAndStories,
       'pauseAll': pauseAll,
@@ -27,7 +27,12 @@ class Settings {
 
   factory Settings.fromJson(Map<String, dynamic> json) {
     return Settings(
-      theme: json['theme'],
+      theme: json['theme'] != null
+          ? THEME.values.firstWhere(
+            (e) => e.toString() == json['theme'],
+        orElse: () => THEME.defaultValue, // Replace with your default
+      )
+          : null,
       followingShows: json['followingShows'],
       postAndStories: json['postAndStories'],
       pauseAll: json['pauseAll'],

@@ -17,6 +17,7 @@ import '../../pages/auth_page/logout_page.dart';
 import '../../pages/settings_page/notifications_page.dart';
 import '../../pages/settings_page/privacy_policy_page.dart';
 import '../../pages/settings_page/terms_of_use_page.dart';
+import '../../repository/settings_repository.dart';
 import '../../utils/extensions/color.dart';
 import '../../models/settings.dart';
 import '../../models/user.dart';
@@ -73,13 +74,11 @@ class _SettingsPageState extends State<SettingsPage> {
       _isSettingsLoading = true;
     });
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? settingsJson = prefs.getString('settings');
+    final loadedSettings = await SettingsRepository.loadSettings();
 
-    if (settingsJson != null && settingsJson != "null") {
-      Map<String, dynamic> settingsMap = jsonDecode(settingsJson);
+    if (loadedSettings != null) {
       setState(() {
-        settings = Settings.fromJson(settingsMap);
+        settings = loadedSettings;
         _isSettingsLoading = false;
       });
     } else {
@@ -89,7 +88,7 @@ class _SettingsPageState extends State<SettingsPage> {
           postAndStories: true,
           pauseAll: false,
           emailNotifications: true,
-          theme: THEME.dark,
+          theme: widget.theme,
         );
         _isSettingsLoading = false;
       });
@@ -97,9 +96,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> saveSettingsToLocal() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String settingsJson = jsonEncode(settings?.toJson());
-    await prefs.setString('settings', settingsJson);
+    await SettingsRepository.saveSettings(settings!);
   }
 
   Future<void> _loadSettingsData() async {
@@ -126,6 +123,8 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
      settings?.theme = value;
     });
+
+    saveSettingsToLocal();
   }
 
   @override
@@ -142,6 +141,7 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
         ),
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: SingleChildScrollView(
         child: Column(

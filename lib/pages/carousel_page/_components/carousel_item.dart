@@ -21,12 +21,18 @@ class CarousalItem extends StatefulWidget {
   final Reel reel;
   final VoidCallback onTap;
 
+  final ScrollController horizontalController;
+  final ScrollController verticalController;
+
+
   const CarousalItem({
     super.key,
     required this.xIndex,
     required this.yIndex,
     required this.reel,
-    required this.onTap
+    required this.onTap,
+    required this.horizontalController,
+    required this.verticalController
   });
 
   @override
@@ -54,14 +60,9 @@ class _CarousalItemState extends State<CarousalItem> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 50.0, bottom: 25.0, left: 25.0, right: 25.0),
-      child: Container(
+      child: SizedBox(
         height: AppConstants.HEIGHT + 30,
         width: AppConstants.WIDTH + 30,
-        decoration: BoxDecoration(
-          // color: HexColor.fromHex(AppConstants.graySwatch1),
-            // borderRadius: BorderRadius.circular(30),
-            // border: Border.all(color: HexColor.fromHex(AppConstants.primaryWhite), width: 2.0)
-        ),
         child: VisibilityDetector(
           key: Key('item-${widget.xIndex}${widget.yIndex}-key'),
           onVisibilityChanged: (visibilityInfo) {
@@ -109,14 +110,8 @@ class _CarousalItemState extends State<CarousalItem> {
               opacity: _opacity,
               duration: Duration(milliseconds: 600),
               child: AnimatedContainer(
-                // padding: EdgeInsets.all(10.0),
                 height: _opacity == 1.0 ? 630 : _height,
                 width: _opacity == 1.0 ? 330 : _width,
-                decoration: BoxDecoration(
-                  // color: HexColor.fromHex(AppConstants.graySwatch1),
-                  // borderRadius: BorderRadius.circular(30),
-                  // border: Border.all(color: HexColor.fromHex(AppConstants.primaryWhite), width: 2.0)
-                ),
                 duration: Duration(milliseconds: 600, ),
                 curve: Curves.fastEaseInToSlowEaseOut,
                 child: ValueListenableBuilder(
@@ -129,6 +124,24 @@ class _CarousalItemState extends State<CarousalItem> {
                           return ValueListenableBuilder(
                             valueListenable: reel,
                             builder: (context, value, child) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                if ((value.x == widget.xIndex) && (value.y == widget.yIndex)) {
+                                  final double targetX = (widget.xIndex * AppConstants.WIDTH - MediaQuery.of(context).size.width / 2 + AppConstants.WIDTH / 2) + 70;
+                                  final double targetY = (widget.yIndex * AppConstants.HEIGHT - MediaQuery.of(context).size.height / 2 + AppConstants.HEIGHT / 2) + 100;
+
+                                  widget.horizontalController.animateTo(
+                                    targetX,
+                                    duration: Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut,
+                                  );
+
+                                  widget.verticalController.animateTo(
+                                    targetY,
+                                    duration: Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut,
+                                  );
+                                }
+                              });
                               return value.reelUrl.isEmpty ? CarouselThumbnail(thumbnailUrl: widget.reel.thumbnailUrl!) : GestureDetector(
                                 onTap: widget.onTap,
                                 child: ((value.x == widget.xIndex) && (value.y == widget.yIndex)) ? Container(

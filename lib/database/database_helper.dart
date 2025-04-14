@@ -25,7 +25,14 @@ class DatabaseHelper {
   Future<Database> _initDatabase() async {
     var path = await getDatabasesPath();
     var dbPath = join(path, _databaseName);
-    return await openDatabase(dbPath, version: _databaseVersion, onCreate: _onCreate);
+    return await openDatabase(
+        dbPath,
+        version: _databaseVersion,
+        onConfigure: (Database db) async {
+          await db.execute('PRAGMA foreign_keys = ON');
+        },
+        onCreate: _onCreate
+    );
   }
 
   Future _onCreate(Database db, int version) async {
@@ -61,7 +68,7 @@ class DatabaseHelper {
         reel_id INTEGER,
         collection_id INTEGER,
         PRIMARY KEY (reel_id, collection_id),
-        FOREIGN KEY (reel_id) REFERENCES reels(id) ON DELETE CASCADE,
+        FOREIGN KEY (reel_id) REFERENCES reels(db_id) ON DELETE CASCADE,
         FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE
       )
     ''');

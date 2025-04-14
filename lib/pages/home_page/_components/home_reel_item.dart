@@ -154,9 +154,9 @@ class _HomeReelItemState extends State<HomeReelItem> {
         color: Colors.transparent,
         height: MediaQuery.of(context).size.height,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            SizedBox(height: 90),
+            SizedBox(height: 40),
             /// Video Chunk Indicators
             // SizedBox(height: 10),
             /// Video Player
@@ -170,104 +170,108 @@ class _HomeReelItemState extends State<HomeReelItem> {
     );
   }
 
-  Stack videoItem(BuildContext context) {
-    return Stack(
-      children: [
-        VisibilityDetector(
-          onVisibilityChanged: (info) {
-            if(info.visibleFraction <= 0.5) {
-              _controller.pause();
-            } else {
-              _controller.play();
-            }
-          },
-          key: Key("reel-${widget.reel.id}"),
-          child: Center(
+  Container videoItem(BuildContext context) {
+    return Container(
+      // color: Colors.red,
+      margin: EdgeInsets.only(top: 60),
+      child: Stack(
+        children: [
+          VisibilityDetector(
+            onVisibilityChanged: (info) {
+              if(info.visibleFraction <= 0.5) {
+                _controller.pause();
+              } else {
+                _controller.play();
+              }
+            },
+            key: Key("reel-${widget.reel.id}"),
+            child: Center(
+              child: Container(
+                height: MediaQuery.of(context).size.height - 240,
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: _isVideoInitialized ? InkWell(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: VideoPlayer(_controller),
+                  ),
+                ) : ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.network(
+                    widget.reel.thumbnailUrl ?? "",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          if(_isVideoInitialized)
+            Positioned(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0),
+                height: 30,
+                // color: Colors.red,
+                child: ChunkIndicators(reel: widget.reel, currentPosition: _currentPosition),
+              ),
+            ),
+          Positioned(
+            right: 0,
+            left: MediaQuery.of(context).size.width / 2,
+            top: 0,
+            bottom: 0,
             child: Container(
-              height: MediaQuery.of(context).size.height - 200,
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              padding: EdgeInsets.only(right: 10.0),
               decoration: BoxDecoration(
+                color: Colors.transparent,
                 borderRadius: BorderRadius.circular(30),
               ),
-              child: _isVideoInitialized ? InkWell(
+              child: InkWell(
+                borderRadius: BorderRadius.circular(30),
+                onTap: () {
+                  _seekToClosestTimestamp(true);
+                },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
-                  child: VideoPlayer(_controller),
-                ),
-              ) : ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.network(
-                  widget.reel.thumbnailUrl ?? "",
-                  fit: BoxFit.cover,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        if(_isVideoInitialized)
           Positioned(
+            right: MediaQuery.of(context).size.width / 2,
+            left: 0,
+            top: 0,
+            bottom: 0,
             child: Container(
-              padding: EdgeInsets.only(top: 10.0),
-              height: 30,
-              // color: Colors.red,
-              child: ChunkIndicators(reel: widget.reel, currentPosition: _currentPosition),
-            ),
-          ),
-        Positioned(
-          right: 0,
-          left: MediaQuery.of(context).size.width / 2,
-          top: 0,
-          bottom: 0,
-          child: Container(
-            padding: EdgeInsets.only(right: 10.0),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(30),
-              onTap: () {
-                _seekToClosestTimestamp(true);
-              },
-              child: ClipRRect(
+              padding: EdgeInsets.only(left: 10.0),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
                 borderRadius: BorderRadius.circular(30),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
+              ),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(30),
+                onTap: () {
+                  _seekToClosestTimestamp(false);
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        Positioned(
-          right: MediaQuery.of(context).size.width / 2,
-          left: 0,
-          top: 0,
-          bottom: 0,
-          child: Container(
-            padding: EdgeInsets.only(left: 10.0),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(30),
-              onTap: () {
-                _seekToClosestTimestamp(false);
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

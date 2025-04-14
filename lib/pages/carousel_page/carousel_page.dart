@@ -55,6 +55,7 @@ class _CarouselPageState extends State<CarouselPage> {
     _fetchReels();
   }
 
+
   Future<void> _fetchReels() async {
     try {
       List<Reel> fetchedReels = await _carouselReelController.fetchReelsData();
@@ -110,6 +111,8 @@ class _CarouselPageState extends State<CarouselPage> {
                         });
                       },
                       reel: reel,
+                      horizontalController: _horizontalController,
+                      verticalController: _verticalController,
                     );
                   },
                 ),

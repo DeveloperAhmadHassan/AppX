@@ -13,32 +13,31 @@ class AppTheme {
       sliderTheme: SliderThemeData(),
       tabBarTheme: TabBarTheme(
         dividerColor: Colors.transparent,
-        indicatorColor: HexColor.fromHex(AppConstants.primaryBlack),
-        unselectedLabelColor: HexColor.fromHex(AppConstants.primaryBlack),
+        indicatorColor: HexColor.fromHex(AppConstants.primaryWhite),
+        unselectedLabelColor: HexColor.fromHex(AppConstants.primaryWhite),
         tabAlignment: TabAlignment.center,
         labelPadding: EdgeInsets.only(right: 15),
         unselectedLabelStyle: TextStyle(
           fontSize: 14,
           fontFamily: 'Outfit',
         ),
-        labelColor: HexColor.fromHex(AppConstants.primaryBlack),
+        labelColor: HexColor.fromHex(AppConstants.primaryWhite),
         labelStyle: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 14,
           fontFamily: 'Outfit',
         ),
       ),
-      iconTheme:
-          IconThemeData(color: HexColor.fromHex(AppConstants.primaryBlack)),
+      iconTheme: IconThemeData(color: HexColor.fromHex(AppConstants.primaryBlack)),
       appBarTheme: AppBarTheme(
           color: HexColor.fromHex(AppConstants.backgroundLight),
           foregroundColor: HexColor.fromHex(AppConstants.primaryBlack),
           systemOverlayStyle: SystemUiOverlayStyle.light
       ),
       textTheme: TextTheme(
-        headlineLarge: TextStyle(fontSize: 64, fontWeight: FontWeight.w700),
-        headlineMedium: TextStyle(fontSize: 54, fontWeight: FontWeight.w800),
-        headlineSmall: TextStyle(fontSize: 50, fontWeight: FontWeight.w700),
+        headlineLarge: TextStyle(fontSize: 64, fontWeight: FontWeight.w700, color: HexColor.fromHex(AppConstants.primaryBlack)),
+        headlineMedium: TextStyle(fontSize: 54, fontWeight: FontWeight.w800, color: HexColor.fromHex(AppConstants.primaryBlack)),
+        headlineSmall: TextStyle(fontSize: 50, fontWeight: FontWeight.w700, color: HexColor.fromHex(AppConstants.primaryBlack)),
         titleLarge: TextStyle(
             color: HexColor.fromHex(AppConstants.primaryBlack),
             fontWeight: FontWeight.bold,
@@ -146,9 +145,9 @@ class AppTheme {
         // systemOverlayStyle: Theme.of(context).brightness == Brightness.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       ),
       textTheme: TextTheme(
-          headlineLarge: TextStyle(fontSize: 64, fontWeight: FontWeight.w700),
-          headlineMedium: TextStyle(fontSize: 54, fontWeight: FontWeight.w800),
-          headlineSmall: TextStyle(fontSize: 50, fontWeight: FontWeight.w700),
+          headlineLarge: TextStyle(fontSize: 64, fontWeight: FontWeight.w700, color: HexColor.fromHex(AppConstants.primaryWhite)),
+          headlineMedium: TextStyle(fontSize: 54, fontWeight: FontWeight.w800, color: HexColor.fromHex(AppConstants.primaryWhite)),
+          headlineSmall: TextStyle(fontSize: 50, fontWeight: FontWeight.w700, color: HexColor.fromHex(AppConstants.primaryWhite)),
           titleLarge: TextStyle(
               color: HexColor.fromHex(AppConstants.primaryWhite),
               fontWeight: FontWeight.bold,

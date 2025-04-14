@@ -1,7 +1,11 @@
 import 'package:country_codes/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:loopyfeed/repository/secure_storage_repository.dart';
+import 'package:loopyfeed/repository/settings_repository.dart';
 import 'package:loopyfeed/repository/usage_repository.dart';
+import 'package:loopyfeed/services/notification_service.dart';
 import 'package:loopyfeed/utils/enums.dart';
 
 import 'models/daily_usage.dart';
@@ -11,10 +15,18 @@ import 'utils/app_theme.dart';
 
 void main() async{
   WidgetsBinding _ = WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
+
+  NotificationService().initNotification();
+
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
-      statusBarColor: Colors.purple,
-      systemNavigationBarColor: Colors.purple,
+      statusBarColor: Colors.black,
+      systemNavigationBarColor: Colors.black,
+      systemNavigationBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light
     ),
   );
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
@@ -33,6 +45,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   THEME _theme = THEME.dark;
+  late final userId;
   DateTime? _startTime;
 
   @override
@@ -41,6 +54,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     _startTime = DateTime.now();
     _incrementAppOpenCount();
+    _loadTheme();
+    _initUserId();
   }
 
   @override
@@ -49,6 +64,21 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
+
+  void _initUserId() async {
+    userId = await SecureStorageRepository.getOrCreateUserId();
+    print("Secure user_id: $userId");
+  }
+
+  void _loadTheme() async {
+    final savedTheme = await SettingsRepository.getTheme();
+    if (savedTheme != null) {
+      setState(() {
+        _theme = savedTheme;
+      });
+    }
+  }
+
 
   void onSwitchChanged(String title, THEME value) {
     setState(() {

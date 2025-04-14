@@ -24,7 +24,7 @@ class TwoDimensionalGridView extends TwoDimensionalScrollView {
       BuildContext context,
       ViewportOffset verticalOffset,
       ViewportOffset horizontalOffset,
-      ) {
+  ) {
     return TwoDimensionalGridViewport(
       horizontalOffset: horizontalOffset,
       horizontalAxisDirection: horizontalDetails.direction,

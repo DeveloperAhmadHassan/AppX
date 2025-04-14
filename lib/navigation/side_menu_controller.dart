@@ -119,9 +119,11 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
     screenWidth = size.width;
 
     return Scaffold(
-        // appBar: AppBar(
-        //   toolbarHeight: 0,
-        // ),
+        appBar: AppBar(
+          toolbarHeight: 0,
+          backgroundColor: Colors.transparent,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+        ),
         backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : HexColor.fromHex(AppConstants.primaryWhite),
         body: Stack(
           clipBehavior: Clip.hardEdge,
@@ -130,6 +132,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with TickerProvid
             dashboard(context),
           ],
         ),
+      extendBodyBehindAppBar: true,
       );
   }
 
