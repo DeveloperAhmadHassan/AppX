@@ -124,24 +124,25 @@ class _CarousalItemState extends State<CarousalItem> {
                           return ValueListenableBuilder(
                             valueListenable: reel,
                             builder: (context, value, child) {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                if ((value.x == widget.xIndex) && (value.y == widget.yIndex)) {
-                                  final double targetX = (widget.xIndex * AppConstants.WIDTH - MediaQuery.of(context).size.width / 2 + AppConstants.WIDTH / 2) + 70;
-                                  final double targetY = (widget.yIndex * AppConstants.HEIGHT - MediaQuery.of(context).size.height / 2 + AppConstants.HEIGHT / 2) + 100;
+                              // WidgetsBinding.instance.addPostFrameCallback((_) {
+                              //   if ((value.x == widget.xIndex) && (value.y == widget.yIndex)) {
+                              //     final double targetX = (widget.xIndex * AppConstants.WIDTH - MediaQuery.of(context).size.width / 2 + AppConstants.WIDTH / 2) + 70;
+                              //     final double targetY = (widget.yIndex * AppConstants.HEIGHT - MediaQuery.of(context).size.height / 2 + AppConstants.HEIGHT / 2) + 100;
+                              //
+                              //     widget.horizontalController.animateTo(
+                              //       targetX,
+                              //       duration: Duration(milliseconds: 300),
+                              //       curve: Curves.easeInOut,
+                              //     );
+                              //
+                              //     widget.verticalController.animateTo(
+                              //       targetY,
+                              //       duration: Duration(milliseconds: 300),
+                              //       curve: Curves.easeInOut,
+                              //     );
+                              //   }
+                              // });
 
-                                  widget.horizontalController.animateTo(
-                                    targetX,
-                                    duration: Duration(milliseconds: 300),
-                                    curve: Curves.easeInOut,
-                                  );
-
-                                  widget.verticalController.animateTo(
-                                    targetY,
-                                    duration: Duration(milliseconds: 300),
-                                    curve: Curves.easeInOut,
-                                  );
-                                }
-                              });
                               return value.reelUrl.isEmpty ? CarouselThumbnail(thumbnailUrl: widget.reel.thumbnailUrl!) : GestureDetector(
                                 onTap: widget.onTap,
                                 child: ((value.x == widget.xIndex) && (value.y == widget.yIndex)) ? Container(

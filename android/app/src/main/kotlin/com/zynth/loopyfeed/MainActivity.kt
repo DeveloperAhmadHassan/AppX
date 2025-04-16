@@ -53,7 +53,7 @@ class MainActivity: FlutterActivity() {
             .setSmallIcon(R.drawable.ic_stat_logo_hd) // fallback icon
             .setContentTitle("Notification Title")
             .setContentText("Notification Text")
-            .setColor(ContextCompat.getColor(this, R.color.color_accent)) // Use color from colors.xml
+            .setColor(ContextCompat.getColor(this, R.color.color_accent))
             .setColorized(true)   // Enable background color
             .build()
 

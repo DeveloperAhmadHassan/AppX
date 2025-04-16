@@ -1,4 +1,6 @@
 import 'package:country_codes/country_codes.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -8,18 +10,77 @@ import 'package:loopyfeed/repository/usage_repository.dart';
 import 'package:loopyfeed/services/notification_service.dart';
 import 'package:loopyfeed/utils/enums.dart';
 
+import 'firebase_options.dart';
 import 'models/daily_usage.dart';
 import 'navigation/side_menu_controller.dart';
 import 'repository/reel_repository.dart';
 import 'utils/app_theme.dart';
 
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  print("Handling a background message: ${message.messageId}");
+}
+
 void main() async{
   WidgetsBinding _ = WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  print('User granted permission: ${settings.authorizationStatus}');
+
+  String? token = await messaging.getToken();
+  print("FCM Token: $token");
+
+
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
 
   NotificationService().initNotification();
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Received a message in the foreground!');
+    print('Message data: ${message.data}');
+
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification}');
+
+      // Show local notification using flutter_local_notifications
+      flutterLocalNotificationsPlugin.show(
+        0,
+        message.notification?.title,
+        message.notification?.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            'channel_id',
+            'channel_name',
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+        ),
+      );
+    }
+  });
 
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(

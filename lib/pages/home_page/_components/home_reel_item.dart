@@ -163,7 +163,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
             videoItem(context),
             /// Video Meta Data
             ReelMetaData(reel: widget.reel, homeReelController: _homeReelController),
-            SizedBox(height: 25),
+            // SizedBox(height: 25),
           ],
         ),
       ),
@@ -187,7 +187,7 @@ class _HomeReelItemState extends State<HomeReelItem> {
             key: Key("reel-${widget.reel.id}"),
             child: Center(
               child: Container(
-                height: MediaQuery.of(context).size.height - 240,
+                height: MediaQuery.of(context).size.height - 200,
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),

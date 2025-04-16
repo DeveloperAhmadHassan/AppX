@@ -210,8 +210,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
         padding: EdgeInsets.only(top: 0),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
           childAspectRatio: 170 / 280,
         ),
         itemBuilder: (context, index) {

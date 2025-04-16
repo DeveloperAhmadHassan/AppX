@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "717965335019",
+    "project_id": "loopyfeed-1bb85",
+    "storage_bucket": "loopyfeed-1bb85.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717965335019:android:7f9598fd22110bd95ae1ae",
+        "android_client_info": {
+          "package_name": "com.zynth.loopyfeed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeQvMemQGcDNkGrV63fhH9h8lWLHR0Byw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

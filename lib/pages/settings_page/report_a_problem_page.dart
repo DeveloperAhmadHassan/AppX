@@ -67,7 +67,7 @@ class _ReportAProblemPageState extends State<ReportAProblemPage> {
               key: _formKey,
               child: TextField(
               controller: _controller,
-              maxLines: 5,
+              maxLines: 10,
               cursorColor: HexColor.fromHex(AppConstants.primaryColor),
               style: TextStyle(color: HexColor.fromHex(AppConstants.primaryWhite)),
               keyboardType: TextInputType.emailAddress,

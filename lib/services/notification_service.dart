@@ -78,4 +78,5 @@ class NotificationService {
       debugPrint('Error showing native custom notification: $e');
     }
   }
+
 }
